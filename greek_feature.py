@@ -1,8 +1,12 @@
 import os
 
+tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
 
 def main():
+	if not os.path.isdir(greek_text_dir):
+		os.system(tesserae_clone_command)
+
 	text_to_features = {}
 	file_names = []
 	for current_path, current_dir_names, current_file_names in os.walk(greek_text_dir):
@@ -15,7 +19,7 @@ def main():
 			num_regular_sentence = 0
 			for line in file:
 
-				#Ignore lines without tess tags, or parse the tags out if they exist
+				#Ignore lines without tess tags, or parse the tag out and strip whitespace
 				if not line.startswith('<'):
 					continue
 				line = line[line.index('>') + 1:].strip()
