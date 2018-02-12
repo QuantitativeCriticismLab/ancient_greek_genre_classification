@@ -16,7 +16,7 @@ def feature_freq_conditional_characters(file):
 	num_characters = 0
 
 	for line in file:
-		num_conditional_characters += line.count("εἲ") + line.count("ἐάν")
+		num_conditional_characters += line.count("εἲ") + line.count("ἐάν") + line.count("εἰ")
 		num_characters += len(line)
 
 	return num_conditional_characters / num_characters
@@ -45,10 +45,10 @@ def main():
 		print("Corpus at " + greek_text_dir + " does not exist - attempting to clone repository...")
 		os.system(tesserae_clone_command)
 
+	#Obtain all the files to parse by traversing through the directory
 	if file_names is None:
-		#Obtain all the files to parse by traversing through the directory
-		file_names = [current_path + os.sep + current_file_name \
-		for current_path, current_dir_names, current_file_names in os.walk(greek_text_dir) for current_file_name in current_file_names]
+		file_names = [current_path + os.sep + current_file_name for current_path, current_dir_names, current_file_names in \
+		os.walk(greek_text_dir) for current_file_name in current_file_names if current_file_name.endswith(".tess")]
 
 	#Feature extraction
 	for file_name in file_names:
