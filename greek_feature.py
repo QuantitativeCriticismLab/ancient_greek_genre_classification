@@ -27,24 +27,33 @@ tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
 
 def main():
+	global greek_text_dir
+
+	#Associates files names to their respective features
+	text_to_features = {}
+
+	file_names = None
+	if len(sys.argv) > 1:
+		if sys.argv[1] == "debug": #if debug, just scan pre-selected corpus
+			file_names = ["tesserae/texts/grc/polybius.histories.tess", "tesserae/texts/grc/flavius_josephus.antiquitates_judaicae.tess", \
+			"dionysius_halicarnassensis.antiquitates_romanae.tess"]
+		else: #Allows user to select custom path other than tesserae
+			greek_text_dir = sys.argv[1]
 
 	#Download corpus if non-existent
 	if not os.path.isdir(greek_text_dir):
-		print("Corpus does not exist - attempting to clone repository...")
+		print("Corpus at " + greek_text_dir + " does not exist - attempting to clone repository...")
 		os.system(tesserae_clone_command)
 
-	#Obtain files to parse
-	text_to_features = {}
-	file_names = []
-	for current_path, current_dir_names, current_file_names in os.walk(greek_text_dir):
-		for current_file_name in current_file_names:
-			f = str(current_path + os.sep + current_file_name)
-			file_names.append(f)
-			text_to_features[f] = {}
+	if file_names is None:
+		#Obtain all the files to parse by traversing through the directory
+		file_names = [current_path + os.sep + current_file_name \
+		for current_path, current_dir_names, current_file_names in os.walk(greek_text_dir) for current_file_name in current_file_names]
 
 	#Feature extraction
 	for file_name in file_names:
 		file_text = []
+		text_to_features[file_name] = {}
 		with open(file_name, "r") as file:
 			for line in file:
 				#Ignore lines without tess tags, or parse the tag out and strip whitespace
