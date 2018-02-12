@@ -36,7 +36,7 @@ def main():
 	if len(sys.argv) > 1:
 		if sys.argv[1] == "debug": #if debug, just scan pre-selected corpus
 			file_names = ["tesserae/texts/grc/polybius.histories.tess", "tesserae/texts/grc/flavius_josephus.antiquitates_judaicae.tess", \
-			"dionysius_halicarnassensis.antiquitates_romanae.tess"]
+			"tesserae/texts/grc/dionysius_halicarnassensis.antiquitates_romanae.tess"]
 		else: #Allows user to select custom path other than tesserae
 			greek_text_dir = sys.argv[1]
 
