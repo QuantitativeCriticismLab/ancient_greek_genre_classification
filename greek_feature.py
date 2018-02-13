@@ -2,27 +2,24 @@ import os
 import sys
 from cltk.tokenize.sentence import TokenizeSentence
 
-def feature_interrogative(file):
-	num_interrogative = 0
-	num_regular_sentence = 0
+class Features:
+	def freq_interrogatives(file):
+		num_interrogative = 0
 
-	for line in file:
-		num_interrogative += line.count(";")
-		num_regular_sentence += line.count(".")
+		for line in file:
+			num_interrogative += line.count(";")
 
-	return num_interrogative / (num_interrogative + num_regular_sentence)
+		return num_interrogative / len(file)
 
-def feature_freq_conditional_characters(file):
-	num_conditional_characters = 0
-	num_characters = 0
+	def freq_conditional_characters(file):
+		num_conditional_characters = 0
+		num_characters = 0
 
-	for line in file:
-		num_conditional_characters += line.count("εἲ") + line.count("ἐάν") + line.count("εἰ")
-		num_characters += len(line)
+		for line in file:
+			num_conditional_characters += line.count("εἲ") + line.count("ἐάν") + line.count("εἰ")
+			num_characters += len(line)
 
-	return num_conditional_characters / num_characters
-
-feature_list = [feature_interrogative, feature_freq_conditional_characters]
+		return num_conditional_characters / num_characters
 
 tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
@@ -70,33 +67,12 @@ def main():
 		tokenizer = TokenizeSentence("greek")
 		file_text = tokenizer.tokenize_sentences(file_text)
 
-		#Iterate over features
-		for feature in feature_list:
-			score = feature(file_text)
-			text_to_features[file_name][feature] = score
-			print(file_name + ", " + str(feature) + ", " + str(score))
+		#Invoke those values of the Feature class which are functions
+		for feature in Features.__dict__.values():
+			if callable(feature):
+				score = feature(file_text)
+				text_to_features[file_name][feature] = score
+				print(file_name + ", " + str(feature) + ", " + str(score))
 
 if __name__ == "__main__":
 	main()
-
-"""
-File "greek_feature.py", line 81, in <module>
-    main()
-  File "greek_feature.py", line 71, in main
-    tokenizer = TokenizeSentence("greek")
-  File "/Users/timgianitsos/Git/FeatureExtraction/env/lib/python3.6/site-packages/cltk/tokenize/sentence.py", line 35, in __init__
-    self._setup_language_variables(self.language)
-  File "/Users/timgianitsos/Git/FeatureExtraction/env/lib/python3.6/site-packages/cltk/tokenize/sentence.py", line 56, in _setup_language_variables
-    'CLTK linguistics data not found for language {0}'.format(lang)
-AssertionError: CLTK linguistics data not found for language greek
-
-file = PUNCTUATION[lang]['file']
- 11         rel_path = os.path.join('~/cltk_data',
- 10                                 lang,
-  9                                 'model/' + lang + '_models_cltk/tokenizers/sentence')  # pylint: disable=C0301
-  8         path = os.path.expanduser(rel_path)
-  7         tokenizer_path = os.path.join(path, file)
-  6         assert os.path.isfile(tokenizer_path), \
-  5             'CLTK linguistics data not found for language {0}'.format(lang)
-
-"""
