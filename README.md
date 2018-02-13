@@ -11,7 +11,7 @@ The repository is from https://github.com/cltk/greek_models_cltk.git
 To have cltk auto-install everything it needs, run the following commands in the python interpreter. To start the python interpreter just run the command `python` in your shell.
 
 ```
-from cltk.corpus.utils.importer import CorpusImporter
-corpus_importer = CorpusImporter('greek')
-corpus_importer.import_corpus('greek_models_cltk')
+>>> from cltk.corpus.utils.importer import CorpusImporter
+>>> corpus_importer = CorpusImporter('greek')
+>>> corpus_importer.import_corpus('greek_models_cltk')
 ```
