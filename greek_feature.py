@@ -2,6 +2,7 @@ import os
 import sys
 from cltk.tokenize.sentence import TokenizeSentence
 from cltk.tokenize.word import WordTokenizer
+from cltk.stem.lemma import LemmaReplacer
 
 class Features:
 	def freq_interrogatives(file):
@@ -23,6 +24,30 @@ class Features:
 			num_characters += len(word)
 
 		return num_conditional_characters / num_characters
+
+	def freq_personal_pronouns(file):
+		file = LemmaReplacer('greek').lemmatize(file)
+		num_pronouns = 0
+		num_characters = 0
+
+		for word in file:
+			num_pronouns += len(word) if word == "ἐγώ" or word == "ἐμέω" or word == "σύ" or word == "σεύω" else 0
+			num_characters += len(word)
+
+		return num_pronouns / num_characters
+
+	def freq_demonstrative(file):
+		file = LemmaReplacer('greek').lemmatize(file)
+		num_demonstratives = 0
+		num_characters = 0
+
+		for word in file:
+			num_demonstratives += len(word) if word == 'ἐκεῖνος' or word == 'αὕται' or word == 'οὗτος' or word == 'τόδε' \
+			or word == 'τάδε' or word == 'ἐκείνᾱς' or word == 'τάσσω' or word == 'ταύτᾱς' or word == 'ὅδε' else 0
+			num_characters += len(word)
+
+		return num_demonstratives / num_characters
+
 
 tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"

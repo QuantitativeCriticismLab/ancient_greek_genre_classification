@@ -1,3 +1,5 @@
 Use String IO for potential speedup
 Cache tokenized files
 Update readme with virtualenv instructions
+Predicatble feature iteration order
+
