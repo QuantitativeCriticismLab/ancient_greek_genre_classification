@@ -48,6 +48,50 @@ class Features:
 
 		return num_demonstratives / num_characters
 
+	def freq_indefinite_pronoun_in_non_interrogative_sentence(file):
+		# Extremely time consuming
+		# file = TokenizeSentence("greek").tokenize_sentences(file)
+		# num_pronouns = 0
+		# num_characters = 0
+		# for line in file:
+			# line = LemmaReplacer('greek').lemmatize(line)
+			# if ';' not in line:
+			# 	for word in line:
+			# 		num_pronouns += len(word) if word == 'τις' else 0
+			# 		num_characters += len(word)
+
+		#TODO Need to check for interrogatives
+		file = LemmaReplacer('greek').lemmatize(file)
+		num_pronouns = 0
+		num_characters = 0
+
+		for word in file:
+			num_pronouns += len(word) if word == 'τις' else 0
+			num_characters += len(word)
+
+		return num_pronouns / num_characters
+
+	def freq_allos(file):
+		file = LemmaReplacer('greek').lemmatize(file)
+		num_allos = 0
+		num_characters = 0
+
+		for word in file:
+			num_allos += len(word) if word == 'ἄλλος' or word == 'ἄλλᾱς' else 0
+			num_characters += len(word)
+
+		return num_allos / num_characters
+
+	def freq_autos(file):
+		file = LemmaReplacer('greek').lemmatize(file)
+		num_autos = 0
+		num_characters = 0
+
+		for word in file:
+			num_autos += len(word) if word == 'αὐτός' or word == 'αὐτᾱς' else 0
+			num_characters += len(word)
+
+		return num_autos / num_characters
 
 tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
