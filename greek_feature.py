@@ -1,9 +1,11 @@
 import os
 import sys
 from cltk.tokenize.sentence import TokenizeSentence
+from cltk.tokenize.word import WordTokenizer
 
 class Features:
 	def freq_interrogatives(file):
+		file = TokenizeSentence("greek").tokenize_sentences(file)
 		num_interrogative = 0
 
 		for line in file:
@@ -12,12 +14,13 @@ class Features:
 		return num_interrogative / len(file)
 
 	def freq_conditional_characters(file):
+		file = WordTokenizer('greek').tokenize(file)
 		num_conditional_characters = 0
 		num_characters = 0
 
-		for line in file:
-			num_conditional_characters += line.count("εἲ") + line.count("ἐάν") + line.count("εἰ")
-			num_characters += len(line)
+		for word in file:
+			num_conditional_characters += len(word) if word == "εἲ" or word == "ἐάν" or word == "εἰ" else 0
+			num_characters += len(word)
 
 		return num_conditional_characters / num_characters
 
@@ -62,10 +65,8 @@ def main():
 				line = line[line.index(">") + 1:].strip()
 				file_text.append(line)
 
-		#Convert list of strings into a single string, then break that into sentences using cltk tokenizer
+		#Convert list of strings into a single string
 		file_text = " ".join(file_text)
-		tokenizer = TokenizeSentence("greek")
-		file_text = tokenizer.tokenize_sentences(file_text)
 
 		#Invoke those values of the Feature class which are functions
 		for feature in Features.__dict__.values():
