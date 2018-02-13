@@ -125,6 +125,26 @@ class Features:
 
 		return num_superlative / num_characters
 
+	def freq_conjunction(file):
+		file = WordTokenizer('greek').tokenize(file)
+		num_conjunction = 0
+		num_characters = 0
+
+		for word in file:
+			num_conjunction += len(word) if word in {'τε', 'καί', 'δέ', 'ἀλλά', 'καίτοι', 'οὐδέ', 'μηδέ', 'ἤ'} else 0
+			num_characters += len(word)
+
+		return num_conjunction / num_characters
+
+	def mean_sentence_length(file):
+		file = TokenizeSentence("greek").tokenize_sentences(file)
+		lens = 0
+
+		for line in file:
+			lens += len(line)
+
+		return lens / len(file)
+
 tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
 
