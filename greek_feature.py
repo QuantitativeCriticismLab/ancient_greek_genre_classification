@@ -93,6 +93,38 @@ class Features:
 
 		return num_autos / num_characters
 
+	def freq_reflexive(file):
+		file = LemmaReplacer('greek').lemmatize(file)
+		num_reflexive = 0
+		num_characters = 0
+
+		for word in file:
+			num_reflexive += len(word) if word == 'ἐμαυτοῦ' or word == 'σαυτοῦ' or word == 'ἑαυτοῦ' else 0
+			num_characters += len(word)
+
+		return num_reflexive / num_characters
+
+	def freq_vocative_sentences(file):
+		file = TokenizeSentence("greek").tokenize_sentences(file)
+		num_vocative = 0
+
+		for line in file:
+			num_vocative += 1 if 'ὦ' in line else 0
+
+		return num_vocative / len(file)
+
+	def freq_superlative(file):
+		file = WordTokenizer('greek').tokenize(file)
+		num_superlative = 0
+		num_characters = 0
+
+		for word in file:
+			num_superlative += len(word) if word.endswith(('τατος', 'τάτου', 'τάτῳ', 'τατον', 'τατοι', 'τάτων', \
+				'τάτοις', 'τάτους', 'τάτη', 'τάτης', 'τάτῃ', 'τάτην', 'ταται', 'τάταις', 'τάτας', 'τατα')) else 0
+			num_characters += len(word)
+
+		return num_superlative / num_characters
+
 tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
 
