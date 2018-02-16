@@ -20,7 +20,7 @@ class Features:
 		num_characters = 0
 
 		for word in file:
-			num_conditional_characters += len(word) if word == "εἲ" or word == "ἐάν" or word == "εἰ" else 0
+			num_conditional_characters += len(word) if word == "εἲ" or word == "ἐάν" or word == "εἰ" else 0 #Accent should be acute?
 			num_characters += len(word)
 
 		return num_conditional_characters / num_characters
