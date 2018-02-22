@@ -4,4 +4,5 @@ Update readme with virtualenv instructions
 Predicatble feature iteration order
 Use set instead of list where applicable
 Use pickle to cache feature extraction results - use git hash to determine that the corpus hasn't been changed
+Check list accentuations
 
