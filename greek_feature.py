@@ -151,8 +151,8 @@ class Features:
 	def mean_length_relative_clause(file):
 		return 0
 
+	#Count of relative pronouns in non-interrogative sentences / total non-interrogative sentences
 	def relative_clause_per_sentence(file):
-		#Count of relative pronouns in non-interrogative sentences / total non-interrogative sentences
 		file = TokenizeSentence("greek").tokenize_sentences(file)
 		num_relative_pronoun = 0
 		num_non_interrogative_sentence = 0
@@ -165,6 +165,19 @@ class Features:
 				num_non_interrogative_sentence += 1
 
 		return num_relative_pronoun / num_non_interrogative_sentence
+
+	#Count of all standalone instances of ἔπειτα, ὅμως, καίπερ, ἅτε, οἷα
+	def freq_circumstantial_participial_clauses(file):
+		file = WordTokenizer('greek').tokenize(file)
+		num_participles_characters = 0
+		num_characters = 0
+		participles = {'ἔπειτα', 'ὅμως', 'καίπερ', 'ἅτε', 'οἷα'}
+
+		for word in file:
+			num_participles_characters += len(word) if word in participles else 0
+			num_characters += len(word)
+
+		return num_participles_characters / num_characters
 
 tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
