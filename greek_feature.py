@@ -145,6 +145,27 @@ class Features:
 
 		return lens / len(file)
 
+	def non_interoggative_sentence_with_relative_clause(file):
+		return 0
+
+	def mean_length_relative_clause(file):
+		return 0
+
+	def relative_clause_per_sentence(file):
+		#Count of relative pronouns in non-interrogative sentences / total non-interrogative sentences
+		file = TokenizeSentence("greek").tokenize_sentences(file)
+		num_relative_pronoun = 0
+		num_non_interrogative_sentence = 0
+		pronouns = {'ὅς', 'οὗ', 'ᾧ', 'ὅν', 'οἵ', 'ὧν', 'οἷς', 'οὕς', 'ἥ', 'ᾗς', 'ἥν', 'αἵ', 'αἷς', 'ἅς', 'ὅ', 'ἅ'}
+
+		for line in file:
+			if not line.endswith(';'): #TODO what if line ends in quote or bracket?
+				for word in line.split():
+					num_relative_pronoun += 1 if word in pronouns else 0
+				num_non_interrogative_sentence += 1
+
+		return num_relative_pronoun / num_non_interrogative_sentence
+
 tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
 

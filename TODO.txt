@@ -1,8 +1,8 @@
 Use String IO for potential speedup
-Cache tokenized files
+Cache tokenized files (with decorators?)
 Update readme with virtualenv instructions
-Predicatble feature iteration order
+Predictable feature iteration order
 Use set instead of list where applicable
 Use pickle to cache feature extraction results - use git hash to determine that the corpus hasn't been changed
 Check list accentuations
-
+Check if value in set instead of equal (and instantiate sets before loops?)
