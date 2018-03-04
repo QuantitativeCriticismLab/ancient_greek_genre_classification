@@ -179,6 +179,18 @@ class Features:
 
 		return num_participles_characters / num_characters
 
+	def freq_purpose_clause(file):
+		file = WordTokenizer('greek').tokenize(file)
+		num_purpose_characters = 0
+		num_characters = 0
+		purpose_characters = {'ἵνα', 'ὃπως'}
+
+		for word in file:
+			num_purpose_characters += len(word) if word in purpose_characters else 0
+			num_characters += len(word)
+
+		return num_purpose_characters / num_characters
+
 tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
 
