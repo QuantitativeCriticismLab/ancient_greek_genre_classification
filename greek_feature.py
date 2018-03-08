@@ -191,6 +191,18 @@ class Features:
 
 		return num_purpose_characters / num_characters
 
+	def freq_ws(file):
+		file = WordTokenizer('greek').tokenize(file)
+		num_ws_characters = 0
+		num_characters = 0
+		ws_characters = {'ὡς'}
+
+		for word in file:
+			num_ws_characters += len(word) if word in ws_characters else 0
+			num_characters += len(word)
+
+		return num_ws_characters / num_characters
+
 tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
 
