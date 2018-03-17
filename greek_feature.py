@@ -1,5 +1,6 @@
 import os
 import sys
+import math
 from cltk.tokenize.sentence import TokenizeSentence
 from cltk.tokenize.word import WordTokenizer
 from cltk.stem.lemma import LemmaReplacer
@@ -203,6 +204,48 @@ class Features:
 
 		return num_ws_characters / num_characters
 
+	def ratio_ina_to_opos(file):
+		file = WordTokenizer('greek').tokenize(file)
+		num_ina = 0
+		num_opos = 0
+
+		for word in file:
+			if word == 'ἵνα':
+				num_ina += 1
+			elif word == 'ὃπως':
+				num_opos += 1
+
+		return math.nan if num_ina == 0 and num_opos == 0 else math.inf if num_opos == 0 else num_ina / num_opos
+
+	def freq_wste_not_precceded_by_eta(file):
+		file = WordTokenizer('greek').tokenize(file)
+		num_wste_characters = 0
+		num_characters = 0
+		wste_characters = {'ὥστε'}
+		ok_to_add = True
+
+		for word in file:
+			num_wste_characters += len(word) if word in wste_characters and ok_to_add else 0
+			num_characters += len(word)
+			ok_to_add = word != 'ἤ'
+
+		return num_wste_characters / num_characters
+
+	def freq_wste_precceded_by_eta(file):
+		file = WordTokenizer('greek').tokenize(file)
+		num_wste_characters = 0
+		num_characters = 0
+		wste_characters = {'ὥστε'}
+		ok_to_add = False
+
+		for word in file:
+			num_wste_characters += len(word) if word in wste_characters and ok_to_add else 0
+			num_characters += len(word)
+			ok_to_add = word == 'ἤ'
+
+		return num_wste_characters / num_characters
+
+
 tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
 
@@ -247,7 +290,7 @@ def main():
 		#Convert list of strings into a single string
 		file_text = " ".join(file_text)
 
-		#Invoke those values of the Feature class which are functions
+		#Invoke the values of the Feature class which are functions
 		for feature in Features.__dict__.values():
 			if callable(feature):
 				score = feature(file_text)
