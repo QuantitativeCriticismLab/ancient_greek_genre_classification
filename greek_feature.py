@@ -21,7 +21,7 @@ class Features:
 		num_characters = 0
 
 		for word in file:
-			num_conditional_characters += len(word) if word == "εἲ" or word == "ἐάν" or word == "εἰ" else 0 #Accent should be acute?
+			num_conditional_characters += len(word) if word == "εἲ" or word == "ἐάν" or word == "εἰ" else 0#Accent should be acute?
 			num_characters += len(word)
 
 		return num_conditional_characters / num_characters
@@ -196,10 +196,10 @@ class Features:
 		file = WordTokenizer('greek').tokenize(file)
 		num_ws_characters = 0
 		num_characters = 0
-		ws_characters = {'ὡς'}
+		ws_characters = 'ὡς'
 
 		for word in file:
-			num_ws_characters += len(word) if word in ws_characters else 0
+			num_ws_characters += len(word) if word == ws_characters else 0
 			num_characters += len(word)
 
 		return num_ws_characters / num_characters
@@ -221,11 +221,11 @@ class Features:
 		file = WordTokenizer('greek').tokenize(file)
 		num_wste_characters = 0
 		num_characters = 0
-		wste_characters = {'ὥστε'}
+		wste_characters = 'ὥστε'
 		ok_to_add = True
 
 		for word in file:
-			num_wste_characters += len(word) if word in wste_characters and ok_to_add else 0
+			num_wste_characters += len(word) if word == wste_characters and ok_to_add else 0
 			num_characters += len(word)
 			ok_to_add = word != 'ἤ'
 
@@ -235,15 +235,42 @@ class Features:
 		file = WordTokenizer('greek').tokenize(file)
 		num_wste_characters = 0
 		num_characters = 0
-		wste_characters = {'ὥστε'}
+		wste_characters = 'ὥστε'
 		ok_to_add = False
 
 		for word in file:
-			num_wste_characters += len(word) if word in wste_characters and ok_to_add else 0
+			num_wste_characters += len(word) if word == wste_characters and ok_to_add else 0
 			num_characters += len(word)
 			ok_to_add = word == 'ἤ'
 
 		return num_wste_characters / num_characters
+
+	def freq_temporal_and_causal_clauses(file):
+		file = WordTokenizer('greek').tokenize(file)
+		num_clause_characters = 0
+		num_characters = 0
+		clause_characters = {'μέϰρι', 'ἕως', 'πρίν', 'πρὶν', 'ἐπεί', 'ἐπειδή', 'ἐπειδὴ', 'ἐπειδάν', 'ἐπειδὰν', 'ὅτε', 'ὅταν'}
+
+		for word in file:
+			num_clause_characters += len(word) if word in clause_characters else 0
+			num_characters += len(word)
+
+		return num_clause_characters / num_characters
+
+	def variance_of_sentence_length(file):
+		file = TokenizeSentence("greek").tokenize_sentences(file)
+		num_sentences = 0
+		total_len = 0
+
+		for line in file:
+			num_sentences += 1
+			total_len += len(line)
+		mean = total_len / num_sentences
+		squared_difference = 0
+		for line in file:
+			squared_difference += (len(line) - mean) ** 2
+
+		return squared_difference / num_sentences
 
 
 tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
