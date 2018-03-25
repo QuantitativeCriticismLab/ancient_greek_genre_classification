@@ -1,4 +1,4 @@
-Use String IO for potential speedup
+Use String IO for potential speedup https://waymoot.org/home/python_string/
 Cache tokenized files (with decorators?)
 Update readme with virtualenv instructions
 Predictable feature iteration order

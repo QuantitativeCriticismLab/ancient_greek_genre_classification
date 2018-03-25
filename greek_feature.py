@@ -1,9 +1,13 @@
+# -*- coding: utf-8 -*-
+
 import os
 import sys
 import math
 from cltk.tokenize.sentence import TokenizeSentence
 from cltk.tokenize.word import WordTokenizer
 from cltk.stem.lemma import LemmaReplacer
+from unicodedata import normalize #the cltk_normalize cannot decompose (only has NFC & NFKC, not NFD or NFKD)
+#Reference: https://jktauber.com/articles/python-unicode-ancient-greek/
 
 class Features:
 	def freq_interrogatives(file):
@@ -249,7 +253,12 @@ class Features:
 		file = WordTokenizer('greek').tokenize(file)
 		num_clause_characters = 0
 		num_characters = 0
-		clause_characters = {'μέϰρι', 'ἕως', 'πρίν', 'πρὶν', 'ἐπεί', 'ἐπειδή', 'ἐπειδὴ', 'ἐπειδάν', 'ἐπειδὰν', 'ὅτε', 'ὅταν'}
+		clause_characters = {'μέϰρι', 'ἕως', 'πρίν', 'πρὶν', 'ἐπεί', 'ἐπεὶ', 'ἐπειδή', 'ἐπειδὴ', 'ἐπειδάν', 'ἐπειδὰν', 'ὅτε', 'ὅταν'}
+		clause_characters = clause_characters | \
+		{normalize('NFD', val) for val in clause_characters} | \
+		{normalize('NFC', val) for val in clause_characters} | \
+		{normalize('NFKD', val) for val in clause_characters} | \
+		{normalize('NFKC', val) for val in clause_characters}
 
 		for word in file:
 			num_clause_characters += len(word) if word in clause_characters else 0
@@ -305,7 +314,7 @@ def main():
 
 		#Store each line of file in a list
 		file_text = []
-		with open(file_name, "r") as file:
+		with open(file_name, mode="r", encoding="utf-8") as file:
 			for line in file:
 				#Ignore lines without tess tags, or parse the tag out and strip whitespace
 				if not line.startswith("<"):
