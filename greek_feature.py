@@ -299,6 +299,15 @@ class Features:
 		num_sentences = file.count('.') + file.count(';') + file.count(';') #Greek semi colon
 		return num_particles / num_sentences
 
+	def freq_raised_dot(file):
+		#Unicode from https://en.wikipedia.org/wiki/Interpunct#Similar_symbols
+		#'\u00B7' is '·', '\u0387' is '·', '\u2219' is '∙', '\u22C5' is '⋅', '\u2022' is '•', '\u16EB' is '᛫', '\u2027' is '‧', '\u2981' is '⦁', '\u2E33' is '⸳', '\u30FB' is '・', '\uA78F' is 'ꞏ', '\uFF65' is '･', '\U00010101' is '𐄁'
+		dot_chars = {'·', '·', '∙', '⋅', '•', '᛫', '‧', '⦁', '⸳', '・', 'ꞏ', '･', '𐄁'}
+		num_dot_chars = 0
+		for char in file:
+			num_dot_chars += 1 if char in dot_chars else 0
+		return num_dot_chars / len(file)
+
 tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
 
