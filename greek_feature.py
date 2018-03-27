@@ -253,15 +253,15 @@ class Features:
 		file = WordTokenizer('greek').tokenize(file)
 		num_clause_characters = 0
 		num_characters = 0
-		clause_characters = {'μέϰρι', 'ἕως', 'πρίν', 'πρὶν', 'ἐπεί', 'ἐπεὶ', 'ἐπειδή', 'ἐπειδὴ', 'ἐπειδάν', 'ἐπειδὰν', 'ὅτε', 'ὅταν'}
-		clause_characters = clause_characters | \
-		{normalize('NFD', val) for val in clause_characters} | \
-		{normalize('NFC', val) for val in clause_characters} | \
-		{normalize('NFKD', val) for val in clause_characters} | \
-		{normalize('NFKC', val) for val in clause_characters}
+		clause_chars = {'μέϰρι', 'ἕως', 'πρίν', 'πρὶν', 'ἐπεί', 'ἐπεὶ', 'ἐπειδή', 'ἐπειδὴ', 'ἐπειδάν', 'ἐπειδὰν', 'ὅτε', 'ὅταν'}
+		clause_chars = clause_chars | \
+		{normalize('NFD', val) for val in clause_chars} | \
+		{normalize('NFC', val) for val in clause_chars} | \
+		{normalize('NFKD', val) for val in clause_chars} | \
+		{normalize('NFKC', val) for val in clause_chars}
 
 		for word in file:
-			num_clause_characters += len(word) if word in clause_characters else 0
+			num_clause_characters += len(word) if word in clause_chars else 0
 			num_characters += len(word)
 
 		return num_clause_characters / num_characters
@@ -281,6 +281,23 @@ class Features:
 
 		return squared_difference / num_sentences
 
+	def particles_per_sentence(file):
+		file = WordTokenizer('greek').tokenize(file)
+		num_particles = 0
+		particles = {'ἄν', 'ἂν', 'ἆρα', 'γε', "γ'", "δ'", 'δέ', 'δὲ','δή', 'δὴ', 'ἕως', "κ'", 'κε', 'κέ', 'κὲ', 'κέν', 'κὲν', \
+		'κεν', 'μά', 'μὰ' 'μέν', 'μὲν', 'μέντοι', 'μή', 'μὴ', 'μήν', 'μὴν', 'μῶν', 'νύ', 'νὺ', 'νυ', 'οὐ', 'οὔ', 'οὒ', 'οὖν', \
+		'περ', 'πω', "τ'", 'τε', 'τοι'}
+		particles = particles | \
+		{normalize('NFD', val) for val in particles} | \
+		{normalize('NFC', val) for val in particles} | \
+		{normalize('NFKD', val) for val in particles} | \
+		{normalize('NFKC', val) for val in particles}
+
+		for word in file:
+			num_particles += 1 if word in particles else 0
+
+		num_sentences = file.count('.') + file.count(';') + file.count(';') #Greek semi colon
+		return num_particles / num_sentences
 
 tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
