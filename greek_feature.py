@@ -308,6 +308,22 @@ class Features:
 			num_dot_chars += 1 if char in dot_chars else 0
 		return num_dot_chars / len(file)
 
+	def freq_men(file):
+		file = WordTokenizer('greek').tokenize(file)
+		men_chars = {'μέν', 'μὲν'}
+		men_chars = men_chars | \
+		{normalize('NFD', val) for val in men_chars} | \
+		{normalize('NFC', val) for val in men_chars} | \
+		{normalize('NFKD', val) for val in men_chars} | \
+		{normalize('NFKC', val) for val in men_chars}
+		num_men = 0
+		num_characters = 0
+		for word in file:
+			num_men += 1 if word in men_chars else 0
+			num_characters += 1
+		return num_men / num_characters
+
+
 tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
 
