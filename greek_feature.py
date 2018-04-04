@@ -334,11 +334,8 @@ def main():
 	text_to_features = {}
 
 	file_names = None
-	if len(sys.argv) > 1:
-		if sys.argv[1] == "debug": #if debug, just scan pre-selected corpus
-			file_names = ["tesserae/texts/grc/polybius.histories.tess"]
-		else: #Allows user to select custom path other than tesserae
-			greek_text_dir = sys.argv[1]
+	if len(sys.argv) > 1 and sys.argv[1] == "debug":
+		file_names = {"tesserae/texts/grc/plato.respublica.tess"}
 
 	#Download corpus if non-existent
 	if not os.path.isdir(greek_text_dir):
@@ -347,8 +344,47 @@ def main():
 
 	#Obtain all the files to parse by traversing through the directory
 	if file_names is None:
-		file_names = [current_path + os.sep + current_file_name for current_path, current_dir_names, current_file_names in \
-		os.walk(greek_text_dir) for current_file_name in current_file_names if current_file_name.endswith(".tess")]
+		file_names = {current_path + os.sep + current_file_name for current_path, current_dir_names, current_file_names in \
+		os.walk(greek_text_dir) for current_file_name in current_file_names if current_file_name.endswith(".tess")}
+
+	"""
+	Certain files in the tesserae corpus are not well formatted so they will be ommitted
+
+	This file is very ill-formed
+	tesserae/texts/grc/bacchylides.dithyrambs.tess
+
+	The following dictionaries are a mapping from a character to the frequency they appear at the end of a sentence 
+	(tokenized by the cltk sentence parser). Since we only want periods and semi colons, we will remove files with 
+	large occurrences of characters that are not periods or semi colons. For example, polybius.histories.tess has 
+	66 double quotes, 0 single quotes, 62 right brackets, and 0 stylized quotes at the end of its tokenized sentences.
+	Since it has a large number of quotes and brackets, we will omit it.
+
+	tesserae/texts/grc/polybius.histories.tess
+		{": 66, ': 0, ]: 62}
+	tesserae/texts/grc/apollonius.argonautica.tess
+		{": 143, ': 0, ]: 2}
+	tesserae/texts/grc/apollonius.argonautica/apollonius.argonautica.part.1.tess
+		{": 28, ': 0, ]: 1}
+	tesserae/texts/grc/apollonius.argonautica/apollonius.argonautica.part.3.tess
+		{": 49, ': 0, ]: 0}
+	tesserae/texts/grc/apollonius.argonautica/apollonius.argonautica.part.2.tess
+		{": 31, ': 0, ]: 1}
+	tesserae/texts/grc/apollonius.argonautica/apollonius.argonautica.part.4.tess
+		{": 35, ': 0, ]: 0}
+	tesserae/texts/grc/athenaeus.deipnosophists.tess
+		{": 0, ': 183, ]: 0}
+	tesserae/texts/grc/theophrastus.characters.tess
+		{": 1, ': 20, ]: 0}
+	"""
+	file_names -= {'tesserae/texts/grc/bacchylides.dithyrambs.tess', \
+	'tesserae/texts/grc/polybius.histories.tess', \
+	'tesserae/texts/grc/apollonius.argonautica.tess', \
+	'tesserae/texts/grc/apollonius.argonautica/apollonius.argonautica.part.1.tess', \
+	'tesserae/texts/grc/apollonius.argonautica/apollonius.argonautica.part.3.tess', \
+	'tesserae/texts/grc/apollonius.argonautica/apollonius.argonautica.part.2.tess', \
+	'tesserae/texts/grc/apollonius.argonautica/apollonius.argonautica.part.4.tess', \
+	'tesserae/texts/grc/athenaeus.deipnosophists.tess', \
+	'tesserae/texts/grc/theophrastus.characters.tess'}
 
 	#Feature extraction
 	for file_name in file_names:
