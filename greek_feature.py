@@ -151,7 +151,28 @@ class Features:
 		return lens / len(file)
 
 	def non_interoggative_sentence_with_relative_clause(file):
-		return 0
+		file = TokenizeSentence("greek").tokenize_sentences(file)
+		num_sentence_with_clause = 0
+		num_non_interrogative_sentence = 0
+		interrogative_chars = {';', ';'} #Second character is Greek semi colon
+		pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ᾗς', \
+		'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
+		pronouns = pronouns | \
+		{normalize('NFD', val) for val in pronouns} | \
+		{normalize('NFC', val) for val in pronouns} | \
+		{normalize('NFKD', val) for val in pronouns} | \
+		{normalize('NFKC', val) for val in pronouns}
+
+		for line in file:
+			if line[-1] not in interrogative_chars:
+				line = WordTokenizer('greek').tokenize(line)
+				for word in line:
+					if word in pronouns:
+						num_sentence_with_clause += 1
+						break
+				num_non_interrogative_sentence += 1
+
+		return num_sentence_with_clause / num_non_interrogative_sentence
 
 	def mean_length_relative_clause(file):
 		return 0
@@ -161,7 +182,13 @@ class Features:
 		file = TokenizeSentence("greek").tokenize_sentences(file)
 		num_relative_pronoun = 0
 		num_non_interrogative_sentence = 0
-		pronouns = {'ὅς', 'οὗ', 'ᾧ', 'ὅν', 'οἵ', 'ὧν', 'οἷς', 'οὕς', 'ἥ', 'ᾗς', 'ἥν', 'αἵ', 'αἷς', 'ἅς', 'ὅ', 'ἅ'}
+		pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ᾗς', \
+		'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
+		pronouns = pronouns | \
+		{normalize('NFD', val) for val in pronouns} | \
+		{normalize('NFC', val) for val in pronouns} | \
+		{normalize('NFKD', val) for val in pronouns} | \
+		{normalize('NFKC', val) for val in pronouns}
 
 		for line in file:
 			if not line.endswith(';'): #TODO what if line ends in quote or bracket?
@@ -301,7 +328,8 @@ class Features:
 
 	def freq_raised_dot(file):
 		#Unicode from https://en.wikipedia.org/wiki/Interpunct#Similar_symbols
-		#'\u00B7' is '·', '\u0387' is '·', '\u2219' is '∙', '\u22C5' is '⋅', '\u2022' is '•', '\u16EB' is '᛫', '\u2027' is '‧', '\u2981' is '⦁', '\u2E33' is '⸳', '\u30FB' is '・', '\uA78F' is 'ꞏ', '\uFF65' is '･', '\U00010101' is '𐄁'
+		#'\u00B7' is '·', '\u0387' is '·', '\u2219' is '∙', '\u22C5' is '⋅', '\u2022' is '•', '\u16EB' is '᛫', '\u2027' is '‧', 
+		#'\u2981' is '⦁', '\u2E33' is '⸳', '\u30FB' is '・', '\uA78F' is 'ꞏ', '\uFF65' is '･', '\U00010101' is '𐄁'
 		dot_chars = {'·', '·', '∙', '⋅', '•', '᛫', '‧', '⦁', '⸳', '・', 'ꞏ', '･', '𐄁'}
 		num_dot_chars = 0
 		for char in file:
@@ -334,7 +362,7 @@ def main():
 	text_to_features = {}
 
 	file_names = None
-	if len(sys.argv) > 1 and sys.argv[1] == "debug":
+	if len(sys.argv) > 1 and sys.argv[1] == "testfile":
 		file_names = {"tesserae/texts/grc/plato.respublica.tess"}
 
 	#Download corpus if non-existent
@@ -405,7 +433,10 @@ def main():
 		file_text = " ".join(file_text)
 
 		#Invoke the values of the Feature class which are functions
-		for feature in Features.__dict__.values():
+		#Default behavior is to invoke ALL functions of Features class. If names of features are specified on the 
+		#command line, then only invoke those
+		for feature in Features.__dict__.values() if len(sys.argv) == 1 else \
+		[Features.__dict__[sys.argv[i]] for i in range(1, len(sys.argv)) if sys.argv[i] in Features.__dict__]:
 			if callable(feature):
 				score = feature(file_text)
 				text_to_features[file_name][feature] = score
