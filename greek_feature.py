@@ -98,12 +98,19 @@ class Features:
 		return num_indefinite_pronoun_chars / num_characters
 
 	def freq_allos(file):
-		file = LemmaReplacer('greek').lemmatize(file)
+		file = WordTokenizer('greek').tokenize(file)
 		num_allos = 0
 		num_characters = 0
+		allos_characters = {'ἄλλος', 'ἄλλη', 'ἄλλο', 'ἄλλου', 'ἄλλῳ', 'ἄλλον', 'ἄλλοι', 'ἄλλων', 'ἄλλοις', 'ἄλλους', \
+		'ἄλλης', 'ἄλλῃ', 'ἄλλην', 'ἄλλαι', 'ἄλλᾱς', 'ἄλλας', 'ἄλλα'}
+		allos_characters = allos_characters | \
+		{normalize('NFD', val) for val in allos_characters} | \
+		{normalize('NFC', val) for val in allos_characters} | \
+		{normalize('NFKD', val) for val in allos_characters} | \
+		{normalize('NFKC', val) for val in allos_characters}
 
 		for word in file:
-			num_allos += len(word) if word == 'ἄλλος' or word == 'ἄλλᾱς' else 0
+			num_allos += len(word) if word in allos_characters else 0
 			num_characters += len(word)
 
 		return num_allos / num_characters
