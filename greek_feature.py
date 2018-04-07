@@ -116,12 +116,20 @@ class Features:
 		return num_allos / num_characters
 
 	def freq_autos(file):
-		file = LemmaReplacer('greek').lemmatize(file)
+		file = WordTokenizer('greek').tokenize(file)
 		num_autos = 0
 		num_characters = 0
+		autos_characters = {'αὐτός', 'αὐτὸς', 'αὐτοῦ', 'αὐτῷ', 'αὐτόν', 'αὐτὸν', 'αὐτοί', 'αὐτοὶ', 'αὐτῶν', 'αὐτοῖς', \
+		'αὐτούς', 'αὐτοὺς', 'αὐτή', 'αὐτὴ', 'αὐτῆς', 'αὐτῇ', 'αὐτήν', 'αὐτὴν', 'αὐταί', 'αὐταὶ', 'αὐταῖς', 'αὐτᾱς', \
+		'αὐτᾱ́ς', 'αὐτάς', 'αὐτὰς', 'αὐτό', 'αὐτὸ', 'αὐτά', 'αὐτὰ'}
+		autos_characters = autos_characters | \
+		{normalize('NFD', val) for val in autos_characters} | \
+		{normalize('NFC', val) for val in autos_characters} | \
+		{normalize('NFKD', val) for val in autos_characters} | \
+		{normalize('NFKC', val) for val in autos_characters}
 
 		for word in file:
-			num_autos += len(word) if word == 'αὐτός' or word == 'αὐτᾱς' else 0
+			num_autos += len(word) if word in autos_characters else 0
 			num_characters += len(word)
 
 		return num_autos / num_characters
