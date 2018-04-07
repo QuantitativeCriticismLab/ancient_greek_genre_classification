@@ -54,27 +54,26 @@ class Features:
 		return num_demonstratives / num_characters
 
 	def freq_indefinite_pronoun_in_non_interrogative_sentence(file):
-		# Extremely time consuming
-		# file = TokenizeSentence("greek").tokenize_sentences(file)
-		# num_pronouns = 0
-		# num_characters = 0
-		# for line in file:
-			# line = LemmaReplacer('greek').lemmatize(line)
-			# if ';' not in line:
-			# 	for word in line:
-			# 		num_pronouns += len(word) if word == 'τις' else 0
-			# 		num_characters += len(word)
-
-		#TODO Need to check for interrogatives
-		file = LemmaReplacer('greek').lemmatize(file)
-		num_pronouns = 0
+		file = TokenizeSentence("greek").tokenize_sentences(file)
+		num_indefinite_pronoun_chars = 0
 		num_characters = 0
+		interrogative_chars = {';', ';'}
+		pronoun_chars = {'τις', 'τινός', 'τινὸς', 'του', 'τινί', 'τινὶ', 'τῳ', 'τινά', 'τινὰ', 'τινές', 'τινὲς', 'τινῶν', \
+		'τισί', 'τισὶ', 'τισίν', 'τισὶν', 'τινάς', 'τινὰς', 'τι'}
+		pronoun_chars = pronoun_chars | \
+		{normalize('NFD', val) for val in pronoun_chars} | \
+		{normalize('NFC', val) for val in pronoun_chars} | \
+		{normalize('NFKD', val) for val in pronoun_chars} | \
+		{normalize('NFKC', val) for val in pronoun_chars}
 
-		for word in file:
-			num_pronouns += len(word) if word == 'τις' else 0
-			num_characters += len(word)
+		for line in file:
+			if line[-1] not in interrogative_chars:
+				line = WordTokenizer('greek').tokenize(line)
+				for word in line:
+					num_indefinite_pronoun_chars += len(word) if word in pronoun_chars else 0
+					num_characters += len(word)
 
-		return num_pronouns / num_characters
+		return num_indefinite_pronoun_chars / num_characters
 
 	def freq_allos(file):
 		file = LemmaReplacer('greek').lemmatize(file)
@@ -174,8 +173,9 @@ class Features:
 
 		return num_sentence_with_clause / num_non_interrogative_sentence
 
-	def mean_length_relative_clause(file):
-		return 0
+	# Omit for now
+	# def mean_length_relative_clause(file):
+	# 	return 0
 
 	#Count of relative pronouns in non-interrogative sentences / total non-interrogative sentences
 	def relative_clause_per_sentence(file):
@@ -384,7 +384,7 @@ def main():
 	The following dictionaries are a mapping from a character to the frequency they appear at the end of a sentence 
 	(tokenized by the cltk sentence parser). Since we only want periods and semi colons, we will remove files with 
 	large occurrences of characters that are not periods or semi colons. For example, polybius.histories.tess has 
-	66 double quotes, 0 single quotes, 62 right brackets, and 0 stylized quotes at the end of its tokenized sentences.
+	66 double quotes, 0 single quotes, and 62 right brackets at the end of its tokenized sentences.
 	Since it has a large number of quotes and brackets, we will omit it.
 
 	tesserae/texts/grc/polybius.histories.tess
