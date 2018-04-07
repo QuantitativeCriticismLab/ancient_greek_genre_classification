@@ -135,12 +135,53 @@ class Features:
 		return num_autos / num_characters
 
 	def freq_reflexive(file):
-		file = LemmaReplacer('greek').lemmatize(file)
+		file = WordTokenizer('greek').tokenize(file)
 		num_reflexive = 0
 		num_characters = 0
 
+		reflexive_characters = {'ἐμαυτοῦ', 'ἐμαυτῷ', 'ἐμαυτόν', 'ἐμαυτὸν', 'ἐμαυτῆς', 'ἐμαυτῇ', 'ἐμαυτήν', 'ἐμαυτὴν', \
+		'σεαυτοῦ', 'σεαυτῷ', 'σεαυτόν', 'σεαυτὸν', 'σεαυτῆς', 'σεαυτῇ', 'σεαυτήν', 'σεαυτὴν', 'ἑαυτοῦ', 'ἑαυτῷ', 'ἑαυτόν', \
+		'ἑαυτὸν', 'ἑαυτῶν', 'ἑαυτοῖς', 'ἑαυτούς', 'ἑαυτοὺς', 'ἑαυτῆς', 'ἑαυτῇ', 'ἑαυτήν', 'ἑαυτὴν', 'ἑαυταῖς', 'ἑαυτάς', \
+		'ἑαυτὰς', 'ἑαυτό', 'ἑαυτὸ', 'ἑαυτά', 'ἑαυτὰ'}
+		reflexive_characters = reflexive_characters | \
+		{normalize('NFD', val) for val in reflexive_characters} | \
+		{normalize('NFC', val) for val in reflexive_characters} | \
+		{normalize('NFKD', val) for val in reflexive_characters} | \
+		{normalize('NFKC', val) for val in reflexive_characters}
+
+		bigram_reflexive_characters = {'ἡμῶν': {'αὐτῶν'}, 'ἡμῖν': {'αὐτοῖς', 'αὐταῖς'}, \
+		'ἡμᾶς': {'αὐτούς', 'αὐτοὺς', 'αὐτάς', 'αὐτὰς'}, 'ὑμῶν': {'αὐτῶν'}, 'ὑμῖν': {'αὐτοῖς', 'αὐταῖς'}, \
+		'ὑμᾶς': {'αὐτούς', 'αὐτοὺς', 'αὐτάς', 'αὐτὰς'}, 'σφῶν': {'αὐτῶν'}, 'σφίσιν': {'αὐτοῖς', 'αὐταῖς'}, \
+		'σφᾶς': {'αὐτούς', 'αὐτοὺς', 'αὐτάς', 'αὐτὰς'}}
+		#This is just verbose syntax for normalizing all the keys and values in the dictionary with NFD, NFC, NFKD, & NFKC
+		#The double star (**) unpacking is how dictionaries are merged https://stackoverflow.com/a/26853961/7102572
+		bigram_reflexive_characters = {**bigram_reflexive_characters, \
+		**{normalize('NFD', key): {normalize('NFD', v) for v in val} for key, val in bigram_reflexive_characters.items()}, \
+		**{normalize('NFC', key): {normalize('NFC', v) for v in val} for key, val in bigram_reflexive_characters.items()}, \
+		**{normalize('NFKD', key): {normalize('NFKD', v) for v in val} for key, val in bigram_reflexive_characters.items()}, \
+		**{normalize('NFKC', key): {normalize('NFKC', v) for v in val} for key, val in bigram_reflexive_characters.items()}}
+
+		bigram_first_half = None
 		for word in file:
-			num_reflexive += len(word) if word == 'ἐμαυτοῦ' or word == 'σαυτοῦ' or word == 'ἑαυτοῦ' else 0
+
+			#Found monogram characters
+			if word in reflexive_characters:
+				num_reflexive += len(word)
+				bigram_first_half = None
+
+			#Found the first part of the reflexive bigram
+			elif word in bigram_reflexive_characters:
+				bigram_first_half = word
+
+			#Found the second part of the reflexive bigram
+			elif bigram_first_half in bigram_reflexive_characters and word in bigram_reflexive_characters[bigram_first_half]:
+				num_reflexive += len(bigram_first_half) + len(word)
+				bigram_first_half = None
+
+			#Default case
+			else:
+				bigram_first_half = None
+
 			num_characters += len(word)
 
 		return num_reflexive / num_characters
