@@ -37,12 +37,19 @@ class Features:
 		return num_conditional_characters / num_characters
 
 	def freq_personal_pronouns(file):
-		file = LemmaReplacer('greek').lemmatize(file)
+		file = WordTokenizer('greek').tokenize(file)
 		num_pronouns = 0
 		num_characters = 0
+		personal_pronouns = {'ἐγώ', 'ἐγὼ', 'ἐμοῦ', 'μου', 'ἐμοί', 'ἐμοὶ', 'μοι', 'ἐμέ', 'ἐμὲ', 'με', 'ἡμεῖς', 'ἡμῶν', \
+		'ἡμῖν', 'ἡμᾶς', 'σύ', 'σὺ', 'σοῦ', 'σου', 'σοί', 'σοὶ', 'σοι', 'σέ', 'σὲ', 'σε', 'ὑμεῖς', 'ὑμῶν', 'ὑμῖν', 'ὑμᾶς'}
+		personal_pronouns = personal_pronouns | \
+		{normalize('NFD', val) for val in personal_pronouns} | \
+		{normalize('NFC', val) for val in personal_pronouns} | \
+		{normalize('NFKD', val) for val in personal_pronouns} | \
+		{normalize('NFKC', val) for val in personal_pronouns}
 
 		for word in file:
-			num_pronouns += len(word) if word == "ἐγώ" or word == "ἐμέω" or word == "σύ" or word == "σεύω" else 0
+			num_pronouns += len(word) if word in personal_pronouns else 0
 			num_characters += len(word)
 
 		return num_pronouns / num_characters
