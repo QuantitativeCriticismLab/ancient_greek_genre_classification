@@ -55,16 +55,25 @@ class Features:
 		return num_pronouns / num_characters
 
 	def freq_demonstrative(file):
-		file = LemmaReplacer('greek').lemmatize(file)
-		num_demonstratives = 0
+		file = WordTokenizer('greek').tokenize(file)
+		num_demonstratives_characters = 0
 		num_characters = 0
+		demonstrative_pronouns = {'ἐκεῖνος', 'ἐκείνου', 'ἐκείνῳ', 'ἐκεῖνον', 'ἐκεῖνοι', 'ἐκείνων', 'ἐκείνοις', 'ἐκείνους', \
+		'ἐκείνη', 'ἐκείνης', 'ἐκείνῃ', 'ἐκείνην', 'ἐκεῖναι', 'ἐκείναις', 'ἐκείνᾱς', 'ἐκείνας', 'ἐκεῖνο', 'ἐκεῖνα', 'ὅδε', \
+		'τοῦδε', 'τῷδε', 'τόνδε', 'οἵδε', 'τῶνδε', 'τοῖσδε', 'τούσδε', 'ἥδε', 'τῆσδε', 'τῇδε', 'τήνδε', 'αἵδε', 'ταῖσδε', \
+		'τᾱ́σδε', 'τάσδε', 'τόδε', 'τάδε', 'οὗτος', 'τούτου', 'τούτῳ', 'τοῦτον', 'οὗτοι', 'τούτων', 'τούτοις', 'τούτους', \
+		'αὕτη', 'ταύτης', 'ταύτῃ', 'ταύτην', 'αὕται', 'ταύταις', 'ταύτᾱς', 'ταύτας', 'τοῦτο', 'ταῦτα'}
+		demonstrative_pronouns = demonstrative_pronouns | \
+		{normalize('NFD', val) for val in demonstrative_pronouns} | \
+		{normalize('NFC', val) for val in demonstrative_pronouns} | \
+		{normalize('NFKD', val) for val in demonstrative_pronouns} | \
+		{normalize('NFKC', val) for val in demonstrative_pronouns}
 
 		for word in file:
-			num_demonstratives += len(word) if word == 'ἐκεῖνος' or word == 'αὕται' or word == 'οὗτος' or word == 'τόδε' \
-			or word == 'τάδε' or word == 'ἐκείνᾱς' or word == 'τάσσω' or word == 'ταύτᾱς' or word == 'ὅδε' else 0
+			num_demonstratives_characters += len(word) if word in demonstrative_pronouns else 0
 			num_characters += len(word)
 
-		return num_demonstratives / num_characters
+		return num_demonstratives_characters / num_characters
 
 	def freq_indefinite_pronoun_in_non_interrogative_sentence(file):
 		file = TokenizeSentence("greek").tokenize_sentences(file)
