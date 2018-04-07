@@ -15,7 +15,7 @@ class Features:
 		num_interrogative = 0
 
 		for line in file:
-			num_interrogative += line.count(";")
+			num_interrogative += line.count(';') + line.count(';')
 
 		return num_interrogative / len(file)
 
@@ -23,9 +23,15 @@ class Features:
 		file = WordTokenizer('greek').tokenize(file)
 		num_conditional_characters = 0
 		num_characters = 0
+		conditional_characters = {'εἰ', 'εἴ', 'εἲ', 'ἐάν', 'ἐὰν'}
+		conditional_characters = conditional_characters | \
+		{normalize('NFD', val) for val in conditional_characters} | \
+		{normalize('NFC', val) for val in conditional_characters} | \
+		{normalize('NFKD', val) for val in conditional_characters} | \
+		{normalize('NFKC', val) for val in conditional_characters}
 
 		for word in file:
-			num_conditional_characters += len(word) if word == "εἲ" or word == "ἐάν" or word == "εἰ" else 0#Accent should be acute?
+			num_conditional_characters += len(word) if word in conditional_characters else 0
 			num_characters += len(word)
 
 		return num_conditional_characters / num_characters
