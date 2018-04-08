@@ -375,13 +375,24 @@ class Features:
 		file = WordTokenizer('greek').tokenize(file)
 		num_wste_characters = 0
 		num_characters = 0
-		wste_characters = 'ὥστε'
+		wste_characters = {'ὥστε'}
+		wste_characters = wste_characters | \
+		{normalize('NFD', val) for val in wste_characters} | \
+		{normalize('NFC', val) for val in wste_characters} | \
+		{normalize('NFKD', val) for val in wste_characters} | \
+		{normalize('NFKC', val) for val in wste_characters}
+		eta_chars = {'ἤ'}
+		eta_chars = eta_chars | \
+		{normalize('NFD', val) for val in eta_chars} | \
+		{normalize('NFC', val) for val in eta_chars} | \
+		{normalize('NFKD', val) for val in eta_chars} | \
+		{normalize('NFKC', val) for val in eta_chars}
 		ok_to_add = True
 
 		for word in file:
-			num_wste_characters += len(word) if word == wste_characters and ok_to_add else 0
+			num_wste_characters += len(word) if word in wste_characters and ok_to_add else 0
 			num_characters += len(word)
-			ok_to_add = word != 'ἤ'
+			ok_to_add = word not in eta_chars
 
 		return num_wste_characters / num_characters
 
@@ -389,13 +400,24 @@ class Features:
 		file = WordTokenizer('greek').tokenize(file)
 		num_wste_characters = 0
 		num_characters = 0
-		wste_characters = 'ὥστε'
+		wste_characters = {'ὥστε'}
+		wste_characters = wste_characters | \
+		{normalize('NFD', val) for val in wste_characters} | \
+		{normalize('NFC', val) for val in wste_characters} | \
+		{normalize('NFKD', val) for val in wste_characters} | \
+		{normalize('NFKC', val) for val in wste_characters}
+		eta_chars = {'ἤ'}
+		eta_chars = eta_chars | \
+		{normalize('NFD', val) for val in eta_chars} | \
+		{normalize('NFC', val) for val in eta_chars} | \
+		{normalize('NFKD', val) for val in eta_chars} | \
+		{normalize('NFKC', val) for val in eta_chars}
 		ok_to_add = False
 
 		for word in file:
-			num_wste_characters += len(word) if word == wste_characters and ok_to_add else 0
+			num_wste_characters += len(word) if word in wste_characters and ok_to_add else 0
 			num_characters += len(word)
-			ok_to_add = word == 'ἤ'
+			ok_to_add = word in eta_chars
 
 		return num_wste_characters / num_characters
 
