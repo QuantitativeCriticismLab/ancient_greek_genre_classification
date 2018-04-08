@@ -248,7 +248,7 @@ class Features:
 		file = TokenizeSentence("greek").tokenize_sentences(file)
 		num_sentence_with_clause = 0
 		num_non_interrogative_sentence = 0
-		interrogative_chars = {';', ';'} #Second character is Greek semi colon
+		interrogative_chars = (';', ';') #Second character is Greek semi colon
 		pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ᾗς', \
 		'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
 		pronouns = pronouns | \
@@ -258,7 +258,7 @@ class Features:
 		{normalize('NFKC', val) for val in pronouns}
 
 		for line in file:
-			if line[-1] not in interrogative_chars:
+			if not line.endswith(interrogative_chars):
 				line = WordTokenizer('greek').tokenize(line)
 				for word in line:
 					if word in pronouns:
@@ -277,6 +277,7 @@ class Features:
 		file = TokenizeSentence("greek").tokenize_sentences(file)
 		num_relative_pronoun = 0
 		num_non_interrogative_sentence = 0
+		interrogative_chars = (';', ';') #Second character is Greek semi colon
 		pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ᾗς', \
 		'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
 		pronouns = pronouns | \
@@ -286,7 +287,7 @@ class Features:
 		{normalize('NFKC', val) for val in pronouns}
 
 		for line in file:
-			if not line.endswith(';'): #TODO what if line ends in quote or bracket?
+			if not line.endswith(interrogative_chars):
 				for word in line.split():
 					num_relative_pronoun += 1 if word in pronouns else 0
 				num_non_interrogative_sentence += 1
@@ -299,6 +300,11 @@ class Features:
 		num_participles_characters = 0
 		num_characters = 0
 		participles = {'ἔπειτα', 'ὅμως', 'καίπερ', 'ἅτε', 'οἷα'}
+		participles = participles | \
+		{normalize('NFD', val) for val in participles} | \
+		{normalize('NFC', val) for val in participles} | \
+		{normalize('NFKD', val) for val in participles} | \
+		{normalize('NFKC', val) for val in participles}
 
 		for word in file:
 			num_participles_characters += len(word) if word in participles else 0
