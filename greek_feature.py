@@ -316,7 +316,12 @@ class Features:
 		file = WordTokenizer('greek').tokenize(file)
 		num_purpose_characters = 0
 		num_characters = 0
-		purpose_characters = {'ἵνα', 'ὃπως'}
+		purpose_characters = {'ἵνα', 'ὅπως'}
+		purpose_characters = purpose_characters | \
+		{normalize('NFD', val) for val in purpose_characters} | \
+		{normalize('NFC', val) for val in purpose_characters} | \
+		{normalize('NFKD', val) for val in purpose_characters} | \
+		{normalize('NFKC', val) for val in purpose_characters}
 
 		for word in file:
 			num_purpose_characters += len(word) if word in purpose_characters else 0
