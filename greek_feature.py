@@ -350,11 +350,23 @@ class Features:
 		file = WordTokenizer('greek').tokenize(file)
 		num_ina = 0
 		num_opos = 0
+		ina_chars = {'ἵνα'}
+		ina_chars = ina_chars | \
+		{normalize('NFD', val) for val in ina_chars} | \
+		{normalize('NFC', val) for val in ina_chars} | \
+		{normalize('NFKD', val) for val in ina_chars} | \
+		{normalize('NFKC', val) for val in ina_chars}
+		opos_chars = {'ὅπως'}
+		opos_chars = opos_chars | \
+		{normalize('NFD', val) for val in opos_chars} | \
+		{normalize('NFC', val) for val in opos_chars} | \
+		{normalize('NFKD', val) for val in opos_chars} | \
+		{normalize('NFKC', val) for val in opos_chars}
 
 		for word in file:
-			if word == 'ἵνα':
+			if word in ina_chars:
 				num_ina += 1
-			elif word == 'ὃπως':
+			elif word in opos_chars:
 				num_opos += 1
 
 		return math.nan if num_ina == 0 and num_opos == 0 else math.inf if num_opos == 0 else num_ina / num_opos
