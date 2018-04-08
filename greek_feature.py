@@ -5,7 +5,6 @@ import sys
 import math
 from cltk.tokenize.sentence import TokenizeSentence
 from cltk.tokenize.word import WordTokenizer
-from cltk.stem.lemma import LemmaReplacer
 from unicodedata import normalize #the cltk_normalize cannot decompose (only has NFC & NFKC, not NFD or NFKD)
 #Reference: https://jktauber.com/articles/python-unicode-ancient-greek/
 
@@ -187,13 +186,21 @@ class Features:
 		return num_reflexive / num_characters
 
 	def freq_vocative_sentences(file):
-		file = TokenizeSentence("greek").tokenize_sentences(file)
-		num_vocative = 0
+		file = TokenizeSentence('greek').tokenize_sentences(file)
+		num_vocatives = 0
+		vocative_characters = {'ὦ'}
+		vocative_characters = vocative_characters | \
+		{normalize('NFD', val) for val in vocative_characters} | \
+		{normalize('NFC', val) for val in vocative_characters} | \
+		{normalize('NFKD', val) for val in vocative_characters} | \
+		{normalize('NFKC', val) for val in vocative_characters}
 
 		for line in file:
-			num_vocative += 1 if 'ὦ' in line else 0
+			line = WordTokenizer('greek').tokenize(line)
+			for word in line:
+				num_vocatives += 1 if word in vocative_characters else 0
 
-		return num_vocative / len(file)
+		return num_vocatives / len(file)
 
 	def freq_superlative(file):
 		file = WordTokenizer('greek').tokenize(file)
