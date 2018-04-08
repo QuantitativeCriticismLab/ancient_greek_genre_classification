@@ -333,10 +333,15 @@ class Features:
 		file = WordTokenizer('greek').tokenize(file)
 		num_ws_characters = 0
 		num_characters = 0
-		ws_characters = 'ὡς'
+		ws_characters = {'ὡς'}
+		ws_characters = ws_characters | \
+		{normalize('NFD', val) for val in ws_characters} | \
+		{normalize('NFC', val) for val in ws_characters} | \
+		{normalize('NFKD', val) for val in ws_characters} | \
+		{normalize('NFKC', val) for val in ws_characters}
 
 		for word in file:
-			num_ws_characters += len(word) if word == ws_characters else 0
+			num_ws_characters += len(word) if word in ws_characters else 0
 			num_characters += len(word)
 
 		return num_ws_characters / num_characters
