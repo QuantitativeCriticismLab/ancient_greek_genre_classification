@@ -206,10 +206,18 @@ class Features:
 		file = WordTokenizer('greek').tokenize(file)
 		num_superlative = 0
 		num_characters = 0
+		superlative_ending_characters = ['τατος', 'τάτου', 'τάτῳ', 'τατον', 'τατοι', 'τάτων', \
+		'τάτοις', 'τάτους', 'τάτη', 'τάτης', 'τάτῃ', 'τάτην', 'ταται', \
+		'τάταις', 'τάτας', 'τατα']
+		#The endswith() method requires a tuple
+		superlative_ending_characters = tuple(superlative_ending_characters + \
+		[normalize('NFD', val) for val in superlative_ending_characters] + \
+		[normalize('NFC', val) for val in superlative_ending_characters] + \
+		[normalize('NFKD', val) for val in superlative_ending_characters] + \
+		[normalize('NFKC', val) for val in superlative_ending_characters])
 
 		for word in file:
-			num_superlative += len(word) if word.endswith(('τατος', 'τάτου', 'τάτῳ', 'τατον', 'τατοι', 'τάτων', \
-				'τάτοις', 'τάτους', 'τάτη', 'τάτης', 'τάτῃ', 'τάτην', 'ταται', 'τάταις', 'τάτας', 'τατα')) else 0
+			num_superlative += len(word) if word.endswith(superlative_ending_characters) else 0
 			num_characters += len(word)
 
 		return num_superlative / num_characters
