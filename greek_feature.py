@@ -226,9 +226,15 @@ class Features:
 		file = WordTokenizer('greek').tokenize(file)
 		num_conjunction = 0
 		num_characters = 0
+		conjunction_chars = {'τε', 'καί', 'καὶ', 'δέ', 'δὲ', 'ἀλλά', 'ἀλλὰ', 'καίτοι', 'οὐδέ', 'οὐδὲ', 'μηδέ', 'μηδὲ', 'ἤ', 'ἢ'}
+		conjunction_chars = conjunction_chars | \
+		{normalize('NFD', val) for val in conjunction_chars} | \
+		{normalize('NFC', val) for val in conjunction_chars} | \
+		{normalize('NFKD', val) for val in conjunction_chars} | \
+		{normalize('NFKC', val) for val in conjunction_chars}
 
 		for word in file:
-			num_conjunction += len(word) if word in {'τε', 'καί', 'δέ', 'ἀλλά', 'καίτοι', 'οὐδέ', 'μηδέ', 'ἤ'} else 0
+			num_conjunction += len(word) if word in conjunction_chars else 0
 			num_characters += len(word)
 
 		return num_conjunction / num_characters
