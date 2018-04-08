@@ -456,10 +456,10 @@ class Features:
 	def particles_per_sentence(file):
 		file = WordTokenizer('greek').tokenize(file)
 		num_particles = 0
-		#TODO Word tokenizer doesn't work well with ellision
-		particles = {'ἄν', 'ἂν', 'ἆρα', 'γε', "γ'", "δ'", 'δέ', 'δὲ','δή', 'δὴ', 'ἕως', "κ'", 'κε', 'κέ', 'κὲ', 'κέν', 'κὲν', \
+		#Word tokenizer doesn't work well with ellision - apostrophes are removed
+		particles = {'ἄν', 'ἂν', 'ἆρα', 'γε', "γ", "δ", 'δέ', 'δὲ','δή', 'δὴ', 'ἕως', "κ", 'κε', 'κέ', 'κὲ', 'κέν', 'κὲν', \
 		'κεν', 'μά', 'μὰ' 'μέν', 'μὲν', 'μέντοι', 'μή', 'μὴ', 'μήν', 'μὴν', 'μῶν', 'νύ', 'νὺ', 'νυ', 'οὐ', 'οὔ', 'οὒ', 'οὖν', \
-		'περ', 'πω', "τ'", 'τε', 'τοι'}
+		'περ', 'πω', "τ", 'τε', 'τοι'}
 		particles = particles | \
 		{normalize('NFD', val) for val in particles} | \
 		{normalize('NFC', val) for val in particles} | \
