@@ -3,6 +3,7 @@
 import os
 import sys
 import math
+from functools import reduce
 from cltk.tokenize.sentence import TokenizeSentence
 from cltk.tokenize.word import WordTokenizer
 from unicodedata import normalize #the cltk_normalize cannot decompose (only has NFC & NFKC, not NFD or NFKD)
@@ -241,12 +242,7 @@ class Features:
 
 	def mean_sentence_length(file):
 		file = TokenizeSentence("greek").tokenize_sentences(file)
-		lens = 0
-
-		for line in file:
-			lens += len(line)
-
-		return lens / len(file)
+		return reduce(lambda x, y: x + len(y), file, 0) / len(file)
 
 	def non_interoggative_sentence_with_relative_clause(file):
 		file = TokenizeSentence("greek").tokenize_sentences(file)
@@ -410,6 +406,7 @@ class Features:
 	def particles_per_sentence(file):
 		file = WordTokenizer('greek').tokenize(file)
 		num_particles = 0
+		#TODO Word tokenizer doesn't work well with ellision
 		particles = {'ἄν', 'ἂν', 'ἆρα', 'γε', "γ'", "δ'", 'δέ', 'δὲ','δή', 'δὴ', 'ἕως', "κ'", 'κε', 'κέ', 'κὲ', 'κέν', 'κὲν', \
 		'κεν', 'μά', 'μὰ' 'μέν', 'μὲν', 'μέντοι', 'μή', 'μὴ', 'μήν', 'μὴν', 'μῶν', 'νύ', 'νὺ', 'νυ', 'οὐ', 'οὔ', 'οὒ', 'οὖν', \
 		'περ', 'πω', "τ'", 'τε', 'τοι'}
