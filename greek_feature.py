@@ -249,7 +249,7 @@ class Features:
 		num_sentence_with_clause = 0
 		num_non_interrogative_sentence = 0
 		interrogative_chars = (';', ';') #Second character is Greek semi colon
-		pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ᾗς', \
+		pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', \
 		'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
 		pronouns = pronouns | \
 		{normalize('NFD', val) for val in pronouns} | \
@@ -278,7 +278,7 @@ class Features:
 		num_relative_pronoun = 0
 		num_non_interrogative_sentence = 0
 		interrogative_chars = (';', ';') #Second character is Greek semi colon
-		pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ᾗς', \
+		pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', \
 		'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
 		pronouns = pronouns | \
 		{normalize('NFD', val) for val in pronouns} | \
