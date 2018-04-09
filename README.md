@@ -4,6 +4,9 @@ Python 3.6.0
 
 Dependencies:
 pip install cltk
+pip install sklearn
+pip install numpy
+pip install scipy
 
 In order to use cltk utilities, cltk must download a Github repository onto your filesystem (on Mac, it's at ~/cltk\_data/greek/model/greek\_models\_cltk) The repository is from https://github.com/cltk/greek_models_cltk.git. You can have cltk install this automatically.
 

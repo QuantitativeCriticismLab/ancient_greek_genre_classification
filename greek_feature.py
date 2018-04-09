@@ -582,6 +582,7 @@ def main():
 		#Invoke the values of the Feature class which are functions
 		#Default behavior is to invoke ALL functions of Features class. If names of features are specified on the 
 		#command line, then only invoke those
+		#TODO allow debug files
 		for feature in Features.__dict__.values() if len(sys.argv) == 1 else \
 		[Features.__dict__[sys.argv[i]] for i in range(1, len(sys.argv)) if sys.argv[i] in Features.__dict__]:
 			if callable(feature):
