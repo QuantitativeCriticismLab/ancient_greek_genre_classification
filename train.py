@@ -2,13 +2,18 @@ import pickle
 from collections import OrderedDict
 
 def main():
-	author_to_isprose = OrderedDict()
-	text_to_features = None
+	prose_files = set()
+	verse_files = set()
 	with open('classifications.csv', mode='r') as classification_file:
 		classification_file.readline()
 		for line in classification_file:
 			line = line.strip().split(',')
-			author_to_isprose[line[0]] = line[1] == 'True'
+			if line[1] == 'True':
+				prose_files.add(line[0])
+			else:
+				assert line[1] == 'False'
+				verse_files.add(line[0])
+	text_to_features = None
 	with open('matrix.pickle', mode='rb') as pickle_file:
 		text_to_features = pickle.loads(pickle_file.read())
 
