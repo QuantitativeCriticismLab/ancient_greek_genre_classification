@@ -1,0 +1,67 @@
+Achilles Tatius - p
+Aelian - p
+Aelius Aristides - p
+Aeschines - p
+Aeschylus - v
+Andocides - p
+Antiphon - p
+Apollodorus - p
+Apollonius - v
+Appian - p
+Aretaeus - p
+Aristophanes - v
+Athenaeus - p
+Aristotle - p
+Bacchylides - v
+Barnabas - p
+Basil of Caesarea - p
+Bion of Phlossa - v
+Callimachus - v
+Callistratus - p
+Chariton - p
+Clement - p
+Colluthus - v
+Demades - p
+Demetrius - p
+Demosthenes - p
+Dinarchus - p
+Dionysius Halicarnassensis - p
+Epictetus - p
+Euclid - p
+Euripides - v
+Eusebius Caesarea - p
+Eusebius Caeserea - p
+Flavius Josephus - p
+Galen - p
+Herodotus - p
+Hippocrates - p
+Homer - v
+Hyperides - p
+Isaeus - p
+Isocrates - p
+Lucian - p
+Lycophron - v
+Lycurgus - p
+Lysias - p
+Marcus Aurelius - p
+Nonnus of Panopolis - v
+Oppian - v
+Oppian of Apamea - v
+Pausanias - p
+Philostratus the Athenian - p
+Philostratus the lemnian - p
+Philostratus - p
+Pindar - v
+Plato - p
+Plutarch - p
+Plutarch Amatorius - p
+Polybius - p
+Pseudo Plutarch - p
+Quintus Smyrnaeus - v
+Sophocles - v
+Strabo - p
+Theocritus - v
+Theophrastus - p
+Thucydides - p
+Tryphiodorus - p
+Xenophon - p
