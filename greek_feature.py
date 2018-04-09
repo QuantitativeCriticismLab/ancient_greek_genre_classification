@@ -3,6 +3,7 @@
 import os
 import sys
 import math
+import pickle
 from functools import reduce
 from cltk.tokenize.sentence import TokenizeSentence
 from cltk.tokenize.word import WordTokenizer
@@ -585,8 +586,12 @@ def main():
 		[Features.__dict__[sys.argv[i]] for i in range(1, len(sys.argv)) if sys.argv[i] in Features.__dict__]:
 			if callable(feature):
 				score = feature(file_text)
-				text_to_features[file_name][feature] = score
-				print(file_name + ", " + str(feature) + ", " + str(score))
+				text_to_features[file_name][feature.__name__] = score
+				print(file_name + ", " + str(feature.__name__) + ", " + str(score))
+
+	# with open("matrix.pickle", "wb") as pickle_file:
+	# 	pickle_file.write(pickle.dumps(text_to_features))
+	# 	pickle_file.close()
 
 if __name__ == "__main__":
 	main()
