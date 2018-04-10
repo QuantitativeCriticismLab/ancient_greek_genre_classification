@@ -8,3 +8,4 @@ Use pickle to cache feature extraction results - use git hash to determine that 
 Check if value in set instead of equal (and instantiate sets before loops?)
 Output coloring
 Revise Google Doc
+Don't use floating point NaN or infinity

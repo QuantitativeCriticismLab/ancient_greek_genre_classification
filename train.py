@@ -1,7 +1,7 @@
 import pickle
+import math
 import numpy as np
 from sklearn import svm
-
 
 def main():
 	file_to_isprose = {}
@@ -16,11 +16,13 @@ def main():
 		text_to_features = pickle.loads(pickle_file.read())
 	
 	file_names = sorted([elem for elem in text_to_features.keys()])
-	feature_names = sorted(list({feature for feature_to_val in text_to_features.values() for feature in feature_to_val.keys()}))
+	feature_names = sorted(list({feature for feature_to_val in text_to_features.values() for feature in feature_to_val.keys()} \
+	- {'freq_vocative_sentences', 'ratio_ina_to_opos', 'freq_wste_precceded_by_eta', 'freq_raised_dot'}))
 	data_1d = [text_to_features[file_name][feature] for file_name in file_names for feature in feature_names]
 	data = []
 	for i in range(len(file_names)):
-		data.append([val for val in data_1d[i * len(feature_names): i * len(feature_names) + len(feature_names)]])
+		data.append([val if str(val) != 'nan' and val != math.inf else 1000 \
+		for val in data_1d[i * len(feature_names): i * len(feature_names) + len(feature_names)]])
 	target = [file_to_isprose[file_name] for file_name in file_names]
 
 	assert data[-1][-1] == data_1d[-1]
@@ -30,8 +32,17 @@ def main():
 	data = np.asarray(data)
 	target = np.asarray(target)
 
-	classifier = svm.SVC(cache_size=200,class_weight=None,coef0=0.0,kernel='rbf',max_iter=-1,probability=False,random_state=None,\
-	shrinking=True,tol=0.001,verbose=False)
+	test_size = 289
+	classifier = svm.SVC(gamma=0.001, kernel='rbf')
+	classifier.fit(data[:-test_size], target[:-test_size])
+	results = classifier.predict(data[-test_size:])
+
+	for i in range(len(data) - test_size, len(data)):
+		exp = str(file_to_isprose[file_names[i]])
+		res = str(results[i - (len(file_names) - test_size)])
+		print('Prediction for ' + file_names[i] + ': expected ' + exp + ', result ' + res)
+		if res == '0':
+			print('\tFOUND')
 
 if __name__ == '__main__':
 	main()
