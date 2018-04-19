@@ -9,6 +9,8 @@ GREEN = '\033[92m'
 RESET = '\033[0m'
 
 def main():
+
+	#Obtain classifications (prose or verse) for each file
 	file_to_isprose = {}
 	with open('classifications.csv', mode='r') as classification_file:
 		classification_file.readline()
@@ -16,10 +18,12 @@ def main():
 			line = line.strip().split(',')
 			file_to_isprose[line[0]] = 1 if line[1] == 'True' else 0
 
+	#Obtain features that were previously mined and serialized into a file
 	text_to_features = None
 	with open('matrix.pickle', mode='rb') as pickle_file:
 		text_to_features = pickle.loads(pickle_file.read())
 	
+	#Convert features and classifications into sorted lists
 	file_names = sorted([elem for elem in text_to_features.keys()])
 	feature_names = sorted(list({feature for feature_to_val in text_to_features.values() for feature in feature_to_val.keys()} \
 	- {'freq_vocative_sentences', 'ratio_ina_to_opos', 'freq_wste_precceded_by_eta', 'freq_raised_dot'}))
@@ -34,9 +38,11 @@ def main():
 	assert len(data) == len(target)
 	assert len(feature_names) == len(data[0])
 
+	#Convert lists to numpy arrays so they can be used in the machine learning models
 	data = np.asarray(data)
 	target = np.asarray(target)
 
+	#Includes all the machine learning classifiers
 	test_size = 289
 	classifiers = [\
 	ensemble.RandomForestClassifier(random_state=1), \
@@ -47,10 +53,13 @@ def main():
 
 	print("Test files: " + str(test_size))
 	for clf in classifiers:
+
+		#Train & predict classifier
 		clf.fit(data[:-test_size], target[:-test_size])
 		results = clf.predict(data[-test_size:])
 		expected = target[-test_size:]
 		
+		#Obtain stats
 		num_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] else 0), range(len(results)), 0)
 		num_prose_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] and expected[y] == 1 else 0), \
 		range(len(results)), 0)
@@ -59,6 +68,7 @@ def main():
 		range(len(results)), 0)
 		num_verse = reduce(lambda x, y: x + (1 if expected[y] == 0 else 0), range(len(results)), 0)
 		
+		#Display stats
 		print(PURPLE + clf.__class__.__name__ + RESET)
 		print("\t# correct: " + GREEN + str(num_correct) + RESET + " / " + str(test_size))
 		print("\t% correct: " + GREEN + "%.4f" % (num_correct / len(results) * 100) + RESET + "%")
@@ -66,7 +76,6 @@ def main():
 		print("\t% prose: " + GREEN + "%.4f" % (num_prose_correct / num_prose * 100) + RESET + "%")
 		print("\t# verse: " + GREEN + str(num_verse_correct) + RESET + " / " + str(num_verse))
 		print("\t% verse: " + GREEN + "%.4f" % (num_verse_correct / num_verse * 100) + RESET + "%")
-
 
 if __name__ == '__main__':
 	main()
