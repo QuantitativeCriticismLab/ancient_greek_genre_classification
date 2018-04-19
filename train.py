@@ -2,7 +2,7 @@ import pickle
 import math
 import numpy as np
 from functools import reduce
-from sklearn import svm, neural_network, naive_bayes, ensemble
+from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
 
 def main():
 	file_to_isprose = {}
@@ -35,11 +35,12 @@ def main():
 
 	test_size = 289
 	classifiers = [\
-	svm.SVC(gamma=0.00001, kernel='rbf'), \
-	neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0), \
-	naive_bayes.GaussianNB(), \
-	ensemble.RandomForestClassifier(random_state=1)]
-
+	ensemble.RandomForestClassifier(random_state=1), \
+	svm.SVC(gamma=0.00001, kernel='rbf', random_state=0), \
+	naive_bayes.GaussianNB(priors=None), \
+	neighbors.KNeighborsClassifier(n_neighbors=5), \
+	neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0)]
+	print("Test files: " + str(test_size))
 	for clf in classifiers:
 		clf.fit(data[:-test_size], target[:-test_size])
 		results = clf.predict(data[-test_size:])
