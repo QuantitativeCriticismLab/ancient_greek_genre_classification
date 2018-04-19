@@ -2,7 +2,7 @@ import pickle
 import math
 import numpy as np
 from functools import reduce
-from sklearn import svm, neural_network, naive_bayes
+from sklearn import svm, neural_network, naive_bayes, ensemble
 
 def main():
 	file_to_isprose = {}
@@ -34,14 +34,19 @@ def main():
 	target = np.asarray(target)
 
 	test_size = 289
-	classifiers = [svm.SVC(gamma=0.00001, kernel='rbf'), neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,)), naive_bayes.GaussianNB()]
+	classifiers = [\
+	svm.SVC(gamma=0.00001, kernel='rbf'), \
+	neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0), \
+	naive_bayes.GaussianNB(), \
+	ensemble.RandomForestClassifier(random_state=1)]
+
 	for clf in classifiers:
 		clf.fit(data[:-test_size], target[:-test_size])
 		results = clf.predict(data[-test_size:])
 		expected = target[-test_size:]
-		print("%-20s" % clf.__class__.__name__ + \
-		("%.4f" % (reduce(lambda x, y: x + (1 if results[y] == expected[y] else 0), range(len(results)), 0) \
-		/ len(results) * 100)) + "%")
+		percentage_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] else 0), range(len(results)), 0) \
+		/ len(results) * 100
+		print("%-25s" % clf.__class__.__name__ + "%.4f" % percentage_correct + "%")
 
 
 if __name__ == '__main__':
