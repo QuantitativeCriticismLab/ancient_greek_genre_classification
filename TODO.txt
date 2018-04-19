@@ -9,3 +9,5 @@ Check if value in set instead of equal (and instantiate sets before loops?)
 Output coloring
 Revise Google Doc
 Don't use floating point NaN or infinity
+Principle component analysis to identify best features
+

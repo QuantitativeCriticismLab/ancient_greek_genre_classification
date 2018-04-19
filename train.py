@@ -1,7 +1,8 @@
 import pickle
 import math
 import numpy as np
-from sklearn import svm
+from functools import reduce
+from sklearn import svm, neural_network, naive_bayes
 
 def main():
 	file_to_isprose = {}
@@ -33,25 +34,15 @@ def main():
 	target = np.asarray(target)
 
 	test_size = 289
-	classifier = svm.SVC(gamma=0.00001, kernel='rbf')
-	classifier.fit(data[:-test_size], target[:-test_size])
-	results = classifier.predict(data[-test_size:])
+	classifiers = [svm.SVC(gamma=0.00001, kernel='rbf'), neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,)), naive_bayes.GaussianNB()]
+	for clf in classifiers:
+		clf.fit(data[:-test_size], target[:-test_size])
+		results = clf.predict(data[-test_size:])
+		expected = target[-test_size:]
+		print("%-20s" % clf.__class__.__name__ + \
+		("%.4f" % (reduce(lambda x, y: x + (1 if results[y] == expected[y] else 0), range(len(results)), 0) \
+		/ len(results) * 100)) + "%")
 
-	num_incorrect = 0
-	verse_results = 0
-	verse_correctly_classified = 0
-	for i in range(len(data) - test_size, len(data)):
-		exp = str(file_to_isprose[file_names[i]])
-		res = str(results[i - (len(file_names) - test_size)])
-		print('Prediction for ' + file_names[i] + ': expected ' + exp + ', result ' + res)
-		num_incorrect += 1 if exp != res else 0
-		verse_results += 1 if res == '0' else 0
-		verse_correctly_classified += 1 if res == '0' and res == exp else 0
-
-	assert verse_correctly_classified <= verse_results
-	print('Incorrect: ' + str(num_incorrect))
-	print('Number classified as verse: ' + str(verse_results))
-	print('Number correctly classified as verse: ' + str(verse_correctly_classified))
 
 if __name__ == '__main__':
 	main()
