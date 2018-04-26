@@ -76,6 +76,10 @@ def main():
 		print("\t% prose: " + GREEN + "%.4f" % (num_prose_correct / num_prose * 100) + RESET + "%")
 		print("\t# verse: " + GREEN + str(num_verse_correct) + RESET + " / " + str(num_verse))
 		print("\t% verse: " + GREEN + "%.4f" % (num_verse_correct / num_verse * 100) + RESET + "%")
+	print('Gini Importance: Feature Name')
+	for t in sorted(zip(feature_names, classifiers[0].feature_importances_), key=lambda s: -s[1]):
+		print('%f: %s' % (t[1], t[0]))
+	print(classifiers[0].get_params())
 
 if __name__ == '__main__':
 	main()
