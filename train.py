@@ -3,6 +3,7 @@ import math
 import numpy as np
 from functools import reduce
 from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
+from sklearn.model_selection import train_test_split
 
 PURPLE = '\033[95m'
 GREEN = '\033[92m'
@@ -42,8 +43,9 @@ def main():
 	data = np.asarray(data)
 	target = np.asarray(target)
 
+	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=1)
+
 	#Includes all the machine learning classifiers
-	test_size = 289
 	classifiers = [\
 	ensemble.RandomForestClassifier(random_state=1), \
 	svm.SVC(gamma=0.00001, kernel='rbf', random_state=0), \
@@ -51,13 +53,13 @@ def main():
 	neighbors.KNeighborsClassifier(n_neighbors=5), \
 	neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0)]
 
-	print("Test files: " + str(test_size))
+	print("Test files: " + str(len(labels_test)))
 	for clf in classifiers:
 
 		#Train & predict classifier
-		clf.fit(data[:-test_size], target[:-test_size])
-		results = clf.predict(data[-test_size:])
-		expected = target[-test_size:]
+		clf.fit(features_train, labels_train)
+		results = clf.predict(features_test)
+		expected = labels_test
 		
 		#Obtain stats
 		num_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] else 0), range(len(results)), 0)
@@ -70,13 +72,13 @@ def main():
 		
 		#Display stats
 		print(PURPLE + clf.__class__.__name__ + RESET)
-		print("\t# correct: " + GREEN + str(num_correct) + RESET + " / " + str(test_size))
+		print("\t# correct: " + GREEN + str(num_correct) + RESET + " / " + str(len(labels_test)))
 		print("\t% correct: " + GREEN + "%.4f" % (num_correct / len(results) * 100) + RESET + "%")
 		print("\t# prose: " + GREEN + str(num_prose_correct) + RESET + " / " + str(num_prose))
 		print("\t% prose: " + GREEN + "%.4f" % (num_prose_correct / num_prose * 100) + RESET + "%")
 		print("\t# verse: " + GREEN + str(num_verse_correct) + RESET + " / " + str(num_verse))
 		print("\t% verse: " + GREEN + "%.4f" % (num_verse_correct / num_verse * 100) + RESET + "%")
-	print('Gini Importance: Feature Name')
+	print('Random Forest Gini Importance: Feature Name')
 	for t in sorted(zip(feature_names, classifiers[0].feature_importances_), key=lambda s: -s[1]):
 		print('%f: %s' % (t[1], t[0]))
 	print(classifiers[0].get_params())
