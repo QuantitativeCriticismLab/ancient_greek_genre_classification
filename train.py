@@ -3,10 +3,11 @@ import math
 import numpy as np
 from functools import reduce
 from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 
-PURPLE = '\033[95m'
 GREEN = '\033[92m'
+YELLOW = '\033[93m'
+PURPLE = '\033[95m'
 RESET = '\033[0m'
 
 def main():
@@ -55,6 +56,13 @@ def main():
 
 	print("Test files: " + str(len(labels_test)))
 	for clf in classifiers:
+		print(PURPLE + clf.__class__.__name__ + RESET)
+
+		#Cross validation
+		scores = cross_val_score(clf, features_train, labels_train, cv=5)
+		print('\t' + YELLOW + 'Cross Validation:' + RESET)
+		print('\tScores: ' + str(scores))
+		print('\tAvg Accuracy: %0.2f (+/- %0.2f)' % (scores.mean(), scores.std() * 2))
 
 		#Train & predict classifier
 		clf.fit(features_train, labels_train)
@@ -71,13 +79,14 @@ def main():
 		num_verse = reduce(lambda x, y: x + (1 if expected[y] == 0 else 0), range(len(results)), 0)
 		
 		#Display stats
-		print(PURPLE + clf.__class__.__name__ + RESET)
+		print('\t' + YELLOW + 'Testing:' + RESET)
 		print("\t# correct: " + GREEN + str(num_correct) + RESET + " / " + str(len(labels_test)))
 		print("\t% correct: " + GREEN + "%.4f" % (num_correct / len(results) * 100) + RESET + "%")
 		print("\t# prose: " + GREEN + str(num_prose_correct) + RESET + " / " + str(num_prose))
 		print("\t% prose: " + GREEN + "%.4f" % (num_prose_correct / num_prose * 100) + RESET + "%")
 		print("\t# verse: " + GREEN + str(num_verse_correct) + RESET + " / " + str(num_verse))
 		print("\t% verse: " + GREEN + "%.4f" % (num_verse_correct / num_verse * 100) + RESET + "%")
+
 	print('Random Forest Gini Importance: Feature Name')
 	for t in sorted(zip(feature_names, classifiers[0].feature_importances_), key=lambda s: -s[1]):
 		print('%f: %s' % (t[1], t[0]))
