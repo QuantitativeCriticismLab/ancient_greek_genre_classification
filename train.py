@@ -54,7 +54,7 @@ def main():
 	neighbors.KNeighborsClassifier(n_neighbors=5), \
 	neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0)]
 
-	print("Test files: " + str(len(labels_test)))
+	print('Test files: ' + str(len(labels_test)))
 	for clf in classifiers:
 		print(PURPLE + clf.__class__.__name__ + RESET)
 
@@ -68,7 +68,7 @@ def main():
 		clf.fit(features_train, labels_train)
 		results = clf.predict(features_test)
 		expected = labels_test
-		
+
 		#Obtain stats
 		num_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] else 0), range(len(results)), 0)
 		num_prose_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] and expected[y] == 1 else 0), \
@@ -77,15 +77,15 @@ def main():
 		num_verse_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] and expected[y] == 0 else 0), \
 		range(len(results)), 0)
 		num_verse = reduce(lambda x, y: x + (1 if expected[y] == 0 else 0), range(len(results)), 0)
-		
+
 		#Display stats
 		print('\t' + YELLOW + 'Testing:' + RESET)
-		print("\t# correct: " + GREEN + str(num_correct) + RESET + " / " + str(len(labels_test)))
-		print("\t% correct: " + GREEN + "%.4f" % (num_correct / len(results) * 100) + RESET + "%")
-		print("\t# prose: " + GREEN + str(num_prose_correct) + RESET + " / " + str(num_prose))
-		print("\t% prose: " + GREEN + "%.4f" % (num_prose_correct / num_prose * 100) + RESET + "%")
-		print("\t# verse: " + GREEN + str(num_verse_correct) + RESET + " / " + str(num_verse))
-		print("\t% verse: " + GREEN + "%.4f" % (num_verse_correct / num_verse * 100) + RESET + "%")
+		print('\t# correct: ' + GREEN + str(num_correct) + RESET + ' / ' + str(len(labels_test)))
+		print('\t% correct: ' + GREEN + '%.4f' % (num_correct / len(results) * 100) + RESET + '%')
+		print('\t# prose: ' + GREEN + str(num_prose_correct) + RESET + ' / ' + str(num_prose))
+		print('\t% prose: ' + GREEN + '%.4f' % (num_prose_correct / num_prose * 100) + RESET + '%')
+		print('\t# verse: ' + GREEN + str(num_verse_correct) + RESET + ' / ' + str(num_verse))
+		print('\t% verse: ' + GREEN + '%.4f' % (num_verse_correct / num_verse * 100) + RESET + '%')
 
 	print('Random Forest Gini Importance: Feature Name')
 	for t in sorted(zip(feature_names, classifiers[0].feature_importances_), key=lambda s: -s[1]):
