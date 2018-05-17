@@ -372,7 +372,7 @@ class Features:
 
 		return math.nan if num_ina == 0 and num_opos == 0 else math.inf if num_opos == 0 else num_ina / num_opos
 
-	def freq_wste_not_precceded_by_eta(file):
+	def freq_wste_not_preceded_by_eta(file):
 		file = WordTokenizer('greek').tokenize(file)
 		num_wste_characters = 0
 		num_characters = 0
@@ -382,7 +382,7 @@ class Features:
 		{normalize('NFC', val) for val in wste_characters} | \
 		{normalize('NFKD', val) for val in wste_characters} | \
 		{normalize('NFKC', val) for val in wste_characters}
-		eta_chars = {'ἤ'}
+		eta_chars = {'ἤ', 'ἢ'}
 		eta_chars = eta_chars | \
 		{normalize('NFD', val) for val in eta_chars} | \
 		{normalize('NFC', val) for val in eta_chars} | \
@@ -397,7 +397,7 @@ class Features:
 
 		return num_wste_characters / num_characters
 
-	def freq_wste_precceded_by_eta(file):
+	def freq_wste_preceded_by_eta(file):
 		file = WordTokenizer('greek').tokenize(file)
 		num_wste_characters = 0
 		num_characters = 0
@@ -407,7 +407,7 @@ class Features:
 		{normalize('NFC', val) for val in wste_characters} | \
 		{normalize('NFKD', val) for val in wste_characters} | \
 		{normalize('NFKC', val) for val in wste_characters}
-		eta_chars = {'ἤ'}
+		eta_chars = {'ἤ', 'ἢ'}
 		eta_chars = eta_chars | \
 		{normalize('NFD', val) for val in eta_chars} | \
 		{normalize('NFC', val) for val in eta_chars} | \
