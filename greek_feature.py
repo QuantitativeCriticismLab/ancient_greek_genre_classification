@@ -347,30 +347,31 @@ class Features:
 
 		return num_ws_characters / num_characters
 
-	def ratio_ina_to_opos(file):
-		file = WordTokenizer('greek').tokenize(file)
-		num_ina = 0
-		num_opos = 0
-		ina_chars = {'ἵνα'}
-		ina_chars = ina_chars | \
-		{normalize('NFD', val) for val in ina_chars} | \
-		{normalize('NFC', val) for val in ina_chars} | \
-		{normalize('NFKD', val) for val in ina_chars} | \
-		{normalize('NFKC', val) for val in ina_chars}
-		opos_chars = {'ὅπως'}
-		opos_chars = opos_chars | \
-		{normalize('NFD', val) for val in opos_chars} | \
-		{normalize('NFC', val) for val in opos_chars} | \
-		{normalize('NFKD', val) for val in opos_chars} | \
-		{normalize('NFKC', val) for val in opos_chars}
+	# Bad feature when result is NaN or infinity
+	# def ratio_ina_to_opos(file):
+	# 	file = WordTokenizer('greek').tokenize(file)
+	# 	num_ina = 0
+	# 	num_opos = 0
+	# 	ina_chars = {'ἵνα'}
+	# 	ina_chars = ina_chars | \
+	# 	{normalize('NFD', val) for val in ina_chars} | \
+	# 	{normalize('NFC', val) for val in ina_chars} | \
+	# 	{normalize('NFKD', val) for val in ina_chars} | \
+	# 	{normalize('NFKC', val) for val in ina_chars}
+	# 	opos_chars = {'ὅπως'}
+	# 	opos_chars = opos_chars | \
+	# 	{normalize('NFD', val) for val in opos_chars} | \
+	# 	{normalize('NFC', val) for val in opos_chars} | \
+	# 	{normalize('NFKD', val) for val in opos_chars} | \
+	# 	{normalize('NFKC', val) for val in opos_chars}
 
-		for word in file:
-			if word in ina_chars:
-				num_ina += 1
-			elif word in opos_chars:
-				num_opos += 1
+	# 	for word in file:
+	# 		if word in ina_chars:
+	# 			num_ina += 1
+	# 		elif word in opos_chars:
+	# 			num_opos += 1
 
-		return math.nan if num_ina == 0 and num_opos == 0 else math.inf if num_opos == 0 else num_ina / num_opos
+	# 	return math.nan if num_ina == 0 and num_opos == 0 else math.inf if num_opos == 0 else num_ina / num_opos
 
 	def freq_wste_not_preceded_by_eta(file):
 		file = WordTokenizer('greek').tokenize(file)
@@ -397,30 +398,31 @@ class Features:
 
 		return num_wste_characters / num_characters
 
-	def freq_wste_preceded_by_eta(file):
-		file = WordTokenizer('greek').tokenize(file)
-		num_wste_characters = 0
-		num_characters = 0
-		wste_characters = {'ὥστε'}
-		wste_characters = wste_characters | \
-		{normalize('NFD', val) for val in wste_characters} | \
-		{normalize('NFC', val) for val in wste_characters} | \
-		{normalize('NFKD', val) for val in wste_characters} | \
-		{normalize('NFKC', val) for val in wste_characters}
-		eta_chars = {'ἤ', 'ἢ'}
-		eta_chars = eta_chars | \
-		{normalize('NFD', val) for val in eta_chars} | \
-		{normalize('NFC', val) for val in eta_chars} | \
-		{normalize('NFKD', val) for val in eta_chars} | \
-		{normalize('NFKC', val) for val in eta_chars}
-		ok_to_add = False
+	# Only 54 matches across 42 files for regex "(ἤ|ἢ) (\w+ )*?ὥστε" and 33 matches across 27 files for "(ἤ|ἢ) ὥστε"
+	# def freq_wste_preceded_by_eta(file):
+	# 	file = WordTokenizer('greek').tokenize(file)
+	# 	num_wste_characters = 0
+	# 	num_characters = 0
+	# 	wste_characters = {'ὥστε'}
+	# 	wste_characters = wste_characters | \
+	# 	{normalize('NFD', val) for val in wste_characters} | \
+	# 	{normalize('NFC', val) for val in wste_characters} | \
+	# 	{normalize('NFKD', val) for val in wste_characters} | \
+	# 	{normalize('NFKC', val) for val in wste_characters}
+	# 	eta_chars = {'ἤ', 'ἢ'}
+	# 	eta_chars = eta_chars | \
+	# 	{normalize('NFD', val) for val in eta_chars} | \
+	# 	{normalize('NFC', val) for val in eta_chars} | \
+	# 	{normalize('NFKD', val) for val in eta_chars} | \
+	# 	{normalize('NFKC', val) for val in eta_chars}
+	# 	ok_to_add = False
 
-		for word in file:
-			num_wste_characters += len(word) if word in wste_characters and ok_to_add else 0
-			num_characters += len(word)
-			ok_to_add = word in eta_chars
+	# 	for word in file:
+	# 		num_wste_characters += len(word) if word in wste_characters and ok_to_add else 0
+	# 		num_characters += len(word)
+	# 		ok_to_add = word in eta_chars
 
-		return num_wste_characters / num_characters
+	# 	return num_wste_characters / num_characters
 
 	def freq_temporal_and_causal_clauses(file):
 		file = WordTokenizer('greek').tokenize(file)
@@ -473,15 +475,16 @@ class Features:
 		num_sentences = file.count('.') + file.count(';') + file.count(';') #Greek semi colon
 		return num_particles / num_sentences
 
-	def freq_raised_dot(file):
-		#Unicode from https://en.wikipedia.org/wiki/Interpunct#Similar_symbols
-		#'\u00B7' is '·', '\u0387' is '·', '\u2219' is '∙', '\u22C5' is '⋅', '\u2022' is '•', '\u16EB' is '᛫', '\u2027' is '‧', 
-		#'\u2981' is '⦁', '\u2E33' is '⸳', '\u30FB' is '・', '\uA78F' is 'ꞏ', '\uFF65' is '･', '\U00010101' is '𐄁'
-		dot_chars = {'·', '·', '∙', '⋅', '•', '᛫', '‧', '⦁', '⸳', '・', 'ꞏ', '･', '𐄁'}
-		num_dot_chars = 0
-		for char in file:
-			num_dot_chars += 1 if char in dot_chars else 0
-		return num_dot_chars / len(file)
+	# No interpunct symbols found in the entire tesserae corpus - searched with regex: (·|·|∙|⋅|•|᛫|‧|⦁|⸳|・|ꞏ|･|𐄁)
+	# def freq_raised_dot(file):
+	# 	#Unicode from https://en.wikipedia.org/wiki/Interpunct#Similar_symbols
+	# 	#'\u00B7' is '·', '\u0387' is '·', '\u2219' is '∙', '\u22C5' is '⋅', '\u2022' is '•', '\u16EB' is '᛫', '\u2027' is '‧', 
+	# 	#'\u2981' is '⦁', '\u2E33' is '⸳', '\u30FB' is '・', '\uA78F' is 'ꞏ', '\uFF65' is '･', '\U00010101' is '𐄁'
+	# 	dot_chars = {'·', '·', '∙', '⋅', '•', '᛫', '‧', '⦁', '⸳', '・', 'ꞏ', '･', '𐄁'}
+	# 	num_dot_chars = 0
+	# 	for char in file:
+	# 		num_dot_chars += 1 if char in dot_chars else 0
+	# 	return num_dot_chars / len(file)
 
 	def freq_men(file):
 		file = WordTokenizer('greek').tokenize(file)

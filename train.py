@@ -78,6 +78,11 @@ def main():
 		range(len(results)), 0)
 		num_verse = reduce(lambda x, y: x + (1 if expected[y] == 0 else 0), range(len(results)), 0)
 
+		# if clf.__class__.__name__ == 'RandomForestClassifier':
+		# 	for i in range(len(results)):
+		# 		if results[i] != expected[i]:
+		# 			print(file_names[i])
+
 		#Display stats
 		print('\t' + YELLOW + 'Testing:' + RESET)
 		print('\t# correct: ' + GREEN + str(num_correct) + RESET + ' / ' + str(len(labels_test)))
