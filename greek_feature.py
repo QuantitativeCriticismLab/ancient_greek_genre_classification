@@ -316,7 +316,7 @@ class Features:
 			if in_relative_clause:
 				sum_length_relative_clause += len(word)
 
-		return sum_length_relative_clause / num_relative_clause
+		return 0 if num_relative_clause == 0 else sum_length_relative_clause / num_relative_clause
 
 	#Count of relative pronouns in non-interrogative sentences / total non-interrogative sentences
 	def relative_clause_per_sentence(file):
