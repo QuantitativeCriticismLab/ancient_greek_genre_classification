@@ -27,8 +27,7 @@ def main():
 	
 	#Convert features and classifications into sorted lists
 	file_names = sorted([elem for elem in text_to_features.keys()])
-	feature_names = sorted(list({feature for feature_to_val in text_to_features.values() for feature in feature_to_val.keys()} \
-	- {'freq_vocative_sentences', 'ratio_ina_to_opos', 'freq_wste_precceded_by_eta', 'freq_raised_dot'}))
+	feature_names = sorted(list({feature for feature_to_val in text_to_features.values() for feature in feature_to_val.keys()}))
 	data_1d = [text_to_features[file_name][feature] for file_name in file_names for feature in feature_names]
 	data = []
 	for i in range(len(file_names)):
@@ -48,7 +47,7 @@ def main():
 
 	#Includes all the machine learning classifiers
 	classifiers = [\
-	ensemble.RandomForestClassifier(random_state=1), \
+	ensemble.RandomForestClassifier(random_state=0), \
 	svm.SVC(gamma=0.00001, kernel='rbf', random_state=0), \
 	naive_bayes.GaussianNB(priors=None), \
 	neighbors.KNeighborsClassifier(n_neighbors=5), \
