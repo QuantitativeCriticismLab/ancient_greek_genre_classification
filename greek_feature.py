@@ -269,9 +269,36 @@ class Features:
 
 		return num_sentence_with_clause / num_non_interrogative_sentence
 
-	# Omit for now
-	# def mean_length_relative_clause(file):
-	# 	return 0
+	def mean_length_relative_clause(file):
+		file = WordTokenizer('greek').tokenize(file)
+		num_relative_clause = 0
+		sum_length_relative_clause = 0
+		pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', \
+		'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
+		pronouns = pronouns | \
+		{normalize('NFD', val) for val in pronouns} | \
+		{normalize('NFC', val) for val in pronouns} | \
+		{normalize('NFKD', val) for val in pronouns} | \
+		{normalize('NFKC', val) for val in pronouns}
+		punctuation = {'.', ',', ':', ';', ';'}
+		punctuation = punctuation | \
+		{normalize('NFD', val) for val in punctuation} | \
+		{normalize('NFC', val) for val in punctuation} | \
+		{normalize('NFKD', val) for val in punctuation} | \
+		{normalize('NFKC', val) for val in punctuation}
+
+		in_relative_clause = False
+
+		for word in file:
+			if word in punctuation:
+				in_relative_clause = False
+			elif word in pronouns:
+				in_relative_clause = True
+				num_relative_clause += 1
+			if in_relative_clause:
+				sum_length_relative_clause += len(word)
+
+		return sum_length_relative_clause / num_relative_clause
 
 	#Count of relative pronouns in non-interrogative sentences / total non-interrogative sentences
 	def relative_clause_per_sentence(file):
