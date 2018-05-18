@@ -98,6 +98,24 @@ class Features:
 
 		return num_indefinite_pronoun_chars / num_characters
 
+	def freq_indefinite_pronoun_in_any_sentence(file):
+		file = WordTokenizer('greek').tokenize(file)
+		num_indefinite_pronoun_chars = 0
+		num_characters = 0
+		pronoun_chars = {'τις', 'τινός', 'τινὸς', 'του', 'τινί', 'τινὶ', 'τῳ', 'τινά', 'τινὰ', 'τινές', 'τινὲς', 'τινῶν', \
+		'τισί', 'τισὶ', 'τισίν', 'τισὶν', 'τινάς', 'τινὰς', 'τι'}
+		pronoun_chars = pronoun_chars | \
+		{normalize('NFD', val) for val in pronoun_chars} | \
+		{normalize('NFC', val) for val in pronoun_chars} | \
+		{normalize('NFKD', val) for val in pronoun_chars} | \
+		{normalize('NFKC', val) for val in pronoun_chars}
+
+		for word in file:
+			num_indefinite_pronoun_chars += len(word) if word in pronoun_chars else 0
+			num_characters += len(word)
+
+		return num_indefinite_pronoun_chars / num_characters
+
 	def freq_allos(file):
 		file = WordTokenizer('greek').tokenize(file)
 		num_allos = 0
