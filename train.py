@@ -5,6 +5,7 @@ from functools import reduce
 from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
 from sklearn.model_selection import train_test_split, cross_val_score
 
+RED = '\033[91m'
 GREEN = '\033[92m'
 YELLOW = '\033[93m'
 PURPLE = '\033[95m'
@@ -45,7 +46,7 @@ def main():
 
 	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
 
-	print('Random Forest trials\n')
+	print(RED + 'Random Forest trials\n' + RESET)
 
 	for i in range(10):
 		print(PURPLE + 'Seed ' + str(i) + RESET)
@@ -53,16 +54,16 @@ def main():
 		clf.fit(features_train, labels_train)
 		results = clf.predict(features_test)
 		expected = labels_test
-		print(YELLOW + 'Misclassifications:' + RESET)
+		print('\t' + YELLOW + 'Misclassifications:' + RESET)
 		found_misclassification = False
 		for j in range(len(results)):
 			if results[j] != expected[j]:
-				print(file_names[j])
+				print('\t' + file_names[j])
 				found_misclassification = True
-		print('No misclassifications!\n' if not found_misclassification else '')
-		print(YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
+		print('\tNo misclassifications!\n' if not found_misclassification else '')
+		print('\t' + YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
 		for t in sorted(zip(feature_names, clf.feature_importances_), key=lambda s: -s[1]):
-			print('%f: %s' % (t[1], t[0]))
+			print('\t%f: %s' % (t[1], t[0]))
 		print()
 
 	#Includes all the machine learning classifiers
@@ -72,6 +73,8 @@ def main():
 	naive_bayes.GaussianNB(priors=None), \
 	neighbors.KNeighborsClassifier(n_neighbors=5), \
 	neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0)]
+
+	print(RED + 'Miscellaneous machine learning models:\n' + RESET)
 
 	for clf in classifiers:
 		print(PURPLE + clf.__class__.__name__ + RESET)
