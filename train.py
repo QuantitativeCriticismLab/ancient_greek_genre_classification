@@ -43,7 +43,27 @@ def main():
 	data = np.asarray(data)
 	target = np.asarray(target)
 
-	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=1)
+	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
+
+	print('Random Forest trials\n')
+
+	for i in range(10):
+		print(PURPLE + 'Seed ' + str(i) + RESET)
+		clf = ensemble.RandomForestClassifier(random_state=i)
+		clf.fit(features_train, labels_train)
+		results = clf.predict(features_test)
+		expected = labels_test
+		print(YELLOW + 'Misclassifications:' + RESET)
+		found_misclassification = False
+		for j in range(len(results)):
+			if results[j] != expected[j]:
+				print(file_names[j])
+				found_misclassification = True
+		print('No misclassifications!\n' if not found_misclassification else '')
+		print(YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
+		for t in sorted(zip(feature_names, clf.feature_importances_), key=lambda s: -s[1]):
+			print('%f: %s' % (t[1], t[0]))
+		print()
 
 	#Includes all the machine learning classifiers
 	classifiers = [\
@@ -53,7 +73,6 @@ def main():
 	neighbors.KNeighborsClassifier(n_neighbors=5), \
 	neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0)]
 
-	print('Test files: ' + str(len(labels_test)))
 	for clf in classifiers:
 		print(PURPLE + clf.__class__.__name__ + RESET)
 
@@ -77,11 +96,6 @@ def main():
 		range(len(results)), 0)
 		num_verse = reduce(lambda x, y: x + (1 if expected[y] == 0 else 0), range(len(results)), 0)
 
-		# if clf.__class__.__name__ == 'RandomForestClassifier':
-		# 	for i in range(len(results)):
-		# 		if results[i] != expected[i]:
-		# 			print(file_names[i])
-
 		#Display stats
 		print('\t' + YELLOW + 'Testing:' + RESET)
 		print('\t# correct: ' + GREEN + str(num_correct) + RESET + ' / ' + str(len(labels_test)))
@@ -90,11 +104,8 @@ def main():
 		print('\t% prose: ' + GREEN + '%.4f' % (num_prose_correct / num_prose * 100) + RESET + '%')
 		print('\t# verse: ' + GREEN + str(num_verse_correct) + RESET + ' / ' + str(num_verse))
 		print('\t% verse: ' + GREEN + '%.4f' % (num_verse_correct / num_verse * 100) + RESET + '%')
-
-	print('Random Forest Gini Importance: Feature Name')
-	for t in sorted(zip(feature_names, classifiers[0].feature_importances_), key=lambda s: -s[1]):
-		print('%f: %s' % (t[1], t[0]))
-	print(classifiers[0].get_params())
+		print('\t' + str(clf.get_params()))
+		print()
 
 if __name__ == '__main__':
 	main()
