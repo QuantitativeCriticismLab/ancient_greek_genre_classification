@@ -1,13 +1,9 @@
-Check list accentuations
 Use String IO for potential speedup https://waymoot.org/home/python_string/
 Cache tokenized files (with decorators?)
-Update readme with virtualenv instructions
 Predictable feature iteration order
 Use set instead of list where applicable
 Use pickle to cache feature extraction results - use git hash to determine that the corpus hasn't been changed
 Check if value in set instead of equal (and instantiate sets before loops?)
 Output coloring
 Revise Google Doc
-Don't use floating point NaN or infinity
-Principle component analysis to identify best features
 
