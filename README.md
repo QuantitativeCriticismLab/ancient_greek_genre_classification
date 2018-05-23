@@ -9,7 +9,7 @@ Install Homebrew:
 
 Install pipenv: `brew install pipenv`
 
-Set environment variable in `~/.bash_profile` (optional)
+Set environment variable by placing the following lines in `~/.bash_profile` (optional)
 ```bash
 echo "#When pipenv makes a virtual environment, it will create it in the same directory as the project instead of ~/.local/share/virtualenv/" >> ~/.bash_profile
 echo "PIPENV_VENV_IN_PROJECT=true" >> ~/.bash_profile

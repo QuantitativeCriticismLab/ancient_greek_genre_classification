@@ -60,7 +60,7 @@ def main():
 			if results[j] != expected[j]:
 				print('\t' + file_names[j])
 				found_misclassification = True
-		print('\tNo misclassifications!\n' if not found_misclassification else '')
+		print(('\t' + GREEN + 'No misclassifications!\n' + RESET) if not found_misclassification else '')
 		print('\t' + YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
 		for t in sorted(zip(feature_names, clf.feature_importances_), key=lambda s: -s[1]):
 			print('\t%f: %s' % (t[1], t[0]))

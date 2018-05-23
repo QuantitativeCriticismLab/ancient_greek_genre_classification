@@ -551,14 +551,8 @@ tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
 
 def main():
-	global greek_text_dir
-
-	#Associates files names to their respective features
-	text_to_features = {}
-
+	text_to_features = {} #Associates file names to their respective features
 	file_names = None
-	if len(sys.argv) > 1 and sys.argv[1] == "testfile":
-		file_names = {"tesserae/texts/grc/plato.respublica.tess"}
 
 	#Download corpus if non-existent
 	if not os.path.isdir(greek_text_dir):
@@ -566,9 +560,8 @@ def main():
 		os.system(tesserae_clone_command)
 
 	#Obtain all the files to parse by traversing through the directory
-	if file_names is None:
-		file_names = {current_path + os.sep + current_file_name for current_path, current_dir_names, current_file_names in \
-		os.walk(greek_text_dir) for current_file_name in current_file_names if current_file_name.endswith(".tess")}
+	file_names = {current_path + os.sep + current_file_name for current_path, current_dir_names, current_file_names in \
+	os.walk(greek_text_dir) for current_file_name in current_file_names if current_file_name.endswith(".tess")}
 
 	#Feature extraction
 	for file_name in file_names:
@@ -591,7 +584,6 @@ def main():
 		#Invoke the values of the Feature class which are functions
 		#Default behavior is to invoke ALL functions of Features class. If names of features are specified on the 
 		#command line, then only invoke those
-		#TODO allow debug files
 		for feature in Features.__dict__.values() if len(sys.argv) == 1 else \
 		[Features.__dict__[sys.argv[i]] for i in range(1, len(sys.argv)) if sys.argv[i] in Features.__dict__]:
 			if callable(feature):
