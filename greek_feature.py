@@ -4,6 +4,7 @@ import os
 import sys
 import math
 import pickle
+from color import RED, GREEN, RESET
 from functools import reduce
 from cltk.tokenize.sentence import TokenizeSentence
 from cltk.tokenize.word import WordTokenizer
@@ -556,7 +557,7 @@ def main():
 
 	#Download corpus if non-existent
 	if not os.path.isdir(greek_text_dir):
-		print("Corpus at " + greek_text_dir + " does not exist - attempting to clone repository...")
+		print(RED + "Corpus at " + greek_text_dir + " does not exist - attempting to clone repository..." + RESET)
 		os.system(tesserae_clone_command)
 
 	#Obtain all the files to parse by traversing through the directory
@@ -589,7 +590,7 @@ def main():
 			if callable(feature):
 				score = feature(file_text)
 				text_to_features[file_name][feature.__name__] = score
-				print(file_name + ", " + str(feature.__name__) + ", " + str(score))
+				print(file_name + ", " + str(feature.__name__) + ", " + GREEN + str(score) + RESET)
 
 	# with open("matrix.pickle", "wb") as pickle_file:
 	# 	pickle_file.write(pickle.dumps(text_to_features))

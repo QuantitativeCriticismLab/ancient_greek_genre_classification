@@ -4,12 +4,7 @@ import numpy as np
 from functools import reduce
 from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
 from sklearn.model_selection import train_test_split, cross_val_score
-
-RED = '\033[91m'
-GREEN = '\033[92m'
-YELLOW = '\033[93m'
-PURPLE = '\033[95m'
-RESET = '\033[0m'
+from color import RED, GREEN, YELLOW, PURPLE, RESET
 
 def main():
 
