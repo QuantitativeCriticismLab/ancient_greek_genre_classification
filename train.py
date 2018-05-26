@@ -6,8 +6,7 @@ from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
 from sklearn.model_selection import train_test_split, cross_val_score
 from color import RED, GREEN, YELLOW, PURPLE, RESET
 
-def main():
-
+def get_file_classifications():
 	#Obtain classifications (prose or verse) for each file
 	file_to_isprose = {}
 	with open('classifications.csv', mode='r') as classification_file:
@@ -15,27 +14,16 @@ def main():
 		for line in classification_file:
 			line = line.strip().split(',')
 			file_to_isprose[line[0]] = 1 if line[1] == 'True' else 0
+	return file_to_isprose
 
+def get_features():
 	#Obtain features that were previously mined and serialized into a file
 	text_to_features = None
 	with open('matrix.pickle', mode='rb') as pickle_file:
 		text_to_features = pickle.loads(pickle_file.read())
-	
-	#Convert features and classifications into sorted lists
-	file_names = sorted([elem for elem in text_to_features.keys()])
-	feature_names = sorted(list({feature for feature_to_val in text_to_features.values() for feature in feature_to_val.keys()} \
+	return text_to_features
 
-		#Uncomment to exclude features 6-10 (ranked by average gini score)
-		# - {'mean_sentence_length', 'freq_ws', 'freq_men', 'particles_per_sentence', 'freq_wste_not_preceded_by_eta'} \
-
-		#Uncomment to exclude features 11-24 (ranked by average gini score)
-		# - {'freq_temporal_and_causal_clauses', 'freq_superlative', 'freq_interrogatives', 'mean_length_relative_clause', \
-		# 'freq_conditional_characters', 'freq_vocative_sentences', 'relative_clause_per_sentence', 'freq_personal_pronouns', \
-		# 'freq_allos', 'non_interoggative_sentence_with_relative_clause', 'freq_purpose_clause', \
-		# 'freq_indefinite_pronoun_in_non_interrogative_sentence', 'freq_indefinite_pronoun_in_any_sentence', \
-		# 'freq_circumstantial_participial_clauses'}\
-		))
-
+def get_classifier_data(file_to_isprose, text_to_features, file_names, feature_names):
 	data_1d = [text_to_features[file_name][feature] for file_name in file_names for feature in feature_names]
 	data = []
 	for i in range(len(file_names)):
@@ -50,9 +38,9 @@ def main():
 	#Convert lists to numpy arrays so they can be used in the machine learning models
 	data = np.asarray(data)
 	target = np.asarray(target)
+	return (data, target)
 
-	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
-
+def random_forest_trials(features_train, features_test, labels_train, labels_test, file_names, feature_names):
 	print(RED + 'Random Forest trials\n' + RESET)
 
 	trials = 10
@@ -74,6 +62,7 @@ def main():
 			print('\t%f: %s' % (t[1], t[0]))
 		print()
 
+def sample_classifiers(features_train, features_test, labels_train, labels_test):
 	#Includes all the machine learning classifiers
 	classifiers = [\
 	ensemble.RandomForestClassifier(random_state=0), \
@@ -117,6 +106,35 @@ def main():
 		print('\t% verse: ' + GREEN + '%.4f' % (num_verse_correct / num_verse * 100) + RESET + '%')
 		print('\t' + str(clf.get_params()))
 		print()
+
+def main():
+
+	file_to_isprose = get_file_classifications()
+
+	text_to_features = get_features()
+	
+	#Convert features and classifications into sorted lists
+	file_names = sorted([elem for elem in text_to_features.keys()])
+	feature_names = sorted(list({feature for feature_to_val in text_to_features.values() for feature in feature_to_val.keys()} \
+
+		#Uncomment to exclude features 6-10 (ranked by average gini score)
+		# - {'mean_sentence_length', 'freq_ws', 'freq_men', 'particles_per_sentence', 'freq_wste_not_preceded_by_eta'} \
+
+		#Uncomment to exclude features 11-24 (ranked by average gini score)
+		# - {'freq_temporal_and_causal_clauses', 'freq_superlative', 'freq_interrogatives', 'mean_length_relative_clause', \
+		# 'freq_conditional_characters', 'freq_vocative_sentences', 'relative_clause_per_sentence', 'freq_personal_pronouns', \
+		# 'freq_allos', 'non_interoggative_sentence_with_relative_clause', 'freq_purpose_clause', \
+		# 'freq_indefinite_pronoun_in_non_interrogative_sentence', 'freq_indefinite_pronoun_in_any_sentence', \
+		# 'freq_circumstantial_participial_clauses'}\
+		))
+
+	data, target = get_classifier_data(file_to_isprose, text_to_features, file_names, feature_names)
+
+	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
+
+	random_forest_trials(features_train, features_test, labels_train, labels_test, file_names, feature_names)
+
+	sample_classifiers(features_train, features_test, labels_train, labels_test)
 
 if __name__ == '__main__':
 	main()
