@@ -23,7 +23,19 @@ def main():
 	
 	#Convert features and classifications into sorted lists
 	file_names = sorted([elem for elem in text_to_features.keys()])
-	feature_names = sorted(list({feature for feature_to_val in text_to_features.values() for feature in feature_to_val.keys()}))
+	feature_names = sorted(list({feature for feature_to_val in text_to_features.values() for feature in feature_to_val.keys()} \
+
+		#Uncomment to exclude features 6-10 (ranked by average gini score)
+		# - {'mean_sentence_length', 'freq_ws', 'freq_men', 'particles_per_sentence', 'freq_wste_not_preceded_by_eta'} \
+
+		#Uncomment to exclude features 11-24 (ranked by average gini score)
+		# - {'freq_temporal_and_causal_clauses', 'freq_superlative', 'freq_interrogatives', 'mean_length_relative_clause', \
+		# 'freq_conditional_characters', 'freq_vocative_sentences', 'relative_clause_per_sentence', 'freq_personal_pronouns', \
+		# 'freq_allos', 'non_interoggative_sentence_with_relative_clause', 'freq_purpose_clause', \
+		# 'freq_indefinite_pronoun_in_non_interrogative_sentence', 'freq_indefinite_pronoun_in_any_sentence', \
+		# 'freq_circumstantial_participial_clauses'}\
+		))
+
 	data_1d = [text_to_features[file_name][feature] for file_name in file_names for feature in feature_names]
 	data = []
 	for i in range(len(file_names)):
@@ -43,7 +55,8 @@ def main():
 
 	print(RED + 'Random Forest trials\n' + RESET)
 
-	for i in range(10):
+	trials = 10
+	for i in range(trials):
 		print(PURPLE + 'Seed ' + str(i) + RESET)
 		clf = ensemble.RandomForestClassifier(random_state=i)
 		clf.fit(features_train, labels_train)
