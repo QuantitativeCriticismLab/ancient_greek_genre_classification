@@ -3,7 +3,7 @@ import math
 import numpy as np
 from functools import reduce
 from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split, cross_val_score, KFold
 from color import RED, GREEN, YELLOW, PURPLE, RESET
 
 def get_file_classifications():
@@ -40,13 +40,34 @@ def get_classifier_data(file_to_isprose, text_to_features, file_names, feature_n
 	target = np.asarray(target)
 	return (data, target)
 
-def random_forest_trials(features_train, features_test, labels_train, labels_test, file_names, feature_names):
-	print(RED + 'Random Forest trials\n' + RESET)
+def display_stats(expected, results, tabs=0):
+	assert len(expected) == len(results)
+
+	#Obtain stats
+	num_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] else 0), range(len(results)), 0)
+	num_prose_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] and expected[y] == 1 else 0), \
+	range(len(results)), 0)
+	num_prose = reduce(lambda x, y: x + (1 if expected[y] == 1 else 0), range(len(results)), 0)
+	num_verse_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] and expected[y] == 0 else 0), \
+	range(len(results)), 0)
+	num_verse = reduce(lambda x, y: x + (1 if expected[y] == 0 else 0), range(len(results)), 0)
+
+	#Display stats
+	print('\t' * tabs + YELLOW + 'Testing:' + RESET)
+	print('\t' * tabs + '# correct: ' + GREEN + str(num_correct) + RESET + ' / ' + str(len(expected)))
+	print('\t' * tabs + '% correct: ' + GREEN + '%.4f' % (num_correct / len(results) * 100) + RESET + '%')
+	print('\t' * tabs + '# prose: ' + GREEN + str(num_prose_correct) + RESET + ' / ' + str(num_prose))
+	print('\t' * tabs + '% prose: ' + GREEN + '%.4f' % (num_prose_correct / num_prose * 100) + RESET + '%')
+	print('\t' * tabs + '# verse: ' + GREEN + str(num_verse_correct) + RESET + ' / ' + str(num_verse))
+	print('\t' * tabs + '% verse: ' + GREEN + '%.4f' % (num_verse_correct / num_verse * 100) + RESET + '%')
+
+def random_forest_test(features_train, features_test, labels_train, labels_test, file_names, feature_names):
+	print(RED + 'Random Forest tests\n' + RESET)
 
 	trials = 10
-	for i in range(trials):
-		print(PURPLE + 'Seed ' + str(i) + RESET)
-		clf = ensemble.RandomForestClassifier(random_state=i)
+	for seed in range(trials):
+		print(PURPLE + 'Seed ' + str(seed) + RESET)
+		clf = ensemble.RandomForestClassifier(random_state=seed)
 		clf.fit(features_train, labels_train)
 		results = clf.predict(features_test)
 		expected = labels_test
@@ -61,6 +82,38 @@ def random_forest_trials(features_train, features_test, labels_train, labels_tes
 		for t in sorted(zip(feature_names, clf.feature_importances_), key=lambda s: -s[1]):
 			print('\t%f: %s' % (t[1], t[0]))
 		print()
+
+def random_forest_cross_validation(data, target, file_names):
+	print(RED + 'Random Forest cross validation\n' + RESET)
+
+	trials = 10
+	for seed in range(trials):
+		print(PURPLE + 'Seed ' + str(seed) + RESET)
+		splitter = KFold(n_splits=5, shuffle=False, random_state=0)
+		cur_fold = 1
+
+		for train_indices, validate_indices in splitter.split(data):
+			features_train, features_validate = data[train_indices], data[validate_indices]
+			labels_train, labels_validate = target[train_indices], target[validate_indices]
+
+			clf = ensemble.RandomForestClassifier(random_state=seed)
+			clf.fit(features_train, labels_train)
+			results = clf.predict(features_validate)
+			expected = labels_validate
+
+			print('\t' + YELLOW + 'Validate fold ' + str(cur_fold) + ':' + RESET)
+			print('\t\t' + YELLOW + 'Misclassifications: ' + RESET)
+			found_misclassification = False
+			for i in range(len(results)):
+				if results[i] != expected[i]:
+					print('\t\t' + file_names[i])
+					found_misclassification = True
+			print(end=('\t\t' + GREEN + 'No misclassifications!\n' + RESET) if not found_misclassification else '')
+
+			display_stats(expected, results, 2)
+			print()
+
+			cur_fold += 1
 
 def sample_classifiers(features_train, features_test, labels_train, labels_test):
 	#Includes all the machine learning classifiers
@@ -87,23 +140,8 @@ def sample_classifiers(features_train, features_test, labels_train, labels_test)
 		results = clf.predict(features_test)
 		expected = labels_test
 
-		#Obtain stats
-		num_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] else 0), range(len(results)), 0)
-		num_prose_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] and expected[y] == 1 else 0), \
-		range(len(results)), 0)
-		num_prose = reduce(lambda x, y: x + (1 if expected[y] == 1 else 0), range(len(results)), 0)
-		num_verse_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] and expected[y] == 0 else 0), \
-		range(len(results)), 0)
-		num_verse = reduce(lambda x, y: x + (1 if expected[y] == 0 else 0), range(len(results)), 0)
+		display_stats(expected, results, 1)
 
-		#Display stats
-		print('\t' + YELLOW + 'Testing:' + RESET)
-		print('\t# correct: ' + GREEN + str(num_correct) + RESET + ' / ' + str(len(labels_test)))
-		print('\t% correct: ' + GREEN + '%.4f' % (num_correct / len(results) * 100) + RESET + '%')
-		print('\t# prose: ' + GREEN + str(num_prose_correct) + RESET + ' / ' + str(num_prose))
-		print('\t% prose: ' + GREEN + '%.4f' % (num_prose_correct / num_prose * 100) + RESET + '%')
-		print('\t# verse: ' + GREEN + str(num_verse_correct) + RESET + ' / ' + str(num_verse))
-		print('\t% verse: ' + GREEN + '%.4f' % (num_verse_correct / num_verse * 100) + RESET + '%')
 		print('\t' + str(clf.get_params()))
 		print()
 
@@ -132,7 +170,8 @@ def main():
 
 	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
 
-	random_forest_trials(features_train, features_test, labels_train, labels_test, file_names, feature_names)
+	# random_forest_test(features_train, features_test, labels_train, labels_test, file_names, feature_names)
+	random_forest_cross_validation(data, target, file_names)
 
 	sample_classifiers(features_train, features_test, labels_train, labels_test)
 
