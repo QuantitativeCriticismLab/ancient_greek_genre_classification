@@ -3,7 +3,7 @@ import math
 import numpy as np
 from functools import reduce
 from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
-from sklearn.model_selection import train_test_split, cross_val_score, KFold
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from color import RED, GREEN, YELLOW, PURPLE, RESET
 
 def get_file_classifications():
@@ -89,14 +89,15 @@ def random_forest_cross_validation(data, target, file_names):
 	trials = 10
 	for seed in range(trials):
 		print(PURPLE + 'Seed ' + str(seed) + RESET)
-		splitter = KFold(n_splits=5, shuffle=False, random_state=0)
+		splitter = StratifiedKFold(n_splits=5, shuffle=False, random_state=0)
 		cur_fold = 1
+		clf = ensemble.RandomForestClassifier(random_state=seed)
+		print('\tRF parameters = ' + str(clf.get_params()))
 
-		for train_indices, validate_indices in splitter.split(data):
+		for train_indices, validate_indices in splitter.split(data, target):
 			features_train, features_validate = data[train_indices], data[validate_indices]
 			labels_train, labels_validate = target[train_indices], target[validate_indices]
 
-			clf = ensemble.RandomForestClassifier(random_state=seed)
 			clf.fit(features_train, labels_train)
 			results = clf.predict(features_validate)
 			expected = labels_validate
@@ -108,7 +109,7 @@ def random_forest_cross_validation(data, target, file_names):
 				if results[i] != expected[i]:
 					print('\t\t' + file_names[i])
 					found_misclassification = True
-			print(end=('\t\t' + GREEN + 'No misclassifications!\n' + RESET) if not found_misclassification else '')
+			print(end=('\t\t' + GREEN + 'No misclassifications!' + RESET + '\n') if not found_misclassification else '')
 
 			display_stats(expected, results, 2)
 			print()
