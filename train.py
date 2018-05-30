@@ -5,6 +5,7 @@ from functools import reduce
 from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from color import RED, GREEN, YELLOW, PURPLE, RESET
+from collections import Counter
 
 def get_file_classifications():
 	#Obtain classifications (prose or verse) for each file
@@ -87,9 +88,9 @@ def random_forest_cross_validation(data, target, file_names):
 	print(RED + 'Random Forest cross validation\n' + RESET)
 
 	trials = 10
+	splitter = StratifiedKFold(n_splits=5, shuffle=False, random_state=0)
 	for seed in range(trials):
 		print(PURPLE + 'Seed ' + str(seed) + RESET)
-		splitter = StratifiedKFold(n_splits=5, shuffle=False, random_state=0)
 		cur_fold = 1
 		clf = ensemble.RandomForestClassifier(random_state=seed)
 		print('\tRF parameters = ' + str(clf.get_params()))
@@ -115,6 +116,29 @@ def random_forest_cross_validation(data, target, file_names):
 			print()
 
 			cur_fold += 1
+
+def random_forest_misclassifications(data, target, file_names):
+	print(RED + 'Random Forest misclassifications\n' + RESET)
+	misclass_counter = Counter()
+	rf_trials = 5
+	kfold_trials = 5
+	splits = 5
+	for rf_seed in range(rf_trials):
+		clf = ensemble.RandomForestClassifier(random_state=rf_seed)
+		for kfold_seed in range(kfold_trials):
+			splitter = StratifiedKFold(n_splits=splits, shuffle=False, random_state=kfold_seed)
+			for train_indices, validate_indices in splitter.split(data, target):
+				features_train, features_validate = data[train_indices], data[validate_indices]
+				labels_train, labels_validate = target[train_indices], target[validate_indices]
+
+				clf.fit(features_train, labels_train)
+				results = clf.predict(features_validate)
+				expected = labels_validate
+				for i in range(len(results)):
+					if results[i] != expected[i]:
+						misclass_counter[file_names[i]] += 1
+	for t in sorted([(val, cnt) for val, cnt in misclass_counter.items()], key=lambda s: -s[1]):
+		print(t[0] + ': ' + str(t[1]))
 
 def sample_classifiers(features_train, features_test, labels_train, labels_test):
 	#Includes all the machine learning classifiers
@@ -167,14 +191,42 @@ def main():
 		# 'freq_circumstantial_participial_clauses'}\
 		))
 
+
 	data, target = get_classifier_data(file_to_isprose, text_to_features, file_names, feature_names)
 
 	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
 
 	# random_forest_test(features_train, features_test, labels_train, labels_test, file_names, feature_names)
-	random_forest_cross_validation(data, target, file_names)
+	# random_forest_cross_validation(data, target, file_names)
+	random_forest_misclassifications(data, target, file_names)
+	# sample_classifiers(features_train, features_test, labels_train, labels_test)
 
-	sample_classifiers(features_train, features_test, labels_train, labels_test)
+	# Test whether different seeds give different results for StratifiedKFold
+	# seeds = 20
+	# splits = 5
+	# for i in range(seeds):
+	# 	splitter1 = StratifiedKFold(n_splits=splits, shuffle=False, random_state=i)
+	# 	for j in range(i + 1, seeds):
+	# 		splitter2 = StratifiedKFold(n_splits=splits, shuffle=False, random_state=j)
+	# 		t1 = list(splitter1.split(data, target))
+	# 		t2 = list(splitter2.split(data, target))
+	# 		for k in range(splits):
+	# 			print(not (False in (t1[k][0] == t2[k][0])))
+
+	# Find ratios of verse to total with different cross validators
+	# print('Total verse percentage: ' + str(reduce(lambda x, y: x + (1 if y == 0 else 0), target, 0) / len(target)) + '\n')
+	# from sklearn.model_selection import KFold
+	# splitter1 = KFold(n_splits=5, shuffle=False, random_state=0)
+	# splitter2 = StratifiedKFold(n_splits=5, shuffle=False, random_state=0)
+	# t1 = list(splitter1.split(data, target))
+	# t2 = list(splitter2.split(data, target))
+	# for i in range(len(t1)):
+	# 	labels_train1 = target[t1[i][0]]
+	# 	labels_train2 = target[t2[i][0]]
+	# 	print('Kfold ' + str(i) + ' verse percentage: ' + \
+	#		str(reduce(lambda x, y: x + (1 if y == 0 else 0), labels_train1, 0) / len(labels_train1)))
+	# 	print('StratifiedKfold ' + str(i) + ' verse percentage: ' + \
+	#		str(reduce(lambda x, y: x + (1 if y == 0 else 0), labels_train2, 0) / len(labels_train2)))
 
 if __name__ == '__main__':
 	main()
