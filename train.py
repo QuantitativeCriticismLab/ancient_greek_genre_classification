@@ -117,16 +117,23 @@ def random_forest_cross_validation(data, target, file_names):
 
 			cur_fold += 1
 
-def random_forest_misclassifications(data, target, file_names):
-	print(RED + 'Random Forest misclassifications\n' + RESET)
+def random_forest_misclassifications(data, target, file_names, feature_names):
 	misclass_counter = Counter()
-	rf_trials = 5
-	kfold_trials = 5
+	rf_trials = 15
+	kfold_trials = 15
 	splits = 5
+	print(RED + 'Random Forest misclassifications' + RESET)
+	print('Obtain misclassifications by testing different RF seeds and different data splits')
+	print('RF seeds tested: (0-' + str(rf_trials - 1) + ')')
+	print('Cross validation splitter seeds tested: (0-' + str(kfold_trials - 1) + ')')
+	print('Features tested: (1-' + str(len(feature_names)) + ')')
+	print('Number of splits: ' + str(splits))
+	print()
+
 	for rf_seed in range(rf_trials):
 		clf = ensemble.RandomForestClassifier(random_state=rf_seed)
 		for kfold_seed in range(kfold_trials):
-			splitter = StratifiedKFold(n_splits=splits, shuffle=False, random_state=kfold_seed)
+			splitter = StratifiedKFold(n_splits=splits, shuffle=True, random_state=kfold_seed)
 			for train_indices, validate_indices in splitter.split(data, target):
 				features_train, features_validate = data[train_indices], data[validate_indices]
 				labels_train, labels_validate = target[train_indices], target[validate_indices]
@@ -198,35 +205,35 @@ def main():
 
 	# random_forest_test(features_train, features_test, labels_train, labels_test, file_names, feature_names)
 	# random_forest_cross_validation(data, target, file_names)
-	random_forest_misclassifications(data, target, file_names)
+	random_forest_misclassifications(data, target, file_names, feature_names)
 	# sample_classifiers(features_train, features_test, labels_train, labels_test)
 
 	# Test whether different seeds give different results for StratifiedKFold
 	# seeds = 20
 	# splits = 5
 	# for i in range(seeds):
-	# 	splitter1 = StratifiedKFold(n_splits=splits, shuffle=False, random_state=i)
+	# 	splitter1 = StratifiedKFold(n_splits=splits, shuffle=True, random_state=i)
 	# 	for j in range(i + 1, seeds):
-	# 		splitter2 = StratifiedKFold(n_splits=splits, shuffle=False, random_state=j)
+	# 		splitter2 = StratifiedKFold(n_splits=splits, shuffle=True, random_state=j)
 	# 		t1 = list(splitter1.split(data, target))
 	# 		t2 = list(splitter2.split(data, target))
 	# 		for k in range(splits):
-	# 			print(not (False in (t1[k][0] == t2[k][0])))
+	# 			print('Identical? ' + str(not (False in (t1[k][0] == t2[k][0]))))
 
 	# Find ratios of verse to total with different cross validators
 	# print('Total verse percentage: ' + str(reduce(lambda x, y: x + (1 if y == 0 else 0), target, 0) / len(target)) + '\n')
-	# from sklearn.model_selection import KFold
-	# splitter1 = KFold(n_splits=5, shuffle=False, random_state=0)
-	# splitter2 = StratifiedKFold(n_splits=5, shuffle=False, random_state=0)
-	# t1 = list(splitter1.split(data, target))
-	# t2 = list(splitter2.split(data, target))
-	# for i in range(len(t1)):
-	# 	labels_train1 = target[t1[i][0]]
-	# 	labels_train2 = target[t2[i][0]]
-	# 	print('Kfold ' + str(i) + ' verse percentage: ' + \
-	#		str(reduce(lambda x, y: x + (1 if y == 0 else 0), labels_train1, 0) / len(labels_train1)))
-	# 	print('StratifiedKfold ' + str(i) + ' verse percentage: ' + \
-	#		str(reduce(lambda x, y: x + (1 if y == 0 else 0), labels_train2, 0) / len(labels_train2)))
+	# from sklearn.model_selection import KFold, ShuffleSplit
+	# splitters = [\
+	# 	KFold(n_splits=5, shuffle=True, random_state=0), \
+	# 	StratifiedKFold(n_splits=5, shuffle=True, random_state=0)\
+	# 	]
+	# tups = [list(splitter.split(data, target)) for splitter in splitters]
+	# for splitter_index in range(len(splitters)):
+	# 	tup = tups[splitter_index]
+	# 	for i in range(len(tup)):
+	# 		labels_train = target[tup[i][0]]
+	# 		print(splitters[splitter_index].__class__.__name__ + ' ' + str(i) + ' verse percentage: ' + \
+	# 			str(reduce(lambda x, y: x + (1 if y == 0 else 0), labels_train, 0) / len(labels_train)))
 
 if __name__ == '__main__':
 	main()
