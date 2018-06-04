@@ -2,6 +2,8 @@ from cltk.tokenize.sentence import TokenizeSentence
 from cltk.tokenize.word import WordTokenizer
 from unicodedata import normalize
 
+features = []
+
 tokenize_types = {\
 	'sentences': {\
 		'func': lambda lang, file: TokenizeSentence(lang).tokenize_sentences(file), \
@@ -15,7 +17,7 @@ tokenize_types = {\
 	}
 }
 
-def tokenize(tokenize_type, lang):
+def textual_feature(tokenize_type, lang):
 	def decor(f):
 		def wrapper(file, filename):
 			global tokenize_types
@@ -25,10 +27,11 @@ def tokenize(tokenize_type, lang):
 			else:
 				print('Cache hit: ' + f.__name__ + ' ' + filename)
 			return f(tokenize_types[tokenize_type]['tokens'])
+		features.append(f.__name__)
 		return wrapper
 	return decor
 
-@tokenize('sentences', 'greek')
+@textual_feature('sentences', 'greek')
 def freq_interrogatives(file):
 	num_interrogative = 0
 
@@ -37,11 +40,15 @@ def freq_interrogatives(file):
 
 	return num_interrogative / len(file)
 
-@tokenize('sentences', 'greek')
+@textual_feature('sentences', 'greek')
 def bar(file):
 	return 0
 
-@tokenize('words', 'greek')
+@textual_feature('sentences', 'greek')
+def taz(file):
+	return 0
+
+@textual_feature('words', 'greek')
 def freq_conditional_characters(file):
 	num_conditional_characters = 0
 	num_characters = 0
@@ -58,6 +65,14 @@ def freq_conditional_characters(file):
 		num_characters += len(word)
 
 	return num_conditional_characters / num_characters
+
+@textual_feature('sentences', 'greek')
+def qux(file):
+	return 0
+
+@textual_feature('sentences', 'greek')
+def lup(file):
+	return 0
 
 #Tests
 
@@ -85,5 +100,14 @@ freq_interrogatives(file, filename)
 bar(file, filename)
 
 print()
+
 freq_conditional_characters(file, filename)
 freq_conditional_characters(file, filename)
+
+print()
+
+print('Iteration:')
+filename = 'abc/mno'
+for f in features:
+	print('\t' + f)
+	globals()[f](file, filename)
