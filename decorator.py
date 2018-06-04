@@ -1,23 +1,34 @@
 from cltk.tokenize.sentence import TokenizeSentence
 from cltk.tokenize.word import WordTokenizer
+from unicodedata import normalize
 
-last_tokenized_sentence_filename = None
-sentence_tokens = None #cached tokenized file
+tokenize_types = {\
+	'sentences': {\
+		'func': lambda lang, file: TokenizeSentence(lang).tokenize_sentences(file), \
+		'prev_filename': None, \
+		'tokens': None, \
+	}, \
+	'words': {\
+		'func': lambda lang, file: WordTokenizer(lang).tokenize(file), \
+		'prev_filename': None, \
+		'tokens': None, \
+	}
+}
 
-def tokenize_sentences(lang):
+def tokenize(tokenize_type, lang):
 	def decor(f):
 		def wrapper(file, filename):
-			global sentence_tokens
-			global last_tokenized_sentence_filename
-			if not last_tokenized_sentence_filename or last_tokenized_sentence_filename != filename:
-				tokenizer = TokenizeSentence(lang)
-				last_tokenized_sentence_filename = filename
-				sentence_tokens = tokenizer.tokenize_sentences(file)
-			return f(sentence_tokens)
+			global tokenize_types
+			if tokenize_types[tokenize_type]['prev_filename'] != filename:
+				tokenize_types[tokenize_type]['prev_filename'] = filename
+				tokenize_types[tokenize_type]['tokens'] = tokenize_types[tokenize_type]['func'](lang, file)
+			else:
+				print('Cache hit: ' + f.__name__ + ' ' + filename)
+			return f(tokenize_types[tokenize_type]['tokens'])
 		return wrapper
 	return decor
 
-@tokenize_sentences('greek')
+@tokenize('sentences', 'greek')
 def freq_interrogatives(file):
 	num_interrogative = 0
 
@@ -26,13 +37,12 @@ def freq_interrogatives(file):
 
 	return num_interrogative / len(file)
 
-@tokenize_sentences('greek')
+@tokenize('sentences', 'greek')
 def bar(file):
 	return 0
 
-
+@tokenize('words', 'greek')
 def freq_conditional_characters(file):
-	file = WordTokenizer('greek').tokenize(file)
 	num_conditional_characters = 0
 	num_characters = 0
 
@@ -50,29 +60,6 @@ def freq_conditional_characters(file):
 	return num_conditional_characters / num_characters
 
 #Tests
-
-# file = 'a' * 100
-
-# freq_interrogatives(file)
-# freq_interrogatives(file)
-# bar(file)
-# freq_interrogatives(file)
-# bar(file)
-# bar(file)
-
-# print()
-
-# file = 'a' * 99
-# bar(file)
-# freq_interrogatives(file)
-
-# print()
-
-# file = 'a' * 101
-# freq_interrogatives(file)
-# bar(file)
-
-#Tests 2
 
 file = 'a' * 100
 filename = 'abc/def'
@@ -97,3 +84,6 @@ file = 'a' * 101
 freq_interrogatives(file, filename)
 bar(file, filename)
 
+print()
+freq_conditional_characters(file, filename)
+freq_conditional_characters(file, filename)
