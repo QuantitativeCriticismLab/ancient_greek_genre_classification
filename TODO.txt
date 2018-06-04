@@ -6,4 +6,4 @@ Use pickle to cache feature extraction results - use git hash to determine that 
 Check if value in set instead of equal (and instantiate sets before loops?)
 Output coloring
 Revise Google Doc
-
+Download CLTK linguistics data during running program if necessary, and quantify which languages are supported by CLTK
