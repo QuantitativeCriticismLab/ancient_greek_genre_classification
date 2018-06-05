@@ -124,10 +124,10 @@ def random_forest_misclassifications(data, target, file_names, feature_names):
 	splits = 5
 	print(RED + 'Random Forest misclassifications' + RESET)
 	print('Obtain misclassifications by testing different RF seeds and different data splits')
-	print('RF seeds tested: (0-' + str(rf_trials - 1) + ')')
-	print('Cross validation splitter seeds tested: (0-' + str(kfold_trials - 1) + ')')
-	print('Features tested: (1-' + str(len(feature_names)) + ')')
+	print('RF seeds tested: 0-' + str(rf_trials - 1) + ' (inclusive)')
+	print('Cross validation splitter seeds tested: 0-' + str(kfold_trials - 1) + ' (inclusive)')
 	print('Number of splits: ' + str(splits))
+	print('Features tested: (1-' + str(len(feature_names)) + ')')
 	print()
 
 	for rf_seed in range(rf_trials):
@@ -146,6 +146,36 @@ def random_forest_misclassifications(data, target, file_names, feature_names):
 						misclass_counter[file_names[i]] += 1
 	for t in sorted([(val, cnt) for val, cnt in misclass_counter.items()], key=lambda s: -s[1]):
 		print(t[0] + ': ' + str(t[1]))
+
+def random_forest_feature_rankings(data, target, feature_names):
+	feature_rankings = {name: 0 for name in feature_names}
+	rf_trials = 20
+	kfold_trials = 20
+	splits = 5
+	print(RED + 'Random Forest feature rankings' + RESET)
+	print('Obtain rankings by testing different RF seeds and different data splits')
+	print('RF seeds tested: 0-' + str(rf_trials - 1) + ' (inclusive)')
+	print('Cross validation splitter seeds tested: 0-' + str(kfold_trials - 1) + ' (inclusive)')
+	print('Number of splits: ' + str(splits))
+	print('Features tested: (1-' + str(len(feature_names)) + ')')
+	print()
+
+	for rf_seed in range(rf_trials):
+		clf = ensemble.RandomForestClassifier(random_state=rf_seed)
+		for kfold_seed in range(kfold_trials):
+			splitter = StratifiedKFold(n_splits=splits, shuffle=True, random_state=kfold_seed)
+			for train_indices, validate_indices in splitter.split(data, target):
+				features_train, features_validate = data[train_indices], data[validate_indices]
+				labels_train, labels_validate = target[train_indices], target[validate_indices]
+
+				clf.fit(features_train, labels_train)
+				for t in zip(feature_names, clf.feature_importances_):
+					feature_rankings[t[0]] += t[1]
+
+	print(YELLOW + 'Gini averages from ' + str(rf_trials *kfold_trials * splits) + \
+		' (' + str(rf_trials) + ' * ' + str(kfold_trials) + ' * ' + str(splits) + ') trials' + RESET)
+	for t in sorted([(feat, rank) for feat, rank in feature_rankings.items()], key=lambda s: -s[1]):
+		print('\t' + '%.6f' % (t[1] / rf_trials / kfold_trials / splits) + ': ' + t[0])
 
 def sample_classifiers(features_train, features_test, labels_train, labels_test):
 	#Includes all the machine learning classifiers
@@ -205,7 +235,8 @@ def main():
 
 	# random_forest_test(features_train, features_test, labels_train, labels_test, file_names, feature_names)
 	# random_forest_cross_validation(data, target, file_names)
-	random_forest_misclassifications(data, target, file_names, feature_names)
+	# random_forest_misclassifications(data, target, file_names, feature_names)
+	random_forest_feature_rankings(data, target, feature_names)
 	# sample_classifiers(features_train, features_test, labels_train, labels_test)
 
 	# Test whether different seeds give different results for StratifiedKFold
