@@ -1,4 +1,4 @@
-from decorator import textual_feature, decorated_features, tokenize_types
+from textual_feature import textual_feature, decorated_features, tokenize_types
 
 @textual_feature('sentences', 'greek', debug=True)
 def foo(file):
