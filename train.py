@@ -119,8 +119,8 @@ def random_forest_cross_validation(data, target, file_names):
 
 def random_forest_misclassifications(data, target, file_names, feature_names):
 	misclass_counter = Counter()
-	rf_trials = 15
-	kfold_trials = 15
+	rf_trials = 20
+	kfold_trials = 20
 	splits = 5
 	print(RED + 'Random Forest misclassifications' + RESET)
 	print('Obtain misclassifications by testing different RF seeds and different data splits')
@@ -144,8 +144,11 @@ def random_forest_misclassifications(data, target, file_names, feature_names):
 				for i in range(len(results)):
 					if results[i] != expected[i]:
 						misclass_counter[file_names[i]] += 1
+
+	print(YELLOW + 'Misclassifications from ' + str(rf_trials * kfold_trials * splits) + \
+		' (' + str(rf_trials) + ' * ' + str(kfold_trials) + ' * ' + str(splits) + ') trials' + RESET)
 	for t in sorted([(val, cnt) for val, cnt in misclass_counter.items()], key=lambda s: -s[1]):
-		print(t[0] + ': ' + str(t[1]))
+		print('%4d misclassifications: %s' % (t[1], t[0]))
 
 def random_forest_feature_rankings(data, target, feature_names):
 	rf_trials = 20
@@ -174,7 +177,7 @@ def random_forest_feature_rankings(data, target, feature_names):
 					feature_rankings[t[0]][trial] = t[1]
 				trial += 1
 
-	print(YELLOW + 'Gini averages from ' + str(rf_trials *kfold_trials * splits) + \
+	print(YELLOW + 'Gini averages from ' + str(rf_trials * kfold_trials * splits) + \
 		' (' + str(rf_trials) + ' * ' + str(kfold_trials) + ' * ' + str(splits) + ') trials' + RESET)
 	for t in sorted([(feat, rank) for feat, rank in feature_rankings.items()], key=lambda s: -1 * s[1].mean()):
 		print('\t' + '%.6f +/- standard deviation of %.3f' % (t[1].mean(), t[1].std()) + ': ' + t[0])
@@ -237,36 +240,10 @@ def main():
 
 	# random_forest_test(features_train, features_test, labels_train, labels_test, file_names, feature_names)
 	# random_forest_cross_validation(data, target, file_names)
-	# random_forest_misclassifications(data, target, file_names, feature_names)
-	random_forest_feature_rankings(data, target, feature_names)
+	random_forest_misclassifications(data, target, file_names, feature_names)
+	# random_forest_feature_rankings(data, target, feature_names)
 	# sample_classifiers(features_train, features_test, labels_train, labels_test)
 
-	# Test whether different seeds give different results for StratifiedKFold
-	# seeds = 20
-	# splits = 5
-	# for i in range(seeds):
-	# 	splitter1 = StratifiedKFold(n_splits=splits, shuffle=True, random_state=i)
-	# 	for j in range(i + 1, seeds):
-	# 		splitter2 = StratifiedKFold(n_splits=splits, shuffle=True, random_state=j)
-	# 		t1 = list(splitter1.split(data, target))
-	# 		t2 = list(splitter2.split(data, target))
-	# 		for k in range(splits):
-	# 			print('Identical? ' + str(not (False in (t1[k][0] == t2[k][0]))))
-
-	# Find ratios of verse to total with different cross validators
-	# print('Total verse percentage: ' + str(reduce(lambda x, y: x + (1 if y == 0 else 0), target, 0) / len(target)) + '\n')
-	# from sklearn.model_selection import KFold, ShuffleSplit
-	# splitters = [\
-	# 	KFold(n_splits=5, shuffle=True, random_state=0), \
-	# 	StratifiedKFold(n_splits=5, shuffle=True, random_state=0)\
-	# 	]
-	# tups = [list(splitter.split(data, target)) for splitter in splitters]
-	# for splitter_index in range(len(splitters)):
-	# 	tup = tups[splitter_index]
-	# 	for i in range(len(tup)):
-	# 		labels_train = target[tup[i][0]]
-	# 		print(splitters[splitter_index].__class__.__name__ + ' ' + str(i) + ' verse percentage: ' + \
-	# 			str(reduce(lambda x, y: x + (1 if y == 0 else 0), labels_train, 0) / len(labels_train)))
-
 if __name__ == '__main__':
-	main()
+	from timeit import timeit
+	print('\n\n' + GREEN + 'Elapsed time: ' + str(timeit(main, number=1)) + RESET)
