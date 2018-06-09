@@ -7,3 +7,4 @@ Check if value in set instead of equal (and instantiate sets before loops?)
 Output coloring
 Revise Google Doc
 Download CLTK linguistics data during running program if necessary, and quantify which languages are supported by CLTK
+Benchmark time improvement from using cache
