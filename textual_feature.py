@@ -1,8 +1,9 @@
+from collections import OrderedDict
 from cltk.tokenize.sentence import TokenizeSentence
 from cltk.tokenize.word import WordTokenizer
 from io import StringIO
 
-decorated_features = []
+decorated_features = OrderedDict()
 
 tokenize_types = {\
 	'default': {\
@@ -41,6 +42,6 @@ def textual_feature(tokenize_type, lang, debug=False):
 			elif debug:
 				debug_output.write('Cache hit! ' + 'function: <' + f.__name__ + '>, filename: ' + filename + '\n')
 			return f(tokenize_types[tokenize_type]['tokens'])
-		decorated_features.append((wrapper, f.__name__))
+		decorated_features[f.__name__] = wrapper
 		return wrapper
 	return decor

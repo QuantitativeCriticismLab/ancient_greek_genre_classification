@@ -79,8 +79,11 @@ class TestTextualFeature(unittest.TestCase):
 		outputs = ['foo', 'bar', 'taz', 'qux', 'rup', 'lon', ['test test.', 'test test test test test test;', \
 			'test test.', 'test.'], ['test', 'test', '.', 'test', 'test', 'test', 'test', 'test', 'test', ';', 'test', \
 			'test', '.', 'test', '.']]
-		for i in range(len(decorated_features)):
-			self.assertEqual(decorated_features[i][0](file, filename), outputs[i])
+
+		i = 0
+		for v in decorated_features.values():
+			self.assertEqual(v(file, filename), outputs[i])
+			i += 1
 
 if __name__ == '__main__':
 	unittest.main()
