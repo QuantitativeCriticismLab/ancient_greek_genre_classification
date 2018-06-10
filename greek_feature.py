@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import extract_features
+import os
 from textual_feature import textual_feature
 from functools import reduce
 from cltk.tokenize.word import WordTokenizer
@@ -544,4 +545,13 @@ def freq_men(file):
 	return num_men / num_characters
 
 if __name__ == '__main__':
-	extract_features.main()
+
+	#Download corpus if non-existent
+	corpus_dir = "tesserae/texts/grc"
+	tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
+	if not os.path.isdir(corpus_dir):
+		print(RED + "Corpus at " + corpus_dir + " does not exist - attempting to clone repository..." + RESET)
+		os.system(tesserae_clone_command)
+
+	#Feature extractions
+	extract_features.main(corpus_dir, '.tess')
