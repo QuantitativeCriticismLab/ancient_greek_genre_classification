@@ -554,4 +554,4 @@ if __name__ == '__main__':
 		os.system(tesserae_clone_command)
 
 	#Feature extractions
-	extract_features.main(corpus_dir, '.tess')
+	extract_features.main(corpus_dir, 'tess')
