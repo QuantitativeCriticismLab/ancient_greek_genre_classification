@@ -35,13 +35,17 @@ def clear_cache(cache, debug):
 def textual_feature(tokenize_type, lang, debug=False):
 	assert tokenize_type in tokenize_types, '"' + str(tokenize_type) + '" is not a valid tokenize type'
 	def decor(f):
-		def wrapper(file, filename):
-			if tokenize_types[tokenize_type]['prev_filename'] != filename:
-				tokenize_types[tokenize_type]['prev_filename'] = filename
-				tokenize_types[tokenize_type]['tokens'] = tokenize_types[tokenize_type]['func'](lang, file)
-			elif debug:
-				debug_output.write('Cache hit! ' + 'function: <' + f.__name__ + '>, filename: ' + filename + '\n')
-			return f(tokenize_types[tokenize_type]['tokens'])
+		def wrapper(file, filename=None):
+			if filename:
+				#Cache the tokenized version of this file if this filename is new
+				if tokenize_types[tokenize_type]['prev_filename'] != filename:
+					tokenize_types[tokenize_type]['prev_filename'] = filename
+					tokenize_types[tokenize_type]['tokens'] = tokenize_types[tokenize_type]['func'](lang, file)
+				elif debug:
+					debug_output.write('Cache hit! ' + 'function: <' + f.__name__ + '>, filename: ' + filename + '\n')
+				return f(tokenize_types[tokenize_type]['tokens'])
+			else:
+				return f(tokenize_types[tokenize_type]['func'](lang, file))
 		decorated_features[f.__name__] = wrapper
 		return wrapper
 	return decor

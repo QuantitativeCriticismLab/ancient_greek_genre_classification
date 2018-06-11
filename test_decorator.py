@@ -34,6 +34,10 @@ def return_words(file):
 	return file
 
 class TestTextualFeature(unittest.TestCase):
+
+	def setUp(self):
+		clear_cache(tokenize_types, debug_output)
+
 	def test_cache(self):
 		file = 'test test. test test test test test test; test test. test.'
 
@@ -73,7 +77,6 @@ class TestTextualFeature(unittest.TestCase):
 			'test', 'test', ';', 'test', 'test', '.', 'test', '.'])
 
 	def test_loop_over_all_features(self):
-		clear_cache(tokenize_types, debug_output)
 		file = 'test test. test test test test test test; test test. test.'
 		filename = 'abc/def'
 		outputs = ['foo', 'bar', 'taz', 'qux', 'rup', 'lon', ['test test.', 'test test test test test test;', \
@@ -84,6 +87,11 @@ class TestTextualFeature(unittest.TestCase):
 		for v in decorated_features.values():
 			self.assertEqual(v(file, filename), outputs[i])
 			i += 1
+
+	def test_no_filename(self):
+		file = 'test test. test test test test test test; test test. test.'
+		filename = 'abc/def'
+		self.assertEqual(foo(file, filename), foo(file))
 
 if __name__ == '__main__':
 	unittest.main()
