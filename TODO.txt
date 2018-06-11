@@ -8,3 +8,5 @@ Output coloring
 Revise Google Doc
 Download CLTK linguistics data during running program if necessary, and quantify which languages are supported by CLTK
 Benchmark time improvement from using cache
+Animated progress bar for intensive ML & data mining tasks
+Unit test greek features

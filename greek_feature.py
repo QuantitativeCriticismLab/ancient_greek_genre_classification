@@ -2,7 +2,8 @@
 
 import extract_features
 import os
-from textual_feature import textual_feature
+import sys
+from textual_feature import textual_feature, decorated_features
 from functools import reduce
 from cltk.tokenize.word import WordTokenizer
 from unicodedata import normalize #the cltk_normalize cannot decompose (only has NFC & NFKC, not NFD or NFKD)
@@ -553,5 +554,9 @@ if __name__ == '__main__':
 		print(RED + "Corpus at " + corpus_dir + " does not exist - attempting to clone repository..." + RESET)
 		os.system(tesserae_clone_command)
 
+	#Default behavior is to invoke ALL decorated functions. If names of features are specified on the 
+	#command line, then only invoke those
+	features = None if len(sys.argv) == 1 else sys.argv[1:]
+
 	#Feature extractions
-	extract_features.main(corpus_dir, 'tess')
+	extract_features.main(corpus_dir, 'tess', features)
