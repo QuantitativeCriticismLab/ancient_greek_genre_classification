@@ -1,12 +1,7 @@
-Use String IO for potential speedup https://waymoot.org/home/python_string/
-Cache tokenized files (with decorators?)
-Predictable feature iteration order
-Use set instead of list where applicable
-Use pickle to cache feature extraction results - use git hash to determine that the corpus hasn't been changed
-Check if value in set instead of equal (and instantiate sets before loops?)
-Output coloring
 Revise Google Doc
 Download CLTK linguistics data during running program if necessary, and quantify which languages are supported by CLTK
 Benchmark time improvement from using cache
 Animated progress bar for intensive ML & data mining tasks
 Unit test greek features
+Make ml code interactive/use menu
+Parameterize data mining output file (pickle file)
