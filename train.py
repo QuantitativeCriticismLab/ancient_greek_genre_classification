@@ -44,7 +44,7 @@ def get_classifier_data(text_to_features, file_to_isprose, file_names, feature_n
 	target = np.asarray(target)
 	return (data, target)
 
-def display_stats(expected, results, tabs=0):
+def display_stats(expected, results, file_names, feature_names, clf, tabs=0):
 	assert len(expected) == len(results)
 
 	#Obtain stats
@@ -57,13 +57,22 @@ def display_stats(expected, results, tabs=0):
 	num_verse = reduce(lambda x, y: x + (1 if expected[y] == 0 else 0), range(len(results)), 0)
 
 	#Display stats
-	print('\t' * tabs + YELLOW + 'Testing:' + RESET)
+	print('\t' * tabs + YELLOW + 'Stats:' + RESET)
 	print('\t' * tabs + '# correct: ' + GREEN + str(num_correct) + RESET + ' / ' + str(len(expected)))
 	print('\t' * tabs + '% correct: ' + GREEN + '%.4f' % (num_correct / len(results) * 100) + RESET + '%')
 	print('\t' * tabs + '# prose: ' + GREEN + str(num_prose_correct) + RESET + ' / ' + str(num_prose))
 	print('\t' * tabs + '% prose: ' + GREEN + '%.4f' % (num_prose_correct / num_prose * 100) + RESET + '%')
 	print('\t' * tabs + '# verse: ' + GREEN + str(num_verse_correct) + RESET + ' / ' + str(num_verse))
 	print('\t' * tabs + '% verse: ' + GREEN + '%.4f' % (num_verse_correct / num_verse * 100) + RESET + '%')
+	print()
+
+	print('\t' * tabs + YELLOW + 'Misclassifications:' + RESET)
+	found_misclassification = False
+	for j in range(len(results)):
+		if results[j] != expected[j]:
+			print('\t' * tabs + file_names[j])
+			found_misclassification = True
+	print(('\t' * tabs + GREEN + 'No misclassifications!' + RESET + '\n') if not found_misclassification else '')
 
 def random_forest_test(data, target, file_names, feature_names):
 	print(RED + 'Random Forest tests' + RESET)
@@ -73,54 +82,38 @@ def random_forest_test(data, target, file_names, feature_names):
 	clf.fit(features_train, labels_train)
 	results = clf.predict(features_test)
 	expected = labels_test
+	tabs = 1
 
-	display_stats(expected, results, tabs=1)
-	print()
-
-	print('\t' + YELLOW + 'Misclassifications:' + RESET)
-	found_misclassification = False
-	for j in range(len(results)):
-		if results[j] != expected[j]:
-			print('\t' + file_names[j])
-			found_misclassification = True
-	print(('\t' + GREEN + 'No misclassifications!' + RESET + '\n') if not found_misclassification else '')
-
-	print('\t' + YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
+	print('\t' * tabs + YELLOW + 'RF parameters' + RESET + ' = ' + str(clf.get_params()) + '\n')
+	display_stats(expected, results, file_names, feature_names, clf, tabs=tabs)
+	print('\t' * tabs + YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
 	for t in sorted(zip(feature_names, clf.feature_importances_), key=lambda s: -s[1]):
-		print('\t%f: %s' % (t[1], t[0]))
+		print('\t' * tabs + '%f: %s' % (t[1], t[0]))
 
-def random_forest_cross_validation(data, target, file_names):
-	print(RED + 'Random Forest cross validation\n' + RESET)
-
-	trials = 10
+def random_forest_cross_validation(data, target, file_names, feature_names):
+	print(RED + 'Random Forest cross validation' + RESET)
+	clf = ensemble.RandomForestClassifier(random_state=0)
 	splitter = StratifiedKFold(n_splits=5, shuffle=False, random_state=0)
-	for seed in range(trials):
-		print(PURPLE + 'Seed ' + str(seed) + RESET)
-		cur_fold = 1
-		clf = ensemble.RandomForestClassifier(random_state=seed)
-		print('\tRF parameters = ' + str(clf.get_params()))
+	tabs = 1
 
-		for train_indices, validate_indices in splitter.split(data, target):
-			features_train, features_validate = data[train_indices], data[validate_indices]
-			labels_train, labels_validate = target[train_indices], target[validate_indices]
+	print('\t' * tabs + YELLOW + 'RF parameters' + RESET + ' = ' + str(clf.get_params()))
+	cur_fold = 1
+	for train_indices, validate_indices in splitter.split(data, target):
+		features_train, features_validate = data[train_indices], data[validate_indices]
+		labels_train, labels_validate = target[train_indices], target[validate_indices]
 
-			clf.fit(features_train, labels_train)
-			results = clf.predict(features_validate)
-			expected = labels_validate
+		clf.fit(features_train, labels_train)
+		results = clf.predict(features_validate)
+		expected = labels_validate
 
-			print('\t' + YELLOW + 'Validate fold ' + str(cur_fold) + ':' + RESET)
-			print('\t\t' + YELLOW + 'Misclassifications: ' + RESET)
-			found_misclassification = False
-			for i in range(len(results)):
-				if results[i] != expected[i]:
-					print('\t\t' + file_names[i])
-					found_misclassification = True
-			print(end=('\t\t' + GREEN + 'No misclassifications!' + RESET + '\n') if not found_misclassification else '')
+		print()
+		print('\t' * tabs + YELLOW + 'Validate fold ' + str(cur_fold) + ':' + RESET)
+		display_stats(expected, results, file_names, feature_names, clf, tabs=tabs + 1)
+		print('\t' * (tabs + 1) + YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
+		for t in sorted(zip(feature_names, clf.feature_importances_), key=lambda s: -s[1]):
+			print('\t' * (tabs + 1) + '%f: %s' % (t[1], t[0]))
 
-			display_stats(expected, results, 2)
-			print()
-
-			cur_fold += 1
+		cur_fold += 1
 
 def random_forest_misclassifications(data, target, file_names, feature_names):
 	misclass_counter = Counter()
@@ -187,7 +180,7 @@ def random_forest_feature_rankings(data, target, feature_names):
 	for t in sorted([(feat, rank) for feat, rank in feature_rankings.items()], key=lambda s: -1 * s[1].mean()):
 		print('\t' + '%.6f +/- standard deviation of %.3f' % (t[1].mean(), t[1].std()) + ': ' + t[0])
 
-def sample_classifiers(data, target):
+def sample_classifiers(data, target, file_names, feature_names):
 	#Includes all the machine learning classifiers
 	classifiers = [\
 	ensemble.RandomForestClassifier(random_state=0), \
@@ -213,7 +206,7 @@ def sample_classifiers(data, target):
 		results = clf.predict(features_test)
 		expected = labels_test
 
-		display_stats(expected, results, 1)
+		display_stats(expected, results, file_names, feature_names, clf, 1)
 
 		print('\t' + str(clf.get_params()))
 		print()
@@ -233,17 +226,17 @@ def main():
 	from functools import partial
 	menu_options = [\
 		partial(random_forest_test, data, target, file_names, feature_names), \
-		partial(random_forest_cross_validation, data, target, file_names), \
+		partial(random_forest_cross_validation, data, target, file_names, feature_names), \
 		partial(random_forest_misclassifications, data, target, file_names, feature_names), \
 		partial(random_forest_feature_rankings, data, target, feature_names), \
-		partial(sample_classifiers, data, target), \
+		partial(sample_classifiers, data, target, file_names, feature_names), \
 	]
 
 	from timeit import timeit
 	print('\n\n' + GREEN + 'Elapsed time: ' + \
 		str(timeit(menu_options[int(sys.argv[3] if len(sys.argv) > 3 else input('What would you like to do?\n' + \
 		reduce(lambda x, y: x + y, \
-		('\t' + str(i) + ': ' + str(option.func.__name__).replace('_', ' ').capitalize() + '\n'\
+		('\t' + str(i) + ': ' + option.func.__name__.replace('_', ' ').capitalize() + '\n'\
 		for i, option in enumerate(menu_options))) \
 		))], number=1)) + RESET)
 
