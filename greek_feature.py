@@ -4,6 +4,7 @@ import extract_features
 import os
 import sys
 from textual_feature import textual_feature, decorated_features
+from color import RED, RESET
 from functools import reduce
 from cltk.tokenize.word import WordTokenizer
 from unicodedata import normalize #the cltk_normalize cannot decompose (only has NFC & NFKC, not NFD or NFKD)
@@ -548,15 +549,21 @@ def freq_men(file):
 if __name__ == '__main__':
 
 	#Download corpus if non-existent
-	corpus_dir = "tesserae/texts/grc"
-	tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
+	corpus_dir = 'tesserae' + os.sep + 'texts' + os.sep + 'grc'
+	tesserae_clone_command = 'git clone https://github.com/tesserae/tesserae.git'
 	if not os.path.isdir(corpus_dir):
-		print(RED + "Corpus at " + corpus_dir + " does not exist - attempting to clone repository..." + RESET)
-		os.system(tesserae_clone_command)
-
-	#Default behavior is to invoke ALL decorated functions. If names of features are specified on the 
-	#command line, then only invoke those
-	features = None if len(sys.argv) == 1 else sys.argv[1:]
+		print(RED + 'Corpus at ' + corpus_dir + ' does not exist - attempting to clone repository...' + RESET)
+		if os.system(tesserae_clone_command) is not 0:
+			raise Exception('Unable to obtain corpus for feature extraction')
 
 	#Feature extractions
-	extract_features.main(corpus_dir, 'tess', features)
+	extract_features.main(\
+		corpus_dir, \
+		'tess', \
+
+		#Only extract the following features
+		# features=['freq_men'], \
+
+		#Output the results to a file in order to be processed by machine learning algorithms
+		output_file=None if len(sys.argv) <= 1 else sys.argv[1] \
+	)

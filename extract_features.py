@@ -47,7 +47,8 @@ def __extract_features(corpus_dir, file_extension, features, output_file):
 				print(file_name + ', ' + str(feature_name) + ', ' + GREEN + str(score) + RESET)
 
 		if output_file is not None:
-			print_progress_bar(file_no, len(file_names), prefix='Progress', suffix='(%d of %d files)' % (file_no, len(file_names)))
+			print_progress_bar(file_no, len(file_names), prefix='Progress', \
+				suffix='(%d of %d files)' % (file_no, len(file_names)), length=43)
 			file_no += 1
 
 	if output_file is not None:

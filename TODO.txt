@@ -2,3 +2,4 @@ Revise Google Doc
 Download CLTK linguistics data during running program if necessary, and quantify which languages are supported by CLTK
 Unit test greek features
 Make ml code interactive/use menu
+Inject normalized characters to each feature?
