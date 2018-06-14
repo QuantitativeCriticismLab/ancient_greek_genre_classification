@@ -66,26 +66,28 @@ def display_stats(expected, results, tabs=0):
 	print('\t' * tabs + '% verse: ' + GREEN + '%.4f' % (num_verse_correct / num_verse * 100) + RESET + '%')
 
 def random_forest_test(data, target, file_names, feature_names):
-	print(RED + 'Random Forest tests\n' + RESET)
-	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
-	trials = 10
-	for seed in range(trials):
-		print(PURPLE + 'Seed ' + str(seed) + RESET)
-		clf = ensemble.RandomForestClassifier(random_state=seed)
-		clf.fit(features_train, labels_train)
-		results = clf.predict(features_test)
-		expected = labels_test
-		print('\t' + YELLOW + 'Misclassifications:' + RESET)
-		found_misclassification = False
-		for j in range(len(results)):
-			if results[j] != expected[j]:
-				print('\t' + file_names[j])
-				found_misclassification = True
-		print(('\t' + GREEN + 'No misclassifications!\n' + RESET) if not found_misclassification else '')
-		print('\t' + YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
-		for t in sorted(zip(feature_names, clf.feature_importances_), key=lambda s: -s[1]):
-			print('\t%f: %s' % (t[1], t[0]))
-		print()
+	print(RED + 'Random Forest tests' + RESET)
+
+	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=0)
+	clf = ensemble.RandomForestClassifier(random_state=0)
+	clf.fit(features_train, labels_train)
+	results = clf.predict(features_test)
+	expected = labels_test
+
+	display_stats(expected, results, tabs=1)
+	print()
+
+	print('\t' + YELLOW + 'Misclassifications:' + RESET)
+	found_misclassification = False
+	for j in range(len(results)):
+		if results[j] != expected[j]:
+			print('\t' + file_names[j])
+			found_misclassification = True
+	print(('\t' + GREEN + 'No misclassifications!' + RESET + '\n') if not found_misclassification else '')
+
+	print('\t' + YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
+	for t in sorted(zip(feature_names, clf.feature_importances_), key=lambda s: -s[1]):
+		print('\t%f: %s' % (t[1], t[0]))
 
 def random_forest_cross_validation(data, target, file_names):
 	print(RED + 'Random Forest cross validation\n' + RESET)
@@ -236,12 +238,14 @@ def main():
 		partial(random_forest_feature_rankings, data, target, feature_names), \
 		partial(sample_classifiers, data, target), \
 	]
-	print('What would you like to do?')
-	for i, option in enumerate(menu_options):
-		print('\t' + str(i) + ': ' + str(option.func.__name__).replace('_', ' ').capitalize())
 
 	from timeit import timeit
-	print('\n\n' + GREEN + 'Elapsed time: ' + str(timeit(menu_options[int(input())], number=1)) + RESET)
+	print('\n\n' + GREEN + 'Elapsed time: ' + \
+		str(timeit(menu_options[int(sys.argv[3] if len(sys.argv) > 3 else input('What would you like to do?\n' + \
+		reduce(lambda x, y: x + y, \
+		('\t' + str(i) + ': ' + str(option.func.__name__).replace('_', ' ').capitalize() + '\n'\
+		for i, option in enumerate(menu_options))) \
+		))], number=1)) + RESET)
 
 if __name__ == '__main__':
 	main()
