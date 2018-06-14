@@ -1,30 +1,33 @@
 import pickle
 import math
 import numpy as np
+import sys
 from functools import reduce
 from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from color import RED, GREEN, YELLOW, PURPLE, RESET
 from collections import Counter
 
+def get_features():
+	#Obtain features that were previously mined and serialized into a file
+	text_to_features = None
+	with open(sys.argv[1] if len(sys.argv) > 1 else input('Enter filename to extract feature data: '), \
+			mode='rb') as pickle_file:
+		text_to_features = pickle.loads(pickle_file.read())
+	return text_to_features
+
 def get_file_classifications():
 	#Obtain classifications (prose or verse) for each file
 	file_to_isprose = {}
-	with open('classifications.csv', mode='r') as classification_file:
+	with open(sys.argv[2] if len(sys.argv) > 2 else input('Enter filename to extract classification data: '), \
+			mode='r') as classification_file:
 		classification_file.readline()
 		for line in classification_file:
 			line = line.strip().split(',')
 			file_to_isprose[line[0]] = 1 if line[1] == 'True' else 0
 	return file_to_isprose
 
-def get_features():
-	#Obtain features that were previously mined and serialized into a file
-	text_to_features = None
-	with open('matrix.pickle', mode='rb') as pickle_file:
-		text_to_features = pickle.loads(pickle_file.read())
-	return text_to_features
-
-def get_classifier_data(file_to_isprose, text_to_features, file_names, feature_names):
+def get_classifier_data(text_to_features, file_to_isprose, file_names, feature_names):
 	data_1d = [text_to_features[file_name][feature] for file_name in file_names for feature in feature_names]
 	data = []
 	for i in range(len(file_names)):
@@ -62,9 +65,9 @@ def display_stats(expected, results, tabs=0):
 	print('\t' * tabs + '# verse: ' + GREEN + str(num_verse_correct) + RESET + ' / ' + str(num_verse))
 	print('\t' * tabs + '% verse: ' + GREEN + '%.4f' % (num_verse_correct / num_verse * 100) + RESET + '%')
 
-def random_forest_test(features_train, features_test, labels_train, labels_test, file_names, feature_names):
+def random_forest_test(data, target, file_names, feature_names):
 	print(RED + 'Random Forest tests\n' + RESET)
-
+	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
 	trials = 10
 	for seed in range(trials):
 		print(PURPLE + 'Seed ' + str(seed) + RESET)
@@ -182,7 +185,7 @@ def random_forest_feature_rankings(data, target, feature_names):
 	for t in sorted([(feat, rank) for feat, rank in feature_rankings.items()], key=lambda s: -1 * s[1].mean()):
 		print('\t' + '%.6f +/- standard deviation of %.3f' % (t[1].mean(), t[1].std()) + ': ' + t[0])
 
-def sample_classifiers(features_train, features_test, labels_train, labels_test):
+def sample_classifiers(data, target):
 	#Includes all the machine learning classifiers
 	classifiers = [\
 	ensemble.RandomForestClassifier(random_state=0), \
@@ -190,6 +193,7 @@ def sample_classifiers(features_train, features_test, labels_train, labels_test)
 	naive_bayes.GaussianNB(priors=None), \
 	neighbors.KNeighborsClassifier(n_neighbors=5), \
 	neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0)]
+	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
 
 	print(RED + 'Miscellaneous machine learning models:\n' + RESET)
 
@@ -214,36 +218,30 @@ def sample_classifiers(features_train, features_test, labels_train, labels_test)
 
 def main():
 
+	text_to_features = get_features()
+
 	file_to_isprose = get_file_classifications()
 
-	text_to_features = get_features()
-	
 	#Convert features and classifications into sorted lists
 	file_names = sorted([elem for elem in text_to_features.keys()])
-	feature_names = sorted(list({feature for feature_to_val in text_to_features.values() for feature in feature_to_val.keys()} \
+	feature_names = sorted(list({feature for feature_to_val in text_to_features.values() for feature in feature_to_val.keys()}))
 
-		#Uncomment to exclude features 6-10 (ranked by average gini score)
-		# - {'mean_sentence_length', 'freq_ws', 'freq_men', 'particles_per_sentence', 'freq_wste_not_preceded_by_eta'} \
+	data, target = get_classifier_data(text_to_features, file_to_isprose, file_names, feature_names)
 
-		#Uncomment to exclude features 11-24 (ranked by average gini score)
-		# - {'freq_temporal_and_causal_clauses', 'freq_superlative', 'freq_interrogatives', 'mean_length_relative_clause', \
-		# 'freq_conditional_characters', 'freq_vocative_sentences', 'relative_clause_per_sentence', 'freq_personal_pronouns', \
-		# 'freq_allos', 'non_interoggative_sentence_with_relative_clause', 'freq_purpose_clause', \
-		# 'freq_indefinite_pronoun_in_non_interrogative_sentence', 'freq_indefinite_pronoun_in_any_sentence', \
-		# 'freq_circumstantial_participial_clauses'}\
-		))
+	from functools import partial
+	menu_options = [\
+		partial(random_forest_test, data, target, file_names, feature_names), \
+		partial(random_forest_cross_validation, data, target, file_names), \
+		partial(random_forest_misclassifications, data, target, file_names, feature_names), \
+		partial(random_forest_feature_rankings, data, target, feature_names), \
+		partial(sample_classifiers, data, target), \
+	]
+	print('What would you like to do?')
+	for i, option in enumerate(menu_options):
+		print('\t' + str(i) + ': ' + str(option.func.__name__).replace('_', ' ').capitalize())
 
-
-	data, target = get_classifier_data(file_to_isprose, text_to_features, file_names, feature_names)
-
-	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
-
-	# random_forest_test(features_train, features_test, labels_train, labels_test, file_names, feature_names)
-	# random_forest_cross_validation(data, target, file_names)
-	random_forest_misclassifications(data, target, file_names, feature_names)
-	# random_forest_feature_rankings(data, target, feature_names)
-	# sample_classifiers(features_train, features_test, labels_train, labels_test)
+	from timeit import timeit
+	print('\n\n' + GREEN + 'Elapsed time: ' + str(timeit(menu_options[int(input())], number=1)) + RESET)
 
 if __name__ == '__main__':
-	from timeit import timeit
-	print('\n\n' + GREEN + 'Elapsed time: ' + str(timeit(main, number=1)) + RESET)
+	main()
