@@ -1,7 +1,7 @@
 # From https://stackoverflow.com/a/34325723
 
 # Print iterations progress
-def print_progress_bar(iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█'):
+def print_progress_bar(iteration, total, prefix='', suffix='', decimals=1, length=50, fill='█'):
 	"""
 	Call in a loop to create terminal progress bar
 	@params:
@@ -15,8 +15,8 @@ def print_progress_bar(iteration, total, prefix = '', suffix = '', decimals = 1,
 	"""
 	percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
 	filledLength = int(length * iteration // total)
-	bar = fill * filledLength + '-' * (length - filledLength)
-	print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end = '\r')
+	bar = ('\033[92m' + fill * filledLength + '\033[0m') + ('\033[91m' + '-' * (length - filledLength) + '\033[0m')
+	print('%s |%s| \033[92m%s\033[0m%% %s' % (prefix, bar, percent, suffix), end='\r')
 	# Print New Line on Complete
 	if iteration == total: 
 		print()
@@ -36,7 +36,7 @@ if __name__ == '__main__':
 		# Do stuff...
 		sleep(0.1)
 		# Update Progress Bar
-		print_progress_bar(i, l, prefix = 'Progress:', suffix = 'Complete', length = 50)
+		print_progress_bar(i, l, prefix='Progress:', suffix='Complete', length=50)
 
 	# Sample Output
 	# Progress: |█████████████████████████████████████████████-----| 90.0% Complete

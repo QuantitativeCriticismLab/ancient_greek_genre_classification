@@ -3,6 +3,7 @@ import sys
 import pickle
 from color import RED, GREEN, YELLOW, RESET
 from textual_feature import decorated_features
+from progress_bar import print_progress_bar
 
 def parse_tess(file_name):
 	from io import StringIO
@@ -32,11 +33,8 @@ def __extract_features(corpus_dir, file_extension, features, output_file):
 
 	print('Extracting features from ' + YELLOW + corpus_dir + os.sep + '*.' + file_extension + RESET)
 
-	if output_file is not None:
-		print('Scanning files', end='')
-		sys.stdout.flush()
-
 	#Feature extraction
+	file_no = 1
 	for file_name in file_names:
 		text_to_features[file_name] = {}
 
@@ -49,11 +47,11 @@ def __extract_features(corpus_dir, file_extension, features, output_file):
 				print(file_name + ', ' + str(feature_name) + ', ' + GREEN + str(score) + RESET)
 
 		if output_file is not None:
-			print(end='.')
-			sys.stdout.flush()
+			print_progress_bar(file_no, len(file_names), prefix='Progress', suffix='(%d of %d files)' % (file_no, len(file_names)))
+			file_no += 1
 
 	if output_file is not None:
-		print('\nFeature mining complete. Attempting to write to "' + output_file + '"')
+		print('Feature mining complete. Attempting to write feature results to "' + YELLOW + output_file + RESET + '"...')
 		with open(output_file, 'wb') as pickle_file:
 			pickle_file.write(pickle.dumps(text_to_features))
 		print(GREEN + 'Success!' + RESET)
