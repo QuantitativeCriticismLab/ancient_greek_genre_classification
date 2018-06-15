@@ -6,6 +6,7 @@ from functools import reduce
 from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from color import RED, GREEN, YELLOW, PURPLE, RESET
+from progress_bar import print_progress_bar
 from collections import Counter
 
 def get_features():
@@ -128,10 +129,12 @@ def random_forest_misclassifications(data, target, file_names, feature_names):
 	print('Features tested: (1-' + str(len(feature_names)) + ')')
 	print()
 
+	trial_num = 1
 	for rf_seed in range(rf_trials):
 		clf = ensemble.RandomForestClassifier(random_state=rf_seed)
 		for kfold_seed in range(kfold_trials):
 			splitter = StratifiedKFold(n_splits=splits, shuffle=True, random_state=kfold_seed)
+			current_fold = 0
 			for train_indices, validate_indices in splitter.split(data, target):
 				features_train, features_validate = data[train_indices], data[validate_indices]
 				labels_train, labels_validate = target[train_indices], target[validate_indices]
@@ -142,6 +145,11 @@ def random_forest_misclassifications(data, target, file_names, feature_names):
 				for i in range(len(results)):
 					if results[i] != expected[i]:
 						misclass_counter[file_names[i]] += 1
+				print_progress_bar(trial_num, rf_trials * kfold_trials * splits, prefix='Progress', \
+					suffix='rf seed: %d, splitter seed: %d, fold: %d' % (rf_seed, kfold_seed, current_fold))
+				trial_num += 1
+				current_fold += 1
+
 
 	print(YELLOW + 'Misclassifications from ' + str(rf_trials * kfold_trials * splits) + \
 		' (' + str(rf_trials) + ' * ' + str(kfold_trials) + ' * ' + str(splits) + ') trials' + RESET)
@@ -166,6 +174,7 @@ def random_forest_feature_rankings(data, target, feature_names):
 		clf = ensemble.RandomForestClassifier(random_state=rf_seed)
 		for kfold_seed in range(kfold_trials):
 			splitter = StratifiedKFold(n_splits=splits, shuffle=True, random_state=kfold_seed)
+			current_fold = 0
 			for train_indices, validate_indices in splitter.split(data, target):
 				features_train, features_validate = data[train_indices], data[validate_indices]
 				labels_train, labels_validate = target[train_indices], target[validate_indices]
@@ -174,6 +183,9 @@ def random_forest_feature_rankings(data, target, feature_names):
 				for t in zip(feature_names, clf.feature_importances_):
 					feature_rankings[t[0]][trial] = t[1]
 				trial += 1
+				print_progress_bar(trial, rf_trials * kfold_trials * splits, prefix='Progress', \
+					suffix='rf seed: %d, splitter seed: %d, fold: %d' % (rf_seed, kfold_seed, current_fold))
+				current_fold += 1
 
 	print(YELLOW + 'Gini averages from ' + str(rf_trials * kfold_trials * splits) + \
 		' (' + str(rf_trials) + ' * ' + str(kfold_trials) + ' * ' + str(splits) + ') trials' + RESET)
