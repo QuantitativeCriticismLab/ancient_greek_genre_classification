@@ -190,38 +190,41 @@ def random_forest_feature_rankings(data, target, feature_names):
 	print(YELLOW + 'Gini averages from ' + str(rf_trials * kfold_trials * splits) + \
 		' (' + str(rf_trials) + ' * ' + str(kfold_trials) + ' * ' + str(splits) + ') trials' + RESET)
 	for t in sorted([(feat, rank) for feat, rank in feature_rankings.items()], key=lambda s: -1 * s[1].mean()):
-		print('\t' + '%.6f +/- standard deviation of %.3f' % (t[1].mean(), t[1].std()) + ': ' + t[0])
+		print('\t' + '%.6f +/- standard deviation of %.4f' % (t[1].mean(), t[1].std()) + ': ' + t[0])
 
 def sample_classifiers(data, target, file_names, feature_names):
 	#Includes all the machine learning classifiers
 	classifiers = [\
-	ensemble.RandomForestClassifier(random_state=0), \
-	svm.SVC(gamma=0.00001, kernel='rbf', random_state=0), \
-	naive_bayes.GaussianNB(priors=None), \
-	neighbors.KNeighborsClassifier(n_neighbors=5), \
-	neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0)]
+		ensemble.RandomForestClassifier(random_state=0), \
+		svm.SVC(gamma=0.00001, kernel='rbf', random_state=0), \
+		naive_bayes.GaussianNB(priors=None), \
+		neighbors.KNeighborsClassifier(n_neighbors=5), \
+		neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0), \
+	]
 	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
 
-	print(RED + 'Miscellaneous machine learning models:\n' + RESET)
+	print(RED + 'Miscellaneous machine learning models:' + RESET)
 
+	tabs = 1
 	for clf in classifiers:
-		print(PURPLE + clf.__class__.__name__ + RESET)
+		print('\n' + PURPLE + '\t' * tabs + clf.__class__.__name__ + RESET)
 
-		#Cross validation
-		scores = cross_val_score(clf, features_train, labels_train, cv=5)
-		print('\t' + YELLOW + 'Cross Validation:' + RESET)
-		print('\tScores: ' + str(scores))
-		print('\tAvg Accuracy: %0.2f (+/- %0.2f)' % (scores.mean(), scores.std() * 2))
+		#Parameters used in creating this classifier
+		print('\t' * (tabs + 1) + 'Parameters: ' + str(clf.get_params()))
+		print()
 
 		#Train & predict classifier
 		clf.fit(features_train, labels_train)
 		results = clf.predict(features_test)
 		expected = labels_test
 
-		display_stats(expected, results, file_names, feature_names, clf, 1)
+		display_stats(expected, results, file_names, feature_names, clf, tabs + 1)
 
-		print('\t' + str(clf.get_params()))
-		print()
+		#Cross validation
+		scores = cross_val_score(clf, features_train, labels_train, cv=5)
+		print('\t' * (tabs + 1) + YELLOW + 'Cross Validation:' + RESET)
+		print('\t' * (tabs + 1) + 'Scores: ' + str(scores))
+		print('\t' * (tabs + 1) + 'Avg Accuracy: %0.2f (+/- %0.2f)' % (scores.mean(), scores.std() * 2))
 
 def main():
 
@@ -250,7 +253,8 @@ def main():
 		reduce(lambda x, y: x + y, \
 		('\t' + str(i) + ': ' + option.func.__name__.replace('_', ' ').capitalize() + '\n'\
 		for i, option in enumerate(menu_options))) \
-		))], number=1)) + RESET)
+		))], number=1)) + RESET
+	)
 
 if __name__ == '__main__':
 	main()

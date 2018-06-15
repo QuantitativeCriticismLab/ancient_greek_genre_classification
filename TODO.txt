@@ -1,5 +1,6 @@
 Revise Google Doc
 Download CLTK linguistics data during running program if necessary, and quantify which languages are supported by CLTK
 Unit test greek features
-Make ml code interactive/use menu
 Inject normalized characters to each feature?
+Update progress bar to accomodate terminal window size (import shutil; shutil.get_terminal_size())
+Decorator for ML functions
