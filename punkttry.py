@@ -5,23 +5,11 @@ import re
 p = PunktLanguageVars()
 w = WordTokenizer('greek')
 
-p._re_word_tokenizer = re.compile(r'''(
-        %(MultiChar)s
-        |
-        (?=%(WordStart)s)\S+?  # Accept word characters until end is found
-        (?= # Sequences marking a word's end
-            \s|                                 # White-space
-            $|                                  # End-of-string
-            %(NonWord)s|%(MultiChar)s|          # Punctuation
-            ,(?=$|\s|%(NonWord)s|%(MultiChar)s) # Comma if at end of word
-        )
-        |
-        \S
-    )''' % {
-        'NonWord': r"(?:[?!.)\";}\]\*:@\'\({\[])", #Incorporates period to exclude from words (PunktLanguageVars includes period)
-        'MultiChar': PunktLanguageVars._re_multi_char_punct,
-        'WordStart': PunktLanguageVars._re_word_start,
-    }, re.UNICODE | re.VERBOSE)
+p._re_word_tokenizer = re.compile(PunktLanguageVars._word_tokenize_fmt % {
+    'NonWord': r"(?:[?!.)\";;}\]\*:@\'\({\[])", #Incorporates period and greek question mark to exclude from word tokens (PunktLanguageVars._re_non_word_chars includes these in word tokens)
+    'MultiChar': PunktLanguageVars._re_multi_char_punct,
+    'WordStart': PunktLanguageVars._re_word_start,
+}, re.UNICODE | re.VERBOSE)
 
 
 s = 'test test test. test test; test test? test test test test test. test. test test. test? test test.'

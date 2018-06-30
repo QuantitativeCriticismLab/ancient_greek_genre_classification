@@ -4,9 +4,9 @@ import pickle
 from color import RED, GREEN, YELLOW, RESET
 from textual_feature import decorated_features
 from progress_bar import print_progress_bar
+from io import StringIO
 
 def parse_tess(file_name):
-	from io import StringIO
 	file_text = StringIO()
 	with open(file_name, mode='r', encoding='utf-8') as file:
 		for line in file:

@@ -1,6 +1,6 @@
 # From https://stackoverflow.com/a/34325723
 
-prev_str_length = None
+__prev_str_length = None
 
 # Print iterations progress
 def print_progress_bar(iteration, total, prefix='', suffix='', decimals=1, length=50, fill='█'):
@@ -19,11 +19,11 @@ def print_progress_bar(iteration, total, prefix='', suffix='', decimals=1, lengt
 	filledLength = int(length * iteration // total)
 	bar = fill * filledLength + '-' * (length - filledLength)
 	s = '%s |%s| %s%% %s' % (prefix, bar, percent, suffix)
-	global prev_str_length
-	if prev_str_length:
-		print(' ' * prev_str_length, end='\r') #Clear out previous bar to prevent lingering characters if current bar is shorter
+	global __prev_str_length
+	if __prev_str_length:
+		print(' ' * __prev_str_length, end='\r') #Clear out previous bar to prevent lingering characters if current bar is shorter
 	print(s, end='\r')
-	prev_str_length = len(s)
+	__prev_str_length = len(s)
 	# Print New Line on Complete
 	if iteration == total: 
 		print()
