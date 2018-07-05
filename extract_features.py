@@ -22,7 +22,7 @@ file_parsers = {\
 	'tess': parse_tess, \
 }
 
-def __extract_features(corpus_dir, file_extension, features, output_file):
+def _extract_features(corpus_dir, file_extension, features, output_file):
 	text_to_features = {} #Associates file names to their respective features
 	file_names = None
 
@@ -73,4 +73,4 @@ def main(corpus_dir, file_extension, features=None, output_file=None):
 	from timeit import timeit
 	from functools import partial
 	print('\n\n' + GREEN + 'Elapsed time: ' + \
-		str(timeit(partial(__extract_features, corpus_dir, file_extension, features, output_file), number=1)) + RESET)
+		str(timeit(partial(_extract_features, corpus_dir, file_extension, features, output_file), number=1)) + RESET)
