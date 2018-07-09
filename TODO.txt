@@ -4,4 +4,5 @@ Unit test greek features
 Inject normalized characters to each feature?
 Update progress bar to accomodate terminal window size (import shutil; shutil.get_terminal_size())
 Decorator for ML functions
-Tryphiodorus was labeled prose but it should be verse
+Tryphiodorus was labeled prose but it should be verse?
+Don't unserialize language pickle file on every sentence tokenization invocation
