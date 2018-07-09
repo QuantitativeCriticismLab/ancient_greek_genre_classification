@@ -67,6 +67,8 @@ turkish.pickle      Turkish             METU Turkish Corpus                Milli
                                         (Türkçe Derlem Projesi)
                                         University of Ankara
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ancient_greek.pickle Ancient Greek      Perseus Project                    Xenophon's Anabasis             ~2348                                Kyle P Johnson
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 The corpora contained about 400,000 tokens on average and mostly consisted of newspaper text converted to
 Unicode using the codecs module.
