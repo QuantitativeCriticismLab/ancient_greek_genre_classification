@@ -11,8 +11,6 @@ file_extension = 'tess'
 file_names = sorted(list({current_path + os.sep + current_file_name for current_path, current_dir_names, current_file_names in \
 os.walk(corpus_dir) for current_file_name in current_file_names if current_file_name.endswith('.' + file_extension)}))
 
-f = open('notes/diff_tokenizers_xeno_tess.txt', mode='w')
-f.write('Differences:\n\n')
 counter = 1
 for file_name in ['tesserae/texts/grc/achilles_tatius.leucippe_et_clitophon.tess']: #file_names:
 	file_text = file_parsers[file_extension](file_name)
