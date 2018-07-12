@@ -23,3 +23,7 @@ for file_name in ['tesserae/texts/grc/achilles_tatius.leucippe_et_clitophon.tess
 		tess_out.write('\n'.join(t_tokens))
 	# print_progress_bar(counter, len(file_names))
 	counter += 1
+
+'''
+I trained Punkt on the entire tesserae corpus (notes/tesserae_greek.pickle). It's performance was actually worse than the tokenizer that was created from training on just Xenophon (tokenizers/ancient_greek.pickle). The tokenizer created from training on just Xenophon does well, except for failing to tokenize sentences where the terminal punctuation is not followed by a space.
+'''

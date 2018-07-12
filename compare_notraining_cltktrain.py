@@ -34,3 +34,15 @@ for file_name in file_names:
 		f.write(file_name + ' 3')
 	print_progress_bar(counter, len(file_names))
 	counter += 1
+
+'''
+It appears that the following three tokenizers produce the same sentence tokenization for every file in the tesserae corpus.
+
+1) No training: PunktSentenceTokenizer()
+
+2) From https://github.com/cltk/greek_models_cltk/blob/master/tokenizers/sentence/greek.pickle: open_pickle('tokenizers/ancient_greek.pickle')
+
+3) From https://github.com/cltk/greek_training_set_sentence_cltk/blob/master/greek.pickle: PunktSentenceTokenizer(open_pickle('notes/kjohnson_greek.pickle').get_params())
+
+After further investigation, it appears that tokenizers (2) and (3) have identical instance variables on their internal PunktParameters object (called _params), and are therefore equivalent. The instance variables compared on the PunktParameters object were abbrev_types, collocations, sent_starters, ortho_context.
+'''

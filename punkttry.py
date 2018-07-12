@@ -47,3 +47,46 @@ for t in d:
 
 
 
+'''
+cltk is not extensible for any language. Word tokenization is limited to certain languages in the constructor even though the tokenize() method isn't restrictive. Even in word.py, they notice this. They write "Necessary? since we have an 'else' in `tokenize`"
+
+def __init__(self, language):
+        """Take language as argument to the class. Check availability and
+        setup class variables."""
+        self.language = language
+        self.available_languages = ['arabic', 
+                                    'french',
+                                    'greek',
+                                    'latin',
+                                    'old_norse']
+        assert self.language in self.available_languages, \
+            "Specific tokenizer not available for '{0}'. Only available for: '{1}'.".format(self.language,  # pylint: disable=line-too-long
+            self.available_languages)  # pylint: disable=line-too-long
+        # ^^^ Necessary? since we have an 'else' in `tokenize`
+
+
+The ancient greek in cltk hasn't even been fully implemented yet. From the doc string: "This is a placeholder function that returns the default NLTK word tokenizer until Greek-specific options are added"
+
+def tokenize_greek_words(text):
+    """
+    Tokenizer divides the string into a list of substrings. This is a placeholder
+    function that returns the default NLTK word tokenizer until
+    Greek-specific options are added.
+    
+    Example:
+    >>> text = 'Θουκυδίδης Ἀθηναῖος ξυνέγραψε τὸν πόλεμον τῶν Πελοποννησίων καὶ Ἀθηναίων,'
+    >>> tokenize_greek_words(text)
+    ['Θουκυδίδης', 'Ἀθηναῖος', 'ξυνέγραψε', 'τὸν', 'πόλεμον', 'τῶν', 'Πελοποννησίων', 'καὶ', 'Ἀθηναίων', ',']
+      
+    :param string: This accepts the string value that needs to be tokenized
+    :returns: A list of substrings extracted from the string
+    """
+    
+    return nltk_tokenize_words(text) # Simplest implementation to start
+
+
+Sentence tokenization seems to be its own area of research in unsupervised learning
+https://dl.acm.org/citation.cfm?id=1245122
+
+Punkt word tokenizer w/ modified regex is superior to cltk word tokenizer in that it removes periods from words even when they are followed by quotes
+'''

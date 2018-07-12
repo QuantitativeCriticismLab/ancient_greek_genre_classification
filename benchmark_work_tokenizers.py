@@ -41,6 +41,11 @@ for file_name in file_names:
 print('punkt_time: ' + str(punkt_time))
 print('cltk_time: ' + str(cltk_time))
 
+'''
+Punkt word tokenizer w/ regex is faster than cltk word tokenizer
 
-
-
+Progress |████████████████████████████████████████| 100.0% 
+Progress |████████████████████████████████████████| 100.0% 
+punkt_time: 16.614718033000827
+cltk_time: 21.181165124173276
+'''
