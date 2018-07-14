@@ -8,3 +8,5 @@ Tryphiodorus was labeled prose but it should be verse?
 Don't unserialize language pickle file on every sentence tokenization invocation
 Uninstall cltk
 Use MIT License?
+Post tesserae parsing issues to their Github
+Use tesserae xenophon training file instead of cltk xenophon training file?
