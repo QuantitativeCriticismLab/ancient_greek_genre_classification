@@ -18,8 +18,8 @@ def parse_tess(file_name):
 			file_text.write(' ')
 	return file_text.getvalue()
 
-file_parsers = {\
-	'tess': parse_tess, \
+file_parsers = {
+	'tess': parse_tess, 
 }
 
 def _extract_features(corpus_dir, file_extension, features, output_file):
@@ -27,7 +27,7 @@ def _extract_features(corpus_dir, file_extension, features, output_file):
 	file_names = None
 
 	#Obtain all the files to parse by traversing through the directory
-	file_names = sorted(list({current_path + os.sep + current_file_name for current_path, current_dir_names, current_file_names in \
+	file_names = sorted(list({current_path + os.sep + current_file_name for current_path, current_dir_names, current_file_names in 
 	os.walk(corpus_dir) for current_file_name in current_file_names if current_file_name.endswith('.' + file_extension)}))
 	feature_tuples = [(name, decorated_features[name]) for name in features]
 
@@ -47,7 +47,7 @@ def _extract_features(corpus_dir, file_extension, features, output_file):
 				print(file_name + ', ' + str(feature_name) + ', ' + GREEN + str(score) + RESET)
 
 		if output_file is not None:
-			print_progress_bar(file_no, len(file_names), prefix='Progress', \
+			print_progress_bar(file_no, len(file_names), prefix='Progress', 
 				suffix='(%d of %d files)' % (file_no, len(file_names)), length=43)
 			file_no += 1
 

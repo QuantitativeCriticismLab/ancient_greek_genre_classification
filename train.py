@@ -12,7 +12,7 @@ from collections import Counter
 def get_features():
 	#Obtain features that were previously mined and serialized into a file
 	text_to_features = None
-	with open(sys.argv[1] if len(sys.argv) > 1 else input('Enter filename to extract feature data: '), \
+	with open(sys.argv[1] if len(sys.argv) > 1 else input('Enter filename to extract feature data: '), 
 			mode='rb') as pickle_file:
 		text_to_features = pickle.loads(pickle_file.read())
 	return text_to_features
@@ -20,7 +20,7 @@ def get_features():
 def get_file_classifications():
 	#Obtain classifications (prose or verse) for each file
 	file_to_isprose = {}
-	with open(sys.argv[2] if len(sys.argv) > 2 else input('Enter filename to extract classification data: '), \
+	with open(sys.argv[2] if len(sys.argv) > 2 else input('Enter filename to extract classification data: '), 
 			mode='r') as classification_file:
 		classification_file.readline()
 		for line in classification_file:
@@ -32,7 +32,7 @@ def get_classifier_data(text_to_features, file_to_isprose, file_names, feature_n
 	data_1d = [text_to_features[file_name][feature] for file_name in file_names for feature in feature_names]
 	data = []
 	for i in range(len(file_names)):
-		data.append([val if str(val) != 'nan' and val != math.inf else 1000 \
+		data.append([val if str(val) != 'nan' and val != math.inf else 1000 
 		for val in data_1d[i * len(feature_names): i * len(feature_names) + len(feature_names)]])
 	target = [file_to_isprose[file_name] for file_name in file_names]
 
@@ -50,10 +50,10 @@ def display_stats(expected, results, file_names, feature_names, clf, tabs=0):
 
 	#Obtain stats
 	num_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] else 0), range(len(results)), 0)
-	num_prose_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] and expected[y] == 1 else 0), \
+	num_prose_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] and expected[y] == 1 else 0), 
 	range(len(results)), 0)
 	num_prose = reduce(lambda x, y: x + (1 if expected[y] == 1 else 0), range(len(results)), 0)
-	num_verse_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] and expected[y] == 0 else 0), \
+	num_verse_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] and expected[y] == 0 else 0), 
 	range(len(results)), 0)
 	num_verse = reduce(lambda x, y: x + (1 if expected[y] == 0 else 0), range(len(results)), 0)
 
@@ -145,13 +145,13 @@ def random_forest_misclassifications(data, target, file_names, feature_names):
 				for i in range(len(results)):
 					if results[i] != expected[i]:
 						misclass_counter[file_names[i]] += 1
-				print_progress_bar(trial_num, rf_trials * kfold_trials * splits, prefix='Progress', \
+				print_progress_bar(trial_num, rf_trials * kfold_trials * splits, prefix='Progress', 
 					suffix='rf seed: %d, splitter seed: %d, fold: %d' % (rf_seed, kfold_seed, current_fold))
 				trial_num += 1
 				current_fold += 1
 
 
-	print(YELLOW + 'Misclassifications from ' + str(rf_trials * kfold_trials * splits) + \
+	print(YELLOW + 'Misclassifications from ' + str(rf_trials * kfold_trials * splits) + 
 		' (' + str(rf_trials) + ' * ' + str(kfold_trials) + ' * ' + str(splits) + ') trials' + RESET)
 	for t in sorted([(val, cnt) for val, cnt in misclass_counter.items()], key=lambda s: -s[1]):
 		print('%4d misclassifications: %s' % (t[1], t[0]))
@@ -183,23 +183,23 @@ def random_forest_feature_rankings(data, target, feature_names):
 				for t in zip(feature_names, clf.feature_importances_):
 					feature_rankings[t[0]][trial] = t[1]
 				trial += 1
-				print_progress_bar(trial, rf_trials * kfold_trials * splits, prefix='Progress', \
+				print_progress_bar(trial, rf_trials * kfold_trials * splits, prefix='Progress', 
 					suffix='rf seed: %d, splitter seed: %d, fold: %d' % (rf_seed, kfold_seed, current_fold))
 				current_fold += 1
 
-	print(YELLOW + 'Gini averages from ' + str(rf_trials * kfold_trials * splits) + \
+	print(YELLOW + 'Gini averages from ' + str(rf_trials * kfold_trials * splits) + 
 		' (' + str(rf_trials) + ' * ' + str(kfold_trials) + ' * ' + str(splits) + ') trials' + RESET)
 	for t in sorted([(feat, rank) for feat, rank in feature_rankings.items()], key=lambda s: -1 * s[1].mean()):
 		print('\t' + '%.6f +/- standard deviation of %.4f' % (t[1].mean(), t[1].std()) + ': ' + t[0])
 
 def sample_classifiers(data, target, file_names, feature_names):
 	#Includes all the machine learning classifiers
-	classifiers = [\
-		ensemble.RandomForestClassifier(random_state=0), \
-		svm.SVC(gamma=0.00001, kernel='rbf', random_state=0), \
-		naive_bayes.GaussianNB(priors=None), \
-		neighbors.KNeighborsClassifier(n_neighbors=5), \
-		neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0), \
+	classifiers = [
+		ensemble.RandomForestClassifier(random_state=0), 
+		svm.SVC(gamma=0.00001, kernel='rbf', random_state=0), 
+		naive_bayes.GaussianNB(priors=None), 
+		neighbors.KNeighborsClassifier(n_neighbors=5), 
+		neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0), 
 	]
 	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
 
@@ -239,20 +239,20 @@ def main():
 	data, target = get_classifier_data(text_to_features, file_to_isprose, file_names, feature_names)
 
 	from functools import partial
-	menu_options = [\
-		partial(random_forest_test, data, target, file_names, feature_names), \
-		partial(random_forest_cross_validation, data, target, file_names, feature_names), \
-		partial(random_forest_misclassifications, data, target, file_names, feature_names), \
-		partial(random_forest_feature_rankings, data, target, feature_names), \
-		partial(sample_classifiers, data, target, file_names, feature_names), \
+	menu_options = [
+		partial(random_forest_test, data, target, file_names, feature_names), 
+		partial(random_forest_cross_validation, data, target, file_names, feature_names), 
+		partial(random_forest_misclassifications, data, target, file_names, feature_names), 
+		partial(random_forest_feature_rankings, data, target, feature_names), 
+		partial(sample_classifiers, data, target, file_names, feature_names), 
 	]
 
 	from timeit import timeit
-	print('\n\n' + GREEN + 'Elapsed time: ' + \
-		str(timeit(menu_options[int(sys.argv[3] if len(sys.argv) > 3 else input('What would you like to do?\n' + \
-		reduce(lambda x, y: x + y, \
-		('\t' + str(i) + ': ' + option.func.__name__.replace('_', ' ').capitalize() + '\n'\
-		for i, option in enumerate(menu_options))) \
+	print('\n\n' + GREEN + 'Elapsed time: ' + 
+		str(timeit(menu_options[int(sys.argv[3] if len(sys.argv) > 3 else input('What would you like to do?\n' + 
+		reduce(lambda x, y: x + y, 
+		('\t' + str(i) + ': ' + option.func.__name__.replace('_', ' ').capitalize() + '\n'
+		for i, option in enumerate(menu_options))) 
 		))], number=1)) + RESET
 	)
 

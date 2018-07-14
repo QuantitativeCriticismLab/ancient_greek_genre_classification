@@ -5,22 +5,22 @@ from io import StringIO
 
 decorated_features = OrderedDict()
 
-tokenize_types = {\
-	'default': {\
-		'func': lambda lang, file: file, \
-		'prev_filename': None, \
-		'tokens': None, \
-	}, \
-	'sentences': {\
-		'func': lambda lang, file: TokenizeSentence(lang).tokenize_sentences(file), \
-		'prev_filename': None, \
-		'tokens': None, \
-	}, \
-	'words': {\
-		'func': lambda lang, file: WordTokenizer(lang).tokenize(file), \
-		'prev_filename': None, \
-		'tokens': None, \
-	}, \
+tokenize_types = {
+	'default': {
+		'func': lambda lang, file: file, 
+		'prev_filename': None, 
+		'tokens': None, 
+	}, 
+	'sentences': {
+		'func': lambda lang, file: TokenizeSentence(lang).tokenize_sentences(file), 
+		'prev_filename': None, 
+		'tokens': None, 
+	}, 
+	'words': {
+		'func': lambda lang, file: WordTokenizer(lang).tokenize(file), 
+		'prev_filename': None, 
+		'tokens': None, 
+	}, 
 }
 
 debug_output = StringIO()

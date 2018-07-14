@@ -40,7 +40,7 @@ def freq_conditional_characters(file):
 def freq_personal_pronouns(file):
 	num_pronouns = 0
 	num_characters = 0
-	personal_pronouns = {'ἐγώ', 'ἐγὼ', 'ἐμοῦ', 'μου', 'ἐμοί', 'ἐμοὶ', 'μοι', 'ἐμέ', 'ἐμὲ', 'με', 'ἡμεῖς', 'ἡμῶν', \
+	personal_pronouns = {'ἐγώ', 'ἐγὼ', 'ἐμοῦ', 'μου', 'ἐμοί', 'ἐμοὶ', 'μοι', 'ἐμέ', 'ἐμὲ', 'με', 'ἡμεῖς', 'ἡμῶν', 
 	'ἡμῖν', 'ἡμᾶς', 'σύ', 'σὺ', 'σοῦ', 'σου', 'σοί', 'σοὶ', 'σοι', 'σέ', 'σὲ', 'σε', 'ὑμεῖς', 'ὑμῶν', 'ὑμῖν', 'ὑμᾶς'}
 	personal_pronouns = personal_pronouns | \
 	{normalize('NFD', val) for val in personal_pronouns} | \
@@ -58,10 +58,10 @@ def freq_personal_pronouns(file):
 def freq_demonstrative(file):
 	num_demonstratives_characters = 0
 	num_characters = 0
-	demonstrative_pronouns = {'ἐκεῖνος', 'ἐκείνου', 'ἐκείνῳ', 'ἐκεῖνον', 'ἐκεῖνοι', 'ἐκείνων', 'ἐκείνοις', 'ἐκείνους', \
-	'ἐκείνη', 'ἐκείνης', 'ἐκείνῃ', 'ἐκείνην', 'ἐκεῖναι', 'ἐκείναις', 'ἐκείνᾱς', 'ἐκείνας', 'ἐκεῖνο', 'ἐκεῖνα', 'ὅδε', \
-	'τοῦδε', 'τῷδε', 'τόνδε', 'οἵδε', 'τῶνδε', 'τοῖσδε', 'τούσδε', 'ἥδε', 'τῆσδε', 'τῇδε', 'τήνδε', 'αἵδε', 'ταῖσδε', \
-	'τᾱ́σδε', 'τάσδε', 'τόδε', 'τάδε', 'οὗτος', 'τούτου', 'τούτῳ', 'τοῦτον', 'οὗτοι', 'τούτων', 'τούτοις', 'τούτους', \
+	demonstrative_pronouns = {'ἐκεῖνος', 'ἐκείνου', 'ἐκείνῳ', 'ἐκεῖνον', 'ἐκεῖνοι', 'ἐκείνων', 'ἐκείνοις', 'ἐκείνους', 
+	'ἐκείνη', 'ἐκείνης', 'ἐκείνῃ', 'ἐκείνην', 'ἐκεῖναι', 'ἐκείναις', 'ἐκείνᾱς', 'ἐκείνας', 'ἐκεῖνο', 'ἐκεῖνα', 'ὅδε', 
+	'τοῦδε', 'τῷδε', 'τόνδε', 'οἵδε', 'τῶνδε', 'τοῖσδε', 'τούσδε', 'ἥδε', 'τῆσδε', 'τῇδε', 'τήνδε', 'αἵδε', 'ταῖσδε', 
+	'τᾱ́σδε', 'τάσδε', 'τόδε', 'τάδε', 'οὗτος', 'τούτου', 'τούτῳ', 'τοῦτον', 'οὗτοι', 'τούτων', 'τούτοις', 'τούτους', 
 	'αὕτη', 'ταύτης', 'ταύτῃ', 'ταύτην', 'αὕται', 'ταύταις', 'ταύτᾱς', 'ταύτας', 'τοῦτο', 'ταῦτα'}
 	demonstrative_pronouns = demonstrative_pronouns | \
 	{normalize('NFD', val) for val in demonstrative_pronouns} | \
@@ -80,7 +80,7 @@ def freq_indefinite_pronoun_in_non_interrogative_sentence(file):
 	num_indefinite_pronoun_chars = 0
 	num_characters = 0
 	interrogative_chars = {';', ';'}
-	pronoun_chars = {'τις', 'τινός', 'τινὸς', 'του', 'τινί', 'τινὶ', 'τῳ', 'τινά', 'τινὰ', 'τινές', 'τινὲς', 'τινῶν', \
+	pronoun_chars = {'τις', 'τινός', 'τινὸς', 'του', 'τινί', 'τινὶ', 'τῳ', 'τινά', 'τινὰ', 'τινές', 'τινὲς', 'τινῶν', 
 	'τισί', 'τισὶ', 'τισίν', 'τισὶν', 'τινάς', 'τινὰς', 'τι'}
 	pronoun_chars = pronoun_chars | \
 	{normalize('NFD', val) for val in pronoun_chars} | \
@@ -101,7 +101,7 @@ def freq_indefinite_pronoun_in_non_interrogative_sentence(file):
 def freq_indefinite_pronoun_in_any_sentence(file):
 	num_indefinite_pronoun_chars = 0
 	num_characters = 0
-	pronoun_chars = {'τις', 'τινός', 'τινὸς', 'του', 'τινί', 'τινὶ', 'τῳ', 'τινά', 'τινὰ', 'τινές', 'τινὲς', 'τινῶν', \
+	pronoun_chars = {'τις', 'τινός', 'τινὸς', 'του', 'τινί', 'τινὶ', 'τῳ', 'τινά', 'τινὰ', 'τινές', 'τινὲς', 'τινῶν', 
 	'τισί', 'τισὶ', 'τισίν', 'τισὶν', 'τινάς', 'τινὰς', 'τι'}
 	pronoun_chars = pronoun_chars | \
 	{normalize('NFD', val) for val in pronoun_chars} | \
@@ -119,7 +119,7 @@ def freq_indefinite_pronoun_in_any_sentence(file):
 def freq_allos(file):
 	num_allos = 0
 	num_characters = 0
-	allos_characters = {'ἄλλος', 'ἄλλη', 'ἄλλο', 'ἄλλου', 'ἄλλῳ', 'ἄλλον', 'ἄλλοι', 'ἄλλων', 'ἄλλοις', 'ἄλλους', \
+	allos_characters = {'ἄλλος', 'ἄλλη', 'ἄλλο', 'ἄλλου', 'ἄλλῳ', 'ἄλλον', 'ἄλλοι', 'ἄλλων', 'ἄλλοις', 'ἄλλους', 
 	'ἄλλης', 'ἄλλῃ', 'ἄλλην', 'ἄλλαι', 'ἄλλᾱς', 'ἄλλας', 'ἄλλα'}
 	allos_characters = allos_characters | \
 	{normalize('NFD', val) for val in allos_characters} | \
@@ -137,8 +137,8 @@ def freq_allos(file):
 def freq_autos(file):
 	num_autos = 0
 	num_characters = 0
-	autos_characters = {'αὐτός', 'αὐτὸς', 'αὐτοῦ', 'αὐτῷ', 'αὐτόν', 'αὐτὸν', 'αὐτοί', 'αὐτοὶ', 'αὐτῶν', 'αὐτοῖς', \
-	'αὐτούς', 'αὐτοὺς', 'αὐτή', 'αὐτὴ', 'αὐτῆς', 'αὐτῇ', 'αὐτήν', 'αὐτὴν', 'αὐταί', 'αὐταὶ', 'αὐταῖς', 'αὐτᾱς', \
+	autos_characters = {'αὐτός', 'αὐτὸς', 'αὐτοῦ', 'αὐτῷ', 'αὐτόν', 'αὐτὸν', 'αὐτοί', 'αὐτοὶ', 'αὐτῶν', 'αὐτοῖς', 
+	'αὐτούς', 'αὐτοὺς', 'αὐτή', 'αὐτὴ', 'αὐτῆς', 'αὐτῇ', 'αὐτήν', 'αὐτὴν', 'αὐταί', 'αὐταὶ', 'αὐταῖς', 'αὐτᾱς', 
 	'αὐτᾱ́ς', 'αὐτάς', 'αὐτὰς', 'αὐτό', 'αὐτὸ', 'αὐτά', 'αὐτὰ'}
 	autos_characters = autos_characters | \
 	{normalize('NFD', val) for val in autos_characters} | \
@@ -157,9 +157,9 @@ def freq_reflexive(file):
 	num_reflexive = 0
 	num_characters = 0
 
-	reflexive_characters = {'ἐμαυτοῦ', 'ἐμαυτῷ', 'ἐμαυτόν', 'ἐμαυτὸν', 'ἐμαυτῆς', 'ἐμαυτῇ', 'ἐμαυτήν', 'ἐμαυτὴν', \
-	'σεαυτοῦ', 'σεαυτῷ', 'σεαυτόν', 'σεαυτὸν', 'σεαυτῆς', 'σεαυτῇ', 'σεαυτήν', 'σεαυτὴν', 'ἑαυτοῦ', 'ἑαυτῷ', 'ἑαυτόν', \
-	'ἑαυτὸν', 'ἑαυτῶν', 'ἑαυτοῖς', 'ἑαυτούς', 'ἑαυτοὺς', 'ἑαυτῆς', 'ἑαυτῇ', 'ἑαυτήν', 'ἑαυτὴν', 'ἑαυταῖς', 'ἑαυτάς', \
+	reflexive_characters = {'ἐμαυτοῦ', 'ἐμαυτῷ', 'ἐμαυτόν', 'ἐμαυτὸν', 'ἐμαυτῆς', 'ἐμαυτῇ', 'ἐμαυτήν', 'ἐμαυτὴν', 
+	'σεαυτοῦ', 'σεαυτῷ', 'σεαυτόν', 'σεαυτὸν', 'σεαυτῆς', 'σεαυτῇ', 'σεαυτήν', 'σεαυτὴν', 'ἑαυτοῦ', 'ἑαυτῷ', 'ἑαυτόν', 
+	'ἑαυτὸν', 'ἑαυτῶν', 'ἑαυτοῖς', 'ἑαυτούς', 'ἑαυτοὺς', 'ἑαυτῆς', 'ἑαυτῇ', 'ἑαυτήν', 'ἑαυτὴν', 'ἑαυταῖς', 'ἑαυτάς', 
 	'ἑαυτὰς', 'ἑαυτό', 'ἑαυτὸ', 'ἑαυτά', 'ἑαυτὰ'}
 	reflexive_characters = reflexive_characters | \
 	{normalize('NFD', val) for val in reflexive_characters} | \
@@ -167,16 +167,16 @@ def freq_reflexive(file):
 	{normalize('NFKD', val) for val in reflexive_characters} | \
 	{normalize('NFKC', val) for val in reflexive_characters}
 
-	bigram_reflexive_characters = {'ἡμῶν': {'αὐτῶν'}, 'ἡμῖν': {'αὐτοῖς', 'αὐταῖς'}, \
-	'ἡμᾶς': {'αὐτούς', 'αὐτοὺς', 'αὐτάς', 'αὐτὰς'}, 'ὑμῶν': {'αὐτῶν'}, 'ὑμῖν': {'αὐτοῖς', 'αὐταῖς'}, \
-	'ὑμᾶς': {'αὐτούς', 'αὐτοὺς', 'αὐτάς', 'αὐτὰς'}, 'σφῶν': {'αὐτῶν'}, 'σφίσιν': {'αὐτοῖς', 'αὐταῖς'}, \
+	bigram_reflexive_characters = {'ἡμῶν': {'αὐτῶν'}, 'ἡμῖν': {'αὐτοῖς', 'αὐταῖς'}, 
+	'ἡμᾶς': {'αὐτούς', 'αὐτοὺς', 'αὐτάς', 'αὐτὰς'}, 'ὑμῶν': {'αὐτῶν'}, 'ὑμῖν': {'αὐτοῖς', 'αὐταῖς'}, 
+	'ὑμᾶς': {'αὐτούς', 'αὐτοὺς', 'αὐτάς', 'αὐτὰς'}, 'σφῶν': {'αὐτῶν'}, 'σφίσιν': {'αὐτοῖς', 'αὐταῖς'}, 
 	'σφᾶς': {'αὐτούς', 'αὐτοὺς', 'αὐτάς', 'αὐτὰς'}}
 	#This is just verbose syntax for normalizing all the keys and values in the dictionary with NFD, NFC, NFKD, & NFKC
 	#The double star (**) unpacking is how dictionaries are merged https://stackoverflow.com/a/26853961/7102572
-	bigram_reflexive_characters = {**bigram_reflexive_characters, \
-	**{normalize('NFD', key): {normalize('NFD', v) for v in val} for key, val in bigram_reflexive_characters.items()}, \
-	**{normalize('NFC', key): {normalize('NFC', v) for v in val} for key, val in bigram_reflexive_characters.items()}, \
-	**{normalize('NFKD', key): {normalize('NFKD', v) for v in val} for key, val in bigram_reflexive_characters.items()}, \
+	bigram_reflexive_characters = {**bigram_reflexive_characters, 
+	**{normalize('NFD', key): {normalize('NFD', v) for v in val} for key, val in bigram_reflexive_characters.items()}, 
+	**{normalize('NFC', key): {normalize('NFC', v) for v in val} for key, val in bigram_reflexive_characters.items()}, 
+	**{normalize('NFKD', key): {normalize('NFKD', v) for v in val} for key, val in bigram_reflexive_characters.items()}, 
 	**{normalize('NFKC', key): {normalize('NFKC', v) for v in val} for key, val in bigram_reflexive_characters.items()}}
 
 	bigram_first_half = None
@@ -225,8 +225,8 @@ def freq_vocative_sentences(file):
 def freq_superlative(file):
 	num_superlative = 0
 	num_characters = 0
-	superlative_ending_characters = ['τατος', 'τάτου', 'τάτῳ', 'τατον', 'τατοι', 'τάτων', \
-	'τάτοις', 'τάτους', 'τάτη', 'τάτης', 'τάτῃ', 'τάτην', 'ταται', \
+	superlative_ending_characters = ['τατος', 'τάτου', 'τάτῳ', 'τατον', 'τατοι', 'τάτων', 
+	'τάτοις', 'τάτους', 'τάτη', 'τάτης', 'τάτῃ', 'τάτην', 'ταται', 
 	'τάταις', 'τάτας', 'τατα']
 	#The endswith() method requires a tuple
 	superlative_ending_characters = tuple(superlative_ending_characters + \
@@ -267,7 +267,7 @@ def non_interoggative_sentence_with_relative_clause(file):
 	num_sentence_with_clause = 0
 	num_non_interrogative_sentence = 0
 	interrogative_chars = (';', ';') #Second character is Greek semi colon
-	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', \
+	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', 
 	'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
 	pronouns = pronouns | \
 	{normalize('NFD', val) for val in pronouns} | \
@@ -290,7 +290,7 @@ def non_interoggative_sentence_with_relative_clause(file):
 def mean_length_relative_clause(file):
 	num_relative_clause = 0
 	sum_length_relative_clause = 0
-	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', \
+	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', 
 	'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
 	pronouns = pronouns | \
 	{normalize('NFD', val) for val in pronouns} | \
@@ -323,7 +323,7 @@ def relative_clause_per_sentence(file):
 	num_relative_pronoun = 0
 	num_non_interrogative_sentence = 0
 	interrogative_chars = (';', ';') #Second character is Greek semi colon
-	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', \
+	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', 
 	'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
 	pronouns = pronouns | \
 	{normalize('NFD', val) for val in pronouns} | \
@@ -504,8 +504,8 @@ def variance_of_sentence_length(file):
 def particles_per_sentence(file):
 	num_particles = 0
 	#Word tokenizer doesn't work well with ellision - apostrophes are removed
-	particles = {'ἄν', 'ἂν', 'ἆρα', 'γε', "γ", "δ", 'δέ', 'δὲ','δή', 'δὴ', 'ἕως', "κ", 'κε', 'κέ', 'κὲ', 'κέν', 'κὲν', \
-	'κεν', 'μά', 'μὰ' 'μέν', 'μὲν', 'μέντοι', 'μή', 'μὴ', 'μήν', 'μὴν', 'μῶν', 'νύ', 'νὺ', 'νυ', 'οὐ', 'οὔ', 'οὒ', 'οὖν', \
+	particles = {'ἄν', 'ἂν', 'ἆρα', 'γε', "γ", "δ", 'δέ', 'δὲ','δή', 'δὴ', 'ἕως', "κ", 'κε', 'κέ', 'κὲ', 'κέν', 'κὲν', 
+	'κεν', 'μά', 'μὰ' 'μέν', 'μὲν', 'μέντοι', 'μή', 'μὴ', 'μήν', 'μὴν', 'μῶν', 'νύ', 'νὺ', 'νυ', 'οὐ', 'οὔ', 'οὒ', 'οὖν', 
 	'περ', 'πω', "τ", 'τε', 'τοι'}
 	particles = particles | \
 	{normalize('NFD', val) for val in particles} | \
@@ -557,13 +557,13 @@ if __name__ == '__main__':
 			raise Exception('Unable to obtain corpus for feature extraction')
 
 	#Feature extractions
-	extract_features.main(\
-		corpus_dir, \
-		'tess', \
+	extract_features.main(
+		corpus_dir, 
+		'tess', 
 
 		#Only extract the following features
-		# features=['freq_men'], \
+		# features=['freq_men'], 
 
 		#Output the results to a file in order to be processed by machine learning algorithms
-		output_file=None if len(sys.argv) <= 1 else sys.argv[1] \
+		output_file=None if len(sys.argv) <= 1 else sys.argv[1] 
 	)
