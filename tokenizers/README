@@ -67,10 +67,12 @@ turkish.pickle      Turkish             METU Turkish Corpus                Milli
                                         (Türkçe Derlem Projesi)
                                         University of Ankara
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-ancient_greek.pickle Ancient Greek      Perseus Project                    Xenophon's Anabasis             ~2348                                Kyle P Johnson
+ancient_greek.pickle Ancient Greek      Original text: Perseus Project     Xenophon's Anabasis             ~2348                                Kyle P Johnson
+                                        Pickle file: CLTK
                                         https://github.com/cltk/
-                                        greek_training_set
-                                        _sentence_cltk
+                                        greek_models_cltk/blob/
+                                        master/tokenizers/
+                                        sentence/greek.pickle
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 The corpora contained about 400,000 tokens on average and mostly consisted of newspaper text converted to
