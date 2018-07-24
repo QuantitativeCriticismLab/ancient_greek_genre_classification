@@ -1,4 +1,5 @@
 import os
+from os.path import join
 from collections import OrderedDict
 
 #Take author labels and assign them to each file by that author
@@ -18,7 +19,7 @@ if not os.path.isdir(greek_text_dir):
 	print("Corpus at " + greek_text_dir + " does not exist - attempting to clone repository...")
 	os.system(tesserae_clone_command)
 
-file_names = sorted([current_path + os.sep + current_file_name for current_path, current_dir_names, current_file_names in \
+file_names = sorted([join(current_path, current_file_name) for current_path, current_dir_names, current_file_names in \
 os.walk(greek_text_dir) for current_file_name in current_file_names if current_file_name.endswith(".tess")])
 
 file_to_isprose = OrderedDict()

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import extract_features
-import os
 import sys
+import os
+from os.path import join
 from textual_feature import textual_feature, decorated_features
 from color import RED, RESET
 from functools import reduce
@@ -549,7 +550,7 @@ def freq_men(file):
 if __name__ == '__main__':
 
 	#Download corpus if non-existent
-	corpus_dir = 'tesserae' + os.sep + 'texts' + os.sep + 'grc'
+	corpus_dir = join('tesserae', 'texts', 'grc')
 	tesserae_clone_command = 'git clone https://github.com/tesserae/tesserae.git'
 	if not os.path.isdir(corpus_dir):
 		print(RED + 'Corpus at ' + corpus_dir + ' does not exist - attempting to clone repository...' + RESET)

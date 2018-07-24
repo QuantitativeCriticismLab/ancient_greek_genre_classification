@@ -1,6 +1,7 @@
-import os
 import sys
 import pickle
+import os
+from os.path import join
 from color import RED, GREEN, YELLOW, RESET
 from textual_feature import decorated_features
 from progress_bar import print_progress_bar
@@ -27,11 +28,11 @@ def _extract_features(corpus_dir, file_extension, features, output_file):
 	file_names = None
 
 	#Obtain all the files to parse by traversing through the directory
-	file_names = sorted(list({current_path + os.sep + current_file_name for current_path, current_dir_names, current_file_names in 
+	file_names = sorted(list({join(current_path, current_file_name) for current_path, current_dir_names, current_file_names in 
 	os.walk(corpus_dir) for current_file_name in current_file_names if current_file_name.endswith('.' + file_extension)}))
 	feature_tuples = [(name, decorated_features[name]) for name in features]
 
-	print('Extracting features from ' + YELLOW + corpus_dir + os.sep + '*.' + file_extension + RESET)
+	print('Extracting features from ' + YELLOW + join(corpus_dir, '*.' + file_extension) + RESET)
 
 	#Feature extraction
 	file_no = 1
