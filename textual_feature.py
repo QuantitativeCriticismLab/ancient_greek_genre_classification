@@ -1,9 +1,28 @@
+import pickle
+import os
+import re
+from os.path import dirname, abspath, join
 from collections import OrderedDict
-from cltk.tokenize.sentence import TokenizeSentence
-from cltk.tokenize.word import WordTokenizer
 from io import StringIO
+from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktLanguageVars
 
 decorated_features = OrderedDict()
+
+sentence_tokenizer_dir = join(dirname(abspath(__file__)), 'tokenizers')
+
+#Read tokenizers from pickle files (also include an untrained tokenizer)
+sentence_tokenizers = dict({None: PunktSentenceTokenizer(lang_vars=PunktLanguageVars())}, **{
+	current_file_name[:current_file_name.index('.')]: pickle.load(open(join(current_path, current_file_name), mode='rb'))
+	for current_path, current_dir_names, current_file_names in os.walk(sentence_tokenizer_dir) 
+	for current_file_name in current_file_names if current_file_name.endswith('.pickle')
+})
+
+word_tokenizer = PunktLanguageVars()
+word_tokenizer._re_word_tokenizer = re.compile(PunktLanguageVars._word_tokenize_fmt % {
+    'NonWord': r"(?:[0-9\.?!\-)）\"“”‘’`··~,«»;;}\]\*\#:@&\'\(（{\[])",
+    'MultiChar': PunktLanguageVars._re_multi_char_punct,
+    'WordStart': r"[^0-9\.?!\-)）\"“”‘’`··~,«»;;}\]\*\#:@&\'\(（{\[]",
+}, re.UNICODE | re.VERBOSE)
 
 tokenize_types = {
 	'default': {
@@ -12,12 +31,12 @@ tokenize_types = {
 		'tokens': None, 
 	}, 
 	'sentences': {
-		'func': lambda lang, file: TokenizeSentence(lang).tokenize_sentences(file), 
+		'func': lambda lang, file: sentence_tokenizers[lang].tokenize(file), 
 		'prev_filename': None, 
 		'tokens': None, 
 	}, 
 	'words': {
-		'func': lambda lang, file: WordTokenizer(lang).tokenize(file), 
+		'func': lambda lang, file: word_tokenizer.word_tokenize(file), 
 		'prev_filename': None, 
 		'tokens': None, 
 	}, 

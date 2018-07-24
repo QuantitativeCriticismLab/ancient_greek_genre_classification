@@ -4,14 +4,14 @@ import extract_features
 import sys
 import os
 from os.path import join
-from textual_feature import textual_feature, decorated_features
+from textual_feature import textual_feature, decorated_features, word_tokenizer
 from color import RED, RESET
 from functools import reduce
 from cltk.tokenize.word import WordTokenizer
 from unicodedata import normalize #the cltk_normalize cannot decompose (only has NFC & NFKC, not NFD or NFKD)
 #Reference: https://jktauber.com/articles/python-unicode-ancient-greek/
 
-@textual_feature('sentences', 'greek')
+@textual_feature('sentences', 'ancient_greek')
 def freq_interrogatives(file):
 	num_interrogative = 0
 
@@ -20,7 +20,7 @@ def freq_interrogatives(file):
 
 	return num_interrogative / len(file)
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_conditional_characters(file):
 	num_conditional_characters = 0
 	num_characters = 0
@@ -37,7 +37,7 @@ def freq_conditional_characters(file):
 
 	return num_conditional_characters / num_characters
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_personal_pronouns(file):
 	num_pronouns = 0
 	num_characters = 0
@@ -55,7 +55,7 @@ def freq_personal_pronouns(file):
 
 	return num_pronouns / num_characters
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_demonstrative(file):
 	num_demonstratives_characters = 0
 	num_characters = 0
@@ -76,7 +76,7 @@ def freq_demonstrative(file):
 
 	return num_demonstratives_characters / num_characters
 
-@textual_feature('sentences', 'greek')
+@textual_feature('sentences', 'ancient_greek')
 def freq_indefinite_pronoun_in_non_interrogative_sentence(file):
 	num_indefinite_pronoun_chars = 0
 	num_characters = 0
@@ -91,14 +91,14 @@ def freq_indefinite_pronoun_in_non_interrogative_sentence(file):
 
 	for line in file:
 		if line[-1] not in interrogative_chars:
-			line = WordTokenizer('greek').tokenize(line)
+			line = word_tokenizer.word_tokenize(line)
 			for word in line:
 				num_indefinite_pronoun_chars += len(word) if word in pronoun_chars else 0
 				num_characters += len(word)
 
 	return num_indefinite_pronoun_chars / num_characters
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_indefinite_pronoun_in_any_sentence(file):
 	num_indefinite_pronoun_chars = 0
 	num_characters = 0
@@ -116,7 +116,7 @@ def freq_indefinite_pronoun_in_any_sentence(file):
 
 	return num_indefinite_pronoun_chars / num_characters
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_allos(file):
 	num_allos = 0
 	num_characters = 0
@@ -134,7 +134,7 @@ def freq_allos(file):
 
 	return num_allos / num_characters
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_autos(file):
 	num_autos = 0
 	num_characters = 0
@@ -153,7 +153,7 @@ def freq_autos(file):
 
 	return num_autos / num_characters
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_reflexive(file):
 	num_reflexive = 0
 	num_characters = 0
@@ -205,7 +205,7 @@ def freq_reflexive(file):
 
 	return num_reflexive / num_characters
 
-@textual_feature('sentences', 'greek')
+@textual_feature('sentences', 'ancient_greek')
 def freq_vocative_sentences(file):
 	num_vocatives = 0
 	vocative_characters = {'ὦ'}
@@ -216,13 +216,13 @@ def freq_vocative_sentences(file):
 	{normalize('NFKC', val) for val in vocative_characters}
 
 	for line in file:
-		line = WordTokenizer('greek').tokenize(line)
+		line = word_tokenizer.word_tokenize(line)
 		for word in line:
 			num_vocatives += 1 if word in vocative_characters else 0
 
 	return num_vocatives / len(file)
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_superlative(file):
 	num_superlative = 0
 	num_characters = 0
@@ -242,7 +242,7 @@ def freq_superlative(file):
 
 	return num_superlative / num_characters
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_conjunction(file):
 	num_conjunction = 0
 	num_characters = 0
@@ -259,11 +259,11 @@ def freq_conjunction(file):
 
 	return num_conjunction / num_characters
 
-@textual_feature('sentences', 'greek')
+@textual_feature('sentences', 'ancient_greek')
 def mean_sentence_length(file):
 	return reduce(lambda x, y: x + len(y), file, 0) / len(file)
 
-@textual_feature('sentences', 'greek')
+@textual_feature('sentences', 'ancient_greek')
 def non_interoggative_sentence_with_relative_clause(file):
 	num_sentence_with_clause = 0
 	num_non_interrogative_sentence = 0
@@ -278,7 +278,7 @@ def non_interoggative_sentence_with_relative_clause(file):
 
 	for line in file:
 		if not line.endswith(interrogative_chars):
-			line = WordTokenizer('greek').tokenize(line)
+			line = word_tokenizer.word_tokenize(line)
 			for word in line:
 				if word in pronouns:
 					num_sentence_with_clause += 1
@@ -287,7 +287,7 @@ def non_interoggative_sentence_with_relative_clause(file):
 
 	return num_sentence_with_clause / num_non_interrogative_sentence
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def mean_length_relative_clause(file):
 	num_relative_clause = 0
 	sum_length_relative_clause = 0
@@ -319,7 +319,7 @@ def mean_length_relative_clause(file):
 	return 0 if num_relative_clause == 0 else sum_length_relative_clause / num_relative_clause
 
 #Count of relative pronouns in non-interrogative sentences / total non-interrogative sentences
-@textual_feature('sentences', 'greek')
+@textual_feature('sentences', 'ancient_greek')
 def relative_clause_per_sentence(file):
 	num_relative_pronoun = 0
 	num_non_interrogative_sentence = 0
@@ -341,7 +341,7 @@ def relative_clause_per_sentence(file):
 	return num_relative_pronoun / num_non_interrogative_sentence
 
 #Count of all standalone instances of ἔπειτα, ὅμως, καίπερ, ἅτε, οἷα
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_circumstantial_participial_clauses(file):
 	num_participles_characters = 0
 	num_characters = 0
@@ -358,7 +358,7 @@ def freq_circumstantial_participial_clauses(file):
 
 	return num_participles_characters / num_characters
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_purpose_clause(file):
 	num_purpose_characters = 0
 	num_characters = 0
@@ -375,7 +375,7 @@ def freq_purpose_clause(file):
 
 	return num_purpose_characters / num_characters
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_ws(file):
 	num_ws_characters = 0
 	num_characters = 0
@@ -393,7 +393,7 @@ def freq_ws(file):
 	return num_ws_characters / num_characters
 
 # Bad feature when result is NaN or infinity
-# @textual_feature('words', 'greek')
+# @textual_feature('words', 'ancient_greek')
 # def ratio_ina_to_opos(file):
 # 	num_ina = 0
 # 	num_opos = 0
@@ -418,7 +418,7 @@ def freq_ws(file):
 
 # 	return math.nan if num_ina == 0 and num_opos == 0 else math.inf if num_opos == 0 else num_ina / num_opos
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_wste_not_preceded_by_eta(file):
 	num_wste_characters = 0
 	num_characters = 0
@@ -444,7 +444,7 @@ def freq_wste_not_preceded_by_eta(file):
 	return num_wste_characters / num_characters
 
 # Only 54 matches across 42 files for regex "(ἤ|ἢ) (\w+ )*?ὥστε" and 33 matches across 27 files for "(ἤ|ἢ) ὥστε"
-# @textual_feature('words', 'greek')
+# @textual_feature('words', 'ancient_greek')
 # def freq_wste_preceded_by_eta(file):
 # 	num_wste_characters = 0
 # 	num_characters = 0
@@ -469,7 +469,7 @@ def freq_wste_not_preceded_by_eta(file):
 
 # 	return num_wste_characters / num_characters
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_temporal_and_causal_clauses(file):
 	num_clause_characters = 0
 	num_characters = 0
@@ -486,7 +486,7 @@ def freq_temporal_and_causal_clauses(file):
 
 	return num_clause_characters / num_characters
 
-@textual_feature('sentences', 'greek')
+@textual_feature('sentences', 'ancient_greek')
 def variance_of_sentence_length(file):
 	num_sentences = 0
 	total_len = 0
@@ -501,7 +501,7 @@ def variance_of_sentence_length(file):
 
 	return squared_difference / num_sentences
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def particles_per_sentence(file):
 	num_particles = 0
 	#Word tokenizer doesn't work well with ellision - apostrophes are removed
@@ -521,7 +521,7 @@ def particles_per_sentence(file):
 	return num_particles / num_sentences
 
 # No interpunct symbols found in the entire tesserae corpus - searched with regex: (·|·|∙|⋅|•|᛫|‧|⦁|⸳|・|ꞏ|･|𐄁)
-# @textual_feature('default', 'greek')
+# @textual_feature('default', 'ancient_greek')
 # def freq_raised_dot(file):
 # 	#Unicode from https://en.wikipedia.org/wiki/Interpunct#Similar_symbols
 # 	#'\u00B7' is '·', '\u0387' is '·', '\u2219' is '∙', '\u22C5' is '⋅', '\u2022' is '•', '\u16EB' is '᛫', '\u2027' is '‧', 
@@ -532,7 +532,7 @@ def particles_per_sentence(file):
 # 		num_dot_chars += 1 if char in dot_chars else 0
 # 	return num_dot_chars / len(file)
 
-@textual_feature('words', 'greek')
+@textual_feature('words', 'ancient_greek')
 def freq_men(file):
 	men_chars = {'μέν', 'μὲν'}
 	men_chars = men_chars | \
