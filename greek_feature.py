@@ -7,8 +7,7 @@ from os.path import join
 from textual_feature import textual_feature, decorated_features, word_tokenizer
 from color import RED, RESET
 from functools import reduce
-from cltk.tokenize.word import WordTokenizer
-from unicodedata import normalize #the cltk_normalize cannot decompose (only has NFC & NFKC, not NFD or NFKD)
+from unicodedata import normalize
 #Reference: https://jktauber.com/articles/python-unicode-ancient-greek/
 
 @textual_feature('sentences', 'ancient_greek')
