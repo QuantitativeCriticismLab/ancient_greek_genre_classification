@@ -26,6 +26,7 @@ def print_progress_bar(iteration, total, prefix='', suffix='', decimals=1, lengt
 	_prev_str_length = len(s)
 	# Print New Line on Complete
 	if iteration == total: 
+		_prev_str_length = None
 		print()
 
 if __name__ == '__main__':

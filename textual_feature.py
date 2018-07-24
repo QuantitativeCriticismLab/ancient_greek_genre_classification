@@ -10,13 +10,15 @@ decorated_features = OrderedDict()
 
 sentence_tokenizer_dir = join(dirname(abspath(__file__)), 'tokenizers')
 
-#Read tokenizers from pickle files (also include an untrained tokenizer)
+#Read tokenizers from pickle files (also include an untrained tokenizer). Mapping from language name to tokenizer
 sentence_tokenizers = dict({None: PunktSentenceTokenizer(lang_vars=PunktLanguageVars())}, **{
 	current_file_name[:current_file_name.index('.')]: pickle.load(open(join(current_path, current_file_name), mode='rb'))
 	for current_path, current_dir_names, current_file_names in os.walk(sentence_tokenizer_dir) 
 	for current_file_name in current_file_names if current_file_name.endswith('.pickle')
 })
 
+#Accessing private variables of PunktLanguageVars because nltk has a faulty design pattern that necessitates it.
+#Issue reported here: https://github.com/nltk/nltk/issues/2068
 word_tokenizer = PunktLanguageVars()
 word_tokenizer._re_word_tokenizer = re.compile(PunktLanguageVars._word_tokenize_fmt % {
     'NonWord': r"(?:[0-9\.?!\-)）\"“”‘’`··~,«»;;}\]\*\#:@&\'\(（{\[])",
@@ -25,7 +27,7 @@ word_tokenizer._re_word_tokenizer = re.compile(PunktLanguageVars._word_tokenize_
 }, re.UNICODE | re.VERBOSE)
 
 tokenize_types = {
-	'default': {
+	None: {
 		'func': lambda lang, file: file, 
 		'prev_filename': None, 
 		'tokens': None, 
@@ -51,8 +53,9 @@ def clear_cache(cache, debug):
 	debug.truncate(0)
 	debug.seek(0)
 
-def textual_feature(tokenize_type, lang, debug=False):
-	assert tokenize_type in tokenize_types, '"' + str(tokenize_type) + '" is not a valid tokenize type'
+def textual_feature(tokenize_type=None, lang=None, debug=False):
+	assert tokenize_type in tokenize_types, '"' + str(tokenize_type) + '" is not a valid tokenize type' #TODO list available options
+	assert lang in sentence_tokenizers, '"' + str(lang) + '" is not an available language' #TODO list available options
 	def decor(f):
 		def wrapper(file, filename=None):
 			if filename:

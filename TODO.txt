@@ -5,3 +5,6 @@ Update progress bar to accomodate terminal window size (import shutil; shutil.ge
 Decorator for ML functions
 Use MIT License?
 Post tesserae parsing issues to their Github
+Give user option to create their own language through training?
+For languages with pickle file, unserialize PunktSentenceTokenizer from pickle file, set the ('_re_period_context', '_re_word_tokenizer') variables with the appropriate punctuation, and then re-pickle so that the user doesn't have to set punctuation themselves everytime
+Find corpora for other languages

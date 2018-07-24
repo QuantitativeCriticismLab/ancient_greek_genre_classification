@@ -9,7 +9,7 @@ from color import RED, GREEN, YELLOW, PURPLE, RESET
 from progress_bar import print_progress_bar
 from collections import Counter
 
-def get_features():
+def _get_features():
 	#Obtain features that were previously mined and serialized into a file
 	text_to_features = None
 	with open(sys.argv[1] if len(sys.argv) > 1 else input('Enter filename to extract feature data: '), 
@@ -17,7 +17,7 @@ def get_features():
 		text_to_features = pickle.loads(pickle_file.read())
 	return text_to_features
 
-def get_file_classifications():
+def _get_file_classifications():
 	#Obtain classifications (prose or verse) for each file
 	file_to_isprose = {}
 	with open(sys.argv[2] if len(sys.argv) > 2 else input('Enter filename to extract classification data: '), 
@@ -228,9 +228,9 @@ def sample_classifiers(data, target, file_names, feature_names):
 
 def main():
 
-	text_to_features = get_features()
+	text_to_features = _get_features()
 
-	file_to_isprose = get_file_classifications()
+	file_to_isprose = _get_file_classifications()
 
 	#Convert features and classifications into sorted lists
 	file_names = sorted([elem for elem in text_to_features.keys()])
