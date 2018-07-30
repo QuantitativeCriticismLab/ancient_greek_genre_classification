@@ -2,7 +2,7 @@ import pickle
 import math
 import numpy as np
 import sys
-from functools import reduce
+from functools import reduce, partial
 from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
 from color import RED, GREEN, YELLOW, PURPLE, RESET
@@ -25,15 +25,14 @@ def _get_file_classifications():
 		classification_file.readline()
 		for line in classification_file:
 			line = line.strip().split(',')
-			file_to_isprose[line[0]] = 1 if line[1] == 'True' else 0
+			file_to_isprose[line[0]] = np.float64(line[1])
 	return file_to_isprose
 
-def get_classifier_data(text_to_features, file_to_isprose, file_names, feature_names):
+def _get_classifier_data(text_to_features, file_to_isprose, file_names, feature_names):
 	data_1d = [text_to_features[file_name][feature] for file_name in file_names for feature in feature_names]
 	data = []
 	for i in range(len(file_names)):
-		data.append([val if str(val) != 'nan' and val != math.inf else 1000 
-		for val in data_1d[i * len(feature_names): i * len(feature_names) + len(feature_names)]])
+		data.append([val for val in data_1d[i * len(feature_names): i * len(feature_names) + len(feature_names)]])
 	target = [file_to_isprose[file_name] for file_name in file_names]
 
 	assert data[-1][-1] == data_1d[-1]
@@ -45,7 +44,7 @@ def get_classifier_data(text_to_features, file_to_isprose, file_names, feature_n
 	target = np.asarray(target)
 	return (data, target)
 
-def display_stats(expected, results, file_names, feature_names, clf, tabs=0):
+def _display_stats(expected, results, file_names, tabs=0):
 	assert len(expected) == len(results)
 
 	#Obtain stats
@@ -86,7 +85,7 @@ def random_forest_test(data, target, file_names, feature_names):
 	tabs = 1
 
 	print('\t' * tabs + YELLOW + 'RF parameters' + RESET + ' = ' + str(clf.get_params()) + '\n')
-	display_stats(expected, results, file_names, feature_names, clf, tabs=tabs)
+	_display_stats(expected, results, file_names, tabs=tabs)
 	print('\t' * tabs + YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
 	for t in sorted(zip(feature_names, clf.feature_importances_), key=lambda s: -s[1]):
 		print('\t' * tabs + '%f: %s' % (t[1], t[0]))
@@ -109,7 +108,7 @@ def random_forest_cross_validation(data, target, file_names, feature_names):
 
 		print()
 		print('\t' * tabs + YELLOW + 'Validate fold ' + str(cur_fold) + ':' + RESET)
-		display_stats(expected, results, file_names, feature_names, clf, tabs=tabs + 1)
+		_display_stats(expected, results, file_names, tabs=tabs + 1)
 		print('\t' * (tabs + 1) + YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
 		for t in sorted(zip(feature_names, clf.feature_importances_), key=lambda s: -s[1]):
 			print('\t' * (tabs + 1) + '%f: %s' % (t[1], t[0]))
@@ -218,7 +217,7 @@ def sample_classifiers(data, target, file_names, feature_names):
 		results = clf.predict(features_test)
 		expected = labels_test
 
-		display_stats(expected, results, file_names, feature_names, clf, tabs + 1)
+		_display_stats(expected, results, file_names, tabs + 1)
 
 		#Cross validation
 		scores = cross_val_score(clf, features_train, labels_train, cv=5)
@@ -232,13 +231,14 @@ def main():
 
 	file_to_isprose = _get_file_classifications()
 
+	assert len(text_to_features.keys() - file_to_isprose.keys()) == 0
+
 	#Convert features and classifications into sorted lists
 	file_names = sorted([elem for elem in text_to_features.keys()])
 	feature_names = sorted(list({feature for feature_to_val in text_to_features.values() for feature in feature_to_val.keys()}))
 
-	data, target = get_classifier_data(text_to_features, file_to_isprose, file_names, feature_names)
+	data, target = _get_classifier_data(text_to_features, file_to_isprose, file_names, feature_names)
 
-	from functools import partial
 	menu_options = [
 		partial(random_forest_test, data, target, file_names, feature_names), 
 		partial(random_forest_cross_validation, data, target, file_names, feature_names), 
