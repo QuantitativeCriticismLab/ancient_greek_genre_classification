@@ -3,7 +3,7 @@ import pickle
 import os
 from os.path import join
 from color import RED, GREEN, YELLOW, RESET
-from textual_feature import decorated_features
+from textual_feature import decorated_features, clear_cache, tokenize_types, debug_output
 from progress_bar import print_progress_bar
 from io import StringIO
 
@@ -52,7 +52,7 @@ def _extract_features(corpus_dir, file_extension, features, output_file):
 				suffix='(%d of %d files)' % (file_no, len(file_names)), length=43)
 			file_no += 1
 
-	#TODO clear_cache
+	clear_cache(tokenize_types, debug_output)
 
 	if output_file is not None:
 		print('Feature mining complete. Attempting to write feature results to "' + YELLOW + output_file + RESET + '"...')

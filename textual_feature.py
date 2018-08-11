@@ -54,8 +54,10 @@ def clear_cache(cache, debug):
 	debug.seek(0)
 
 def textual_feature(tokenize_type=None, lang=None, debug=False):
-	assert tokenize_type in tokenize_types, '"' + str(tokenize_type) + '" is not a valid tokenize type' #TODO list available options
-	assert lang in sentence_tokenizers, '"' + str(lang) + '" is not an available language' #TODO list available options
+	assert tokenize_type in tokenize_types, '"' + str(tokenize_type) + '" is not a valid tokenize type: Choose from among ' + \
+		str(list(tokenize_types.keys()))
+	assert lang in sentence_tokenizers, '"' + str(lang) + '" is not an available language: Choose from among ' + \
+		str(list(sentence_tokenizers.keys()))
 	def decor(f):
 		def wrapper(file, filename=None):
 			if filename:

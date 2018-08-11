@@ -1,4 +1,5 @@
 import sys
+import os
 import pickle
 import numpy as np
 from model_analyzer import decorated_analyzers
@@ -40,6 +41,9 @@ def _get_classifier_data(filename_to_features, filename_to_classification, file_
 	return (data, target)
 
 def main(feature_data_file, classification_data_file):
+	assert os.path.isfile(feature_data_file), 'File "' + feature_data_file + '" does not exist'
+	assert os.path.isfile(classification_data_file), 'File "' + classification_data_file + '" does not exist'
+
 	filename_to_features = _get_features(feature_data_file)
 
 	filename_to_classification = _get_file_classifications(classification_data_file)
@@ -52,7 +56,6 @@ def main(feature_data_file, classification_data_file):
 
 	data, target = _get_classifier_data(filename_to_features, filename_to_classification, file_names, feature_names)
 
-	#TODO Use .join()
 	from timeit import timeit
 	print('\n\n' + GREEN + 'Elapsed time: ' + 
 		str(timeit(partial(decorated_analyzers[sys.argv[3] if len(sys.argv) > 3 else input('What would you like to do?\n' + 

@@ -39,7 +39,7 @@ class TestTextualFeature(unittest.TestCase):
 		clear_cache(tokenize_types, debug_output)
 
 	def test_cache(self):
-		file = 'test test. test test test test test test; test test. test.'
+		file = 'test test. test test test test test test? test test. test.'
 
 		filename = 'abc/def'
 		foo(file, filename)
@@ -65,22 +65,22 @@ class TestTextualFeature(unittest.TestCase):
 			'Cache hit! function: <qux>, filename: abc/jkl\n')
 
 	def test_sentence_tokenization(self):
-		file = 'test test. test test test test test test; test test. test.'
+		file = 'test test. test test test test test test? test test. test.'
 		filename = 'abc/def'
-		self.assertEqual(return_sentences(file, filename), ['test test.', 'test test test test test test;', \
+		self.assertEqual(return_sentences(file, filename), ['test test.', 'test test test test test test?', \
 			'test test.', 'test.'])
 
 	def test_word_tokenization(self):
-		file = 'test test. test test test test test test; test test. test.'
+		file = 'test test. test test test test test test? test test. test.'
 		filename = 'abc/def'
 		self.assertEqual(return_words(file, filename), ['test', 'test', '.', 'test', 'test', 'test', 'test', \
-			'test', 'test', ';', 'test', 'test', '.', 'test', '.'])
+			'test', 'test', '?', 'test', 'test', '.', 'test', '.'])
 
 	def test_loop_over_all_features(self):
-		file = 'test test. test test test test test test; test test. test.'
+		file = 'test test. test test test test test test? test test. test.'
 		filename = 'abc/def'
-		outputs = ['foo', 'bar', 'taz', 'qux', 'rup', 'lon', ['test test.', 'test test test test test test;', \
-			'test test.', 'test.'], ['test', 'test', '.', 'test', 'test', 'test', 'test', 'test', 'test', ';', 'test', \
+		outputs = ['foo', 'bar', 'taz', 'qux', 'rup', 'lon', ['test test.', 'test test test test test test?', \
+			'test test.', 'test.'], ['test', 'test', '.', 'test', 'test', 'test', 'test', 'test', 'test', '?', 'test', \
 			'test', '.', 'test', '.']]
 
 		i = 0
@@ -89,7 +89,7 @@ class TestTextualFeature(unittest.TestCase):
 			i += 1
 
 	def test_no_filename(self):
-		file = 'test test. test test test test test test; test test. test.'
+		file = 'test test. test test test test test test? test test. test.'
 		filename = 'abc/def'
 		self.assertEqual(foo(file, filename), foo(file))
 
