@@ -1,5 +1,5 @@
 Revise Google Doc
-Unit test greek features
+Put setup() in Unit tests
 Inject normalized characters to each feature?
 Update progress bar to accomodate terminal window size (import shutil; shutil.get_terminal_size())
 Decorator for ML functions
@@ -9,3 +9,5 @@ Give user option to create their own language through training?
 For languages with pickle file, unserialize PunktSentenceTokenizer from pickle file, set the ('_re_period_context', '_re_word_tokenizer') variables with the appropriate punctuation, and then re-pickle so that the user doesn't have to set punctuation themselves everytime
 Find corpora for other languages
 Diagnose warning (and specify framework versions in Pipfile as a potential fix?) "/Users/timgianitsos/Git/GreekFeatureExtraction/.venv/lib/python3.6/site-packages/sklearn/ensemble/weight_boosting.py:29: DeprecationWarning: numpy.core.umath_tests is an internal NumPy module and should not be imported. It will be removed in a future NumPy release.""
+Release cached tokenized files when feature extraction is finished (clear_cache() prevent a leak)
+Remove print statements and user input from python files that should go in the pip package?

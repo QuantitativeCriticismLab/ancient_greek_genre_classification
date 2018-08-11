@@ -52,6 +52,8 @@ def _extract_features(corpus_dir, file_extension, features, output_file):
 				suffix='(%d of %d files)' % (file_no, len(file_names)), length=43)
 			file_no += 1
 
+	#TODO clear_cache
+
 	if output_file is not None:
 		print('Feature mining complete. Attempting to write feature results to "' + YELLOW + output_file + RESET + '"...')
 		with open(output_file, 'wb') as pickle_file:

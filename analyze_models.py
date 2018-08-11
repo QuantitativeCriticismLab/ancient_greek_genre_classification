@@ -1,0 +1,61 @@
+import sys
+import pickle
+import numpy as np
+from model_analyzer import decorated_analyzers
+from color import GREEN, RESET
+from functools import partial
+
+def _get_features(feature_data_file):
+	#Obtain features that were previously mined and serialized into a file
+	filename_to_features = None
+	with open(feature_data_file, mode='rb') as pickle_file:
+		filename_to_features = pickle.loads(pickle_file.read())
+	return filename_to_features
+
+def _get_file_classifications(classification_data_file):
+	#Obtain classifications for each file
+	filename_to_classification = {}
+	with open(classification_data_file, mode='r') as classification_file:
+		classification_file.readline()
+		for line in classification_file:
+			line = line.strip().split(',')
+			filename_to_classification[line[0]] = np.float64(line[1])
+	return filename_to_classification
+
+def _get_classifier_data(filename_to_features, filename_to_classification, file_names, feature_names):
+	data_1d = [filename_to_features[file_name][feature] for file_name in file_names for feature in feature_names]
+	data = []
+	for i in range(len(file_names)):
+		data.append([val for val in data_1d[i * len(feature_names): i * len(feature_names) + len(feature_names)]])
+	target = [filename_to_classification[file_name] for file_name in file_names]
+
+	assert data[-1][-1] == data_1d[-1]
+	assert len(data) == len(target)
+	assert len(data) == len(file_names)
+	assert len(feature_names) == len(data[0])
+
+	#Convert lists to numpy arrays so they can be used in the machine learning models
+	data = np.asarray(data)
+	target = np.asarray(target)
+	return (data, target)
+
+def main(feature_data_file, classification_data_file):
+	filename_to_features = _get_features(feature_data_file)
+
+	filename_to_classification = _get_file_classifications(classification_data_file)
+
+	assert len(filename_to_features.keys() - filename_to_classification.keys()) == 0
+
+	#Convert features and classifications into sorted lists
+	file_names = sorted([elem for elem in filename_to_features.keys()])
+	feature_names = sorted(list({feature for feature_to_val in filename_to_features.values() for feature in feature_to_val.keys()}))
+
+	data, target = _get_classifier_data(filename_to_features, filename_to_classification, file_names, feature_names)
+
+	#TODO Use .join()
+	from timeit import timeit
+	print('\n\n' + GREEN + 'Elapsed time: ' + 
+		str(timeit(partial(decorated_analyzers[sys.argv[3] if len(sys.argv) > 3 else input('What would you like to do?\n' + 
+		'\n'.join(('\t' + name for name in decorated_analyzers)) + '\n'
+		)], data, target, file_names, feature_names), number=1)) + RESET
+	)
