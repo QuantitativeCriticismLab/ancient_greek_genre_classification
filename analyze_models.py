@@ -1,4 +1,3 @@
-import sys
 import os
 import pickle
 import numpy as np
@@ -40,9 +39,10 @@ def _get_classifier_data(filename_to_features, filename_to_classification, file_
 	target = np.asarray(target)
 	return (data, target)
 
-def main(feature_data_file, classification_data_file):
+def main(feature_data_file, classification_data_file, model_func=None):
 	assert os.path.isfile(feature_data_file), 'File "' + feature_data_file + '" does not exist'
 	assert os.path.isfile(classification_data_file), 'File "' + classification_data_file + '" does not exist'
+	assert model_func is None or model_func in decorated_analyzers, '"' + model_func + '" is not a decorated model analyzer'
 
 	filename_to_features = _get_features(feature_data_file)
 
@@ -57,8 +57,12 @@ def main(feature_data_file, classification_data_file):
 	data, target = _get_classifier_data(filename_to_features, filename_to_classification, file_names, feature_names)
 
 	from timeit import timeit
-	print('\n\n' + GREEN + 'Elapsed time: ' + 
-		str(timeit(partial(decorated_analyzers[sys.argv[3] if len(sys.argv) > 3 else input('What would you like to do?\n' + 
-		'\n'.join(('\t' + name for name in decorated_analyzers)) + '\n'
-		)], data, target, file_names, feature_names), number=1)) + RESET
-	)
+	if model_func:
+		print('\n\n' + GREEN + 'Elapsed time: ' + 
+			str(timeit(partial(decorated_analyzers[model_func], data, target, file_names, feature_names), number=1)) + RESET
+		)
+	else:
+		for func in decorated_analyzers.values():
+			print('\n\n' + GREEN + 'Elapsed time: ' + 
+				str(timeit(partial(func, data, target, file_names, feature_names), number=1)) + RESET + '\n'
+			)

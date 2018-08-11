@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split, cross_val_score, Stratifie
 from color import RED, GREEN, YELLOW, PURPLE, RESET
 from progress_bar import print_progress_bar
 from collections import Counter
-from model_analyzer import model_analyzer
+from model_analyzer import model_analyzer, decorated_analyzers
 
 def _display_stats(expected, results, file_names, tabs=0):
 	assert len(expected) == len(results)
@@ -199,4 +199,7 @@ if __name__ == '__main__':
 	analyze_models.main(
 		sys.argv[1] if len(sys.argv) > 1 else input('Enter filename to extract feature data: '), 
 		sys.argv[2] if len(sys.argv) > 2 else input('Enter filename to extract classification data: '), 
+		sys.argv[3] if len(sys.argv) > 3 else input('What would you like to do?\n' + 
+		'\n'.join(('\t' + name for name in decorated_analyzers)) + '\n'
+		)
 	)
