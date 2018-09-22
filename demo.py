@@ -2,6 +2,7 @@
 '''
 0) Setup (only necessary for demo if first run through)
 '''
+
 import os
 if not os.path.isdir('demo_files'):
 	os.system('mkdir demo_files')
@@ -12,12 +13,12 @@ if not os.path.isdir('demo_files'):
 	os.system('cp ' + os.path.join(grc_dir, 'aristotle.metaphysics.tess') + ' demo_files')
 	os.system('cp ' + os.path.join(grc_dir, 'euripides.heracles.tess') + ' demo_files')
 	os.system('cp ' + os.path.join(grc_dir, 'plato.respublica.tess') + ' demo_files')
-	f = open('demo_files/classifications.csv', mode='w')
+	f = open(os.path.join('demo_files', 'classifications.csv'), mode='w')
 	f.write('Filename,Is Prose?\n')
-	f.write('demo_files/aristophanes.ecclesiazusae.tess,0\n')
-	f.write('demo_files/aristotle.metaphysics.tess,1\n')
-	f.write('demo_files/euripides.heracles.tess,0\n')
-	f.write('demo_files/plato.respublica.tess,1\n')
+	f.write(os.path.join('demo_files', 'aristophanes.ecclesiazusae.tess') + ',0\n')
+	f.write(os.path.join('demo_files', 'aristotle.metaphysics.tess') + ',1\n')
+	f.write(os.path.join('demo_files', 'euripides.heracles.tess') + ',0\n')
+	f.write(os.path.join('demo_files', 'plato.respublica.tess') + ',1\n')
 	f.close()
 
 #************************************************************************************************************************
@@ -56,7 +57,7 @@ abbreviation in a corpus, the utility of specifying the language will be margina
 
 Use extract_features.main to run all the functions labeled with the decorators, and output results into a file
 
-extract_features.main(corpus_dir='demo_files/', file_extension='tess', output_file='demo_files/output.pickle')
+extract_features.main(corpus_dir='demo_files', file_extension='tess', output_file=os.path.join('demo_files', 'output.pickle'))
 
 corpus_dir - the directory to search for files containing texts, this will traverse all sub-directories as well
 file_extension - restrict search to only files with this extension, handles parsing out of unnecessary tags, 
@@ -88,15 +89,15 @@ def num_interrogatives(file): #parameter must be the text of a file
 	return file.count(';')
 
 
-extract_features.main(corpus_dir='demo_files/', file_extension='tess', output_file='demo_files/output.pickle')
+extract_features.main(corpus_dir='demo_files', file_extension='tess', output_file=os.path.join('demo_files', 'output.pickle'))
 '''
-Extracting features from demo_files/*.tess
+Extracting features from .tess files in demo_files
 Progress |███████████████████████████████████████████| 100.0% (4 of 4 files)
 Feature mining complete. Attempting to write feature results to "demo_files/output.pickle"...
 Success!
 
 
-Elapsed time: 1.2683566649793647
+Elapsed time: 1.262120753992349
 '''
 
 #************************************************************************************************************************

@@ -564,6 +564,9 @@ if __name__ == '__main__':
 		corpus_dir, 
 		'tess', 
 
+		#Exclude the following directories and files
+		# excluded_paths=[join('tesserae', 'texts', 'grc', 'epictetus.fragments.tess'), join('tesserae', 'texts', 'grc', 'homer.iliad') + os.sep],
+
 		#Only extract the following features
 		# features=['freq_men'], 
 
