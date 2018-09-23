@@ -4,7 +4,7 @@ from collections import OrderedDict
 
 #Take author labels and assign them to each file by that author
 
-tesserae_clone_command = "git clone https://github.com/tesserae/tesserae.git"
+tesserae_clone_command = "git clone https://github.com/timgianitsos/tesserae.git"
 greek_text_dir = "tesserae/texts/grc"
 
 author_to_isprose = {}

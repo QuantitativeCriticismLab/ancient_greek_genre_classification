@@ -553,7 +553,7 @@ if __name__ == '__main__':
 
 	#Download corpus if non-existent
 	corpus_dir = join('tesserae', 'texts', 'grc')
-	tesserae_clone_command = 'git clone https://github.com/tesserae/tesserae.git'
+	tesserae_clone_command = 'git clone https://github.com/timgianitsos/tesserae.git'
 	if not os.path.isdir(corpus_dir):
 		print(RED + 'Corpus at ' + corpus_dir + ' does not exist - attempting to clone repository...' + RESET)
 		if os.system(tesserae_clone_command) is not 0:

@@ -75,7 +75,9 @@ def _extract_features(corpus_dir, file_extension, excluded_paths, features, outp
 			pickle_file.write(pickle.dumps(text_to_features))
 		print(GREEN + 'Success!' + RESET)
 
-# excluded_paths must be a set, and it can contain files or directories (the directories must end in a file separator e.g. slash)
+# file_extension must not include the dot ('.')
+# If excluded_paths is given, it must be a set and it can contain files or directories (the directories must 
+# end in a file separator e.g. slash on Mac or Linux and backslash on Windows)
 def main(corpus_dir, file_extension, excluded_paths=None, features=None, output_file=None):
 	if features is None:
 		features = decorated_features.keys()
@@ -96,4 +98,6 @@ def main(corpus_dir, file_extension, excluded_paths=None, features=None, output_
 	from timeit import timeit
 	from functools import partial
 	print('\n\n' + GREEN + 'Elapsed time: ' + \
-		str(timeit(partial(_extract_features, corpus_dir, file_extension, excluded_paths, features, output_file), number=1)) + RESET)
+		str(timeit(
+			partial(_extract_features, corpus_dir, file_extension, excluded_paths, features, output_file), number=1)) + RESET
+		)

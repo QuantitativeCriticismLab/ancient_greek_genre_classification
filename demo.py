@@ -7,7 +7,7 @@ import os
 if not os.path.isdir('demo_files'):
 	os.system('mkdir demo_files')
 	if not os.path.isdir('tesserae'):
-		os.system('git clone https://github.com/tesserae/tesserae.git')
+		os.system('git clone https://github.com/timgianitsos/tesserae.git')
 	grc_dir = os.path.join('tesserae', 'texts', 'grc')
 	os.system('cp ' + os.path.join(grc_dir, 'aristophanes.ecclesiazusae.tess') + ' demo_files')
 	os.system('cp ' + os.path.join(grc_dir, 'aristotle.metaphysics.tess') + ' demo_files')

@@ -25,7 +25,7 @@ prose_file.write('Ancient Greek Prose Data\n')
 verse_file = open('verse_data.csv', mode='w')
 verse_file.write('Ancient Greek Verse Data\n')
 for f in (prose_file, verse_file):
-	f.write('Data: https://github.com/tesserae/tesserae/tree/master/texts/grc,Project: https://www.qcrit.org,Author: Tim Gianitsos (tgianitsos@yahoo.com),Repo (Private): https://github.com/jdexter476/ProseVerseClassification.git,Commit: 79b6ffd129e13539ffa1c0eb6928e24852eb8ef1,Note: Frequencies are per-character\n')
+	f.write('Data: https://github.com/timgianitsos/tesserae/tree/master/texts/grc,Project: https://www.qcrit.org,Author: Tim Gianitsos (tgianitsos@yahoo.com),Repo (Private): https://github.com/jdexter476/ProseVerseClassification.git,Commit: 79b6ffd129e13539ffa1c0eb6928e24852eb8ef1,Note: Frequencies are per-character\n')
 	f.write('File name,' + ','.join(feature_names) + '\n')
 
 for i in range(len(data)):
