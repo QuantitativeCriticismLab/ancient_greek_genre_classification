@@ -242,7 +242,6 @@ tesserae/texts/grc/galen.natural_faculties.tess,1
 tesserae/texts/grc/galen.natural_faculties/galen.natural_faculties.part.1.tess,1
 tesserae/texts/grc/galen.natural_faculties/galen.natural_faculties.part.2.tess,1
 tesserae/texts/grc/galen.natural_faculties/galen.natural_faculties.part.3.tess,1
-tesserae/texts/grc/galen.natural_faculties/galen.natural_faculties.tess,1
 tesserae/texts/grc/herodotus.histories.tess,1
 tesserae/texts/grc/herodotus.histories/herodotus.histories.part.1.tess,1
 tesserae/texts/grc/herodotus.histories/herodotus.histories.part.2.tess,1
@@ -570,7 +569,6 @@ tesserae/texts/grc/plato.parmenides.tess,1
 tesserae/texts/grc/plato.phaedo.tess,1
 tesserae/texts/grc/plato.phaedrus.tess,1
 tesserae/texts/grc/plato.philebus.tess,1
-tesserae/texts/grc/plato.politicus.tess,1
 tesserae/texts/grc/plato.protagoras.tess,1
 tesserae/texts/grc/plato.respublica.tess,1
 tesserae/texts/grc/plato.respublica/plato.respublica.part.1.tess,1
@@ -639,8 +637,6 @@ tesserae/texts/grc/plutarch.comparison_of_sertorius_and_eumenes.tess,1
 tesserae/texts/grc/plutarch.comparison_of_solon_and_publicola.tess,1
 tesserae/texts/grc/plutarch.comparison_of_theseus_and_romulus.tess,1
 tesserae/texts/grc/plutarch.comparison_of_timoleon_and_aemilius.tess,1
-tesserae/texts/grc/plutarch.compendium_argumenti_stoicos_absurdiora_poetis_dicere.tess,1
-tesserae/texts/grc/plutarch.compendium_libri_de_animae_procreatione_in_timaeo.tess,1
 tesserae/texts/grc/plutarch.conjugalia_praecepta.tess,1
 tesserae/texts/grc/plutarch.consolatio_ad_apollonium.tess,1
 tesserae/texts/grc/plutarch.consolatio_ad_uxorem.tess,1
@@ -726,38 +722,6 @@ tesserae/texts/grc/plutarch.tiberius_gracchus.tess,1
 tesserae/texts/grc/plutarch.timoleon.tess,1
 tesserae/texts/grc/plutarch.titus_flamininus.tess,1
 tesserae/texts/grc/plutarch.vitae_decem_oratorum.tess,1
-tesserae/texts/grc/plutarch/plutarch.adversus_colotem.tess,1
-tesserae/texts/grc/plutarch/plutarch.aemilius_paulus.tess,1
-tesserae/texts/grc/plutarch/plutarch.agesilaus.tess,1
-tesserae/texts/grc/plutarch/plutarch.agis.tess,1
-tesserae/texts/grc/plutarch/plutarch.alcibiades.tess,1
-tesserae/texts/grc/plutarch/plutarch.alexander.tess,1
-tesserae/texts/grc/plutarch/plutarch.amatoriae_narrationes.tess,1
-tesserae/texts/grc/plutarch/plutarch.amatorius.tess,1
-tesserae/texts/grc/plutarch/plutarch.de_alexandri_magni_fortuna_aut_virtute.tess,1
-tesserae/texts/grc/plutarch/plutarch.de_amicorum_multitudine.tess,1
-tesserae/texts/grc/plutarch/plutarch.de_amore_prolis.tess,1
-tesserae/texts/grc/plutarch/plutarch.de_animae_procreatione_in_timaeo.tess,1
-tesserae/texts/grc/plutarch/plutarch.de_capienda_ex_inimicis_utilitate.tess,1
-tesserae/texts/grc/plutarch/plutarch.de_cohibenda_ira.tess,1
-tesserae/texts/grc/plutarch/plutarch.de_communibus_notitiis_adversus_stoicos .tess,1
-tesserae/texts/grc/plutarch/plutarch.de_cupiditate_divitiarum.tess,1
-tesserae/texts/grc/plutarch/plutarch.de_curiositate.tess,1
-tesserae/texts/grc/plutarch/plutarch.parallela_minora .tess,1
-tesserae/texts/grc/plutarch/plutarch.pelopidas.tess,1
-tesserae/texts/grc/plutarch/plutarch.pericles.tess,1
-tesserae/texts/grc/plutarch/plutarch.philopoemen.tess,1
-tesserae/texts/grc/plutarch/plutarch.phocion.tess,1
-tesserae/texts/grc/plutarch/plutarch.pompey.tess,1
-tesserae/texts/grc/plutarch/plutarch.praecepta_gerendae_reipublicae.tess,1
-tesserae/texts/grc/plutarch/plutarch.publicola.tess,1
-tesserae/texts/grc/plutarch/plutarch.quaestiones_convivales.tess,1
-tesserae/texts/grc/plutarch/plutarch.questiones_graecae.tess,1
-tesserae/texts/grc/plutarch/plutarch.questiones_romanae.tess,1
-tesserae/texts/grc/plutarch/plutarch.quomodo_adolescens_poetas_audire_debeat.tess,1
-tesserae/texts/grc/plutarch/plutarch.quomodo_adulator_ab_amico_internoscatur.tess,1
-tesserae/texts/grc/plutarch/plutarch.quomodo_quis_suos_in_virtute_sentiat_profectus.tess,1
-tesserae/texts/grc/plutarch/plutarch_amatorius.tess,1
 tesserae/texts/grc/polybius.histories.tess,1
 tesserae/texts/grc/pseudo_plutarch.de_musica.tess,1
 tesserae/texts/grc/pseudo_plutarch.placita_philosophorum.tess,1

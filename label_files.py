@@ -12,7 +12,7 @@ with open("author_labels.txt", mode="r") as file:
 	for line in file:
 		line = line.strip().split(" - ")
 		assert line[1] == 'p' or line[1] == 'v'
-		author_to_isprose[line[0].lower().replace(' ', '_')] = line[1] == 'p'
+		author_to_isprose[line[0].lower().replace(' ', '_')] = 1 if line[1] == 'p' else 0
 
 #Download corpus if non-existent
 if not os.path.isdir(greek_text_dir):
