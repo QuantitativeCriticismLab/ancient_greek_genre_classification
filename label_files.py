@@ -25,7 +25,7 @@ os.walk(greek_text_dir) for current_file_name in current_file_names if current_f
 file_to_isprose = OrderedDict()
 
 for file in file_names:
-	index_of_filename = file.rindex('/') + 1
+	index_of_filename = file.rindex(os.sep) + 1
 	author = file[index_of_filename: file.index('.', index_of_filename)]
 	isprose = author_to_isprose[author]
 	file_to_isprose[file] = isprose

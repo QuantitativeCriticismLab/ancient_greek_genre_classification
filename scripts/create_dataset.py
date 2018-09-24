@@ -1,8 +1,38 @@
+import os
 import numpy as np
 import pickle
 from analyze_models import _get_features, _get_file_classifications, _get_classifier_data
 
-feature_data_file = 'ut_dataset.pickle'
+feature_data_file = 'notes/feature_data.pickle'
+
+if not os.path.isfile(feature_data_file):
+	#Download corpus if non-existent
+	corpus_dir = os.path.join('tesserae', 'texts', 'grc')
+	tesserae_clone_command = 'git clone https://github.com/timgianitsos/tesserae.git'
+	if not os.path.isdir(corpus_dir):
+		print(RED + 'Corpus at ' + corpus_dir + ' does not exist - attempting to clone repository...' + RESET)
+		if os.system(tesserae_clone_command) is not 0:
+			raise Exception('Unable to obtain corpus for feature extraction')
+
+
+	from greek_features import composite_files_to_exclude
+	import extract_features
+	#Feature extractions
+	extract_features.main(
+		corpus_dir, 
+		'tess', 
+
+		#Exclude the following directories and files
+		excluded_paths=composite_files_to_exclude,
+
+		#Only extract the following features
+		# features=['freq_men'], 
+
+		#Output the results to a file in order to be processed by machine learning algorithms
+		output_file=feature_data_file
+	)
+
+
 classification_data_file = 'classifications.csv'
 
 filename_to_features = _get_features(feature_data_file)
@@ -19,17 +49,17 @@ data, target = _get_classifier_data(filename_to_features, filename_to_classifica
 
 assert len(data) == len(target) == len(file_names)
 
-#TODO Put labels, put, commit message, ensure data integrity
+git_hash = os.popen('git rev-parse HEAD').read().strip()
 prose_file = open('prose_data.csv', mode='w')
 prose_file.write('Ancient Greek Prose Data\n')
 verse_file = open('verse_data.csv', mode='w')
 verse_file.write('Ancient Greek Verse Data\n')
 for f in (prose_file, verse_file):
-	f.write('Data: https://github.com/timgianitsos/tesserae/tree/master/texts/grc,Project: https://www.qcrit.org,Author: Tim Gianitsos (tgianitsos@yahoo.com),Repo (Private): https://github.com/jdexter476/ProseVerseClassification.git,Commit: 79b6ffd129e13539ffa1c0eb6928e24852eb8ef1,Note: Frequencies are per-character\n')
+	f.write('Data: https://github.com/timgianitsos/tesserae/tree/master/texts/grc,Project: https://www.qcrit.org,Author: Tim Gianitsos (tgianitsos@yahoo.com),Repo (Private): https://github.com/jdexter476/ProseVerseClassification.git,Commit: ' + git_hash + ',Note: Frequencies are per-character\n')
 	f.write('File name,' + ','.join(feature_names) + '\n')
 
 for i in range(len(data)):
 	f = prose_file if filename_to_classification[file_names[i]] == np.float64(1) else verse_file
-	f.write(file_names[i][file_names[i].rindex('/') + 1:] + ',' + ','.join(str(e) for e in data[i]) + '\n')
+	f.write(file_names[i][file_names[i].rindex(os.sep) + 1:] + ',' + ','.join(str(e) for e in data[i]) + '\n')
 
 print('Success!')

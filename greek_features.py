@@ -549,6 +549,39 @@ def freq_men(file):
 		num_characters += 1
 	return num_men / num_characters
 
+#These files are composites of files that already exist in parts
+composite_files_to_exclude = {
+	'tesserae/texts/grc/antiphon.speeches.tess',
+	'tesserae/texts/grc/apollonius.argonautica.tess',
+	'tesserae/texts/grc/appian.civil_wars.tess',
+	'tesserae/texts/grc/dionysius_halicarnassensis.antiquitates_romanae.tess',
+	'tesserae/texts/grc/eusebius_caesarea.historia_ecclesiastica.tess',
+	'tesserae/texts/grc/flavius_josephus.antiquitates_judaicae.tess',
+	'tesserae/texts/grc/flavius_josephus.contra_apionem.tess',
+	'tesserae/texts/grc/flavius_josephus.de_bello_judaico_libri_vii.tess',
+	'tesserae/texts/grc/galen.natural_faculties.tess',
+	'tesserae/texts/grc/herodotus.histories.tess',
+	'tesserae/texts/grc/homer.iliad.tess',
+	'tesserae/texts/grc/homer.odyssey.tess',
+	'tesserae/texts/grc/hyperides.speeches.tess',
+	'tesserae/texts/grc/isaeus.speeches.tess',
+	'tesserae/texts/grc/isocrates.letters.tess',
+	'tesserae/texts/grc/isocrates.speeches.tess',
+	'tesserae/texts/grc/lysias.speeches.tess',
+	'tesserae/texts/grc/nonnus_of_panopolis.dionysiaca.tess',
+	'tesserae/texts/grc/oppian.halieutica.tess',
+	'tesserae/texts/grc/oppian_of_apamea.cynegetica.tess',
+	'tesserae/texts/grc/pausanias.description_of_greece.tess',
+	'tesserae/texts/grc/philostratus_the_athenian.vita_apollonii.tess',
+	'tesserae/texts/grc/pindar.odes.tess',
+	'tesserae/texts/grc/plato.epistles.tess',
+	'tesserae/texts/grc/plato.leges.tess',
+	'tesserae/texts/grc/plato.respublica.tess',
+	'tesserae/texts/grc/quintus_smyrnaeus.fall_of_troy.tess',
+	'tesserae/texts/grc/strabo.geography.tess',
+	'tesserae/texts/grc/thucydides.peleponnesian_war.tess',
+}
+
 if __name__ == '__main__':
 
 	#Download corpus if non-existent
@@ -565,7 +598,7 @@ if __name__ == '__main__':
 		'tess', 
 
 		#Exclude the following directories and files
-		# excluded_paths=[join('tesserae', 'texts', 'grc', 'epictetus.fragments.tess'), join('tesserae', 'texts', 'grc', 'homer.iliad') + os.sep],
+		excluded_paths=composite_files_to_exclude,
 
 		#Only extract the following features
 		# features=['freq_men'], 
