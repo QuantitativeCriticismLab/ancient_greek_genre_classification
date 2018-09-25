@@ -545,8 +545,8 @@ def freq_men(file):
 	num_men = 0
 	num_characters = 0
 	for word in file:
-		num_men += 1 if word in men_chars else 0
-		num_characters += 1
+		num_men += len(word) if word in men_chars else 0
+		num_characters += len(word)
 	return num_men / num_characters
 
 #These files are composites of files that already exist in parts

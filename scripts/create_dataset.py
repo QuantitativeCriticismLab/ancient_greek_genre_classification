@@ -56,7 +56,7 @@ verse_file = open('verse_data.csv', mode='w')
 verse_file.write('Ancient Greek Verse Data\n')
 for f in (prose_file, verse_file):
 	f.write('Data: https://github.com/timgianitsos/tesserae/tree/master/texts/grc,Project: https://www.qcrit.org,Author: Tim Gianitsos (tgianitsos@yahoo.com),Repo (Private): https://github.com/jdexter476/ProseVerseClassification.git,Commit: ' + git_hash + ',Note: Frequencies are per-character\n')
-	f.write('File name,' + ','.join(feature_names) + '\n')
+	f.write('file name,' + ','.join(feature_names) + '\n')
 
 for i in range(len(data)):
 	f = prose_file if filename_to_classification[file_names[i]] == np.float64(1) else verse_file
