@@ -1,4 +1,5 @@
-from nltk.tokenize.punkt import PunktLanguageVars
+from textual_feature import sentence_tokenizers
+from nltk.tokenize.punkt import PunktLanguageVars, PunktSentenceTokenizer
 import re
 
 p = PunktLanguageVars()
@@ -27,3 +28,27 @@ s = "διόπερ οὐχ ὁρῶν ποίαν ἄν τις ὀξυ�
 print(p.word_tokenize(s))
 print()
 
+
+
+#Sentence Tokenization
+
+s = 'a b c. "a b c". a b c. "a b c." a b c. “a b c”. a b c. “a b c.” a b c.'
+print('\n'.join(PunktSentenceTokenizer(lang_vars=PunktLanguageVars()).tokenize(s)))
+print()
+
+s = 'a b c. "a b c". a b c. "a b c." a b c. “a b c”. a b c. “a b c.” a b c.'
+PunktLanguageVars.re_boundary_realignment = re.compile(r'["”\')\]}]+?(?:\s+|(?=--)|$)', re.MULTILINE)
+p = PunktLanguageVars()
+p._re_word_tokenizer = re.compile(PunktLanguageVars._word_tokenize_fmt % {
+    'NonWord': r"(?:[0-9\-)）\"“”‘’`··~,«»;;}\]\*\#:@&\'\(（{\[])",
+    'MultiChar': PunktLanguageVars._re_multi_char_punct,
+    'WordStart': r"[^0-9\-)）\"“”‘’`··~,«»;;}\]\*\#:@&\'\(（{\[]",
+}, re.UNICODE | re.VERBOSE)
+p._re_period_context = re.compile(PunktLanguageVars._period_context_fmt % {
+    'NonWord': r"(?:[0-9\-)）\"“”‘’`··~,«»;;}\]\*\#:@&\'\(（{\[])",
+    'SentEndChars': PunktLanguageVars._re_sent_end_chars,
+},
+re.UNICODE | re.VERBOSE)
+tok = PunktSentenceTokenizer(lang_vars=p)
+print('\n'.join(tok.tokenize(s)))
+print()
