@@ -45,5 +45,18 @@ class TestGreekFeatures(unittest.TestCase):
 		expected = reduce(lambda cur_sum, val: cur_sum + (val - mean) ** 2, vals, 0) / len(vals)
 		self.assertEqual(expected, result)
 
+	def test_relative_clause_per_sentence1(self):
+		file = 'ὅς αφνιοςε ςοεφπκ. ὃ ςενςεο; ΝΕΣΟΝΦΕΙΝΟΣΙ ὧν αἷς. ὧν. νψςειοιοςνφψλε. ἥ ἥ ἥ ἥ ἥ.'
+		result = relative_clause_per_sentence(file)
+		expected = 9 / 5
+		self.assertEqual(expected, result)
+
+	def test_freq_interrogatives1(self):
+		file = 'a b ccccccc. aaafew aaedwp bbdinwe; bnoirenfiob; ads ofiihwio; freino. daieof; frinoe.'
+		#TODO GREEK question doesn't work 'a b ccccccc. aaafew aaedwp bbdinwe; bnoirenfiob; ads ofiihwio; freino. daieof; frinoe.'
+		result = freq_interrogatives(file)
+		expected = 4 / 7
+		self.assertEqual(expected, result)
+
 if __name__ == '__main__':
 	unittest.main()

@@ -13,12 +13,12 @@ from unicodedata import normalize
 
 PunktLanguageVars.sent_end_chars = ('.', ';', ';') #'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
 
-@textual_feature('sentences', 'ancient_greek')
+@textual_feature('sentence_words', 'ancient_greek')
 def freq_interrogatives(file):
 	num_interrogative = 0
-
+	interrogative_chars = {';', ';'}
 	for line in file:
-		num_interrogative += line.count(';') + line.count(';')
+		num_interrogative += reduce(lambda cur_count, word: cur_count + 1 if word in interrogative_chars else 0, line, 0)
 
 	return num_interrogative / len(file)
 
@@ -270,7 +270,7 @@ def mean_sentence_length(file):
 def non_interoggative_sentence_with_relative_clause(file):
 	num_sentence_with_clause = 0
 	num_non_interrogative_sentence = 0
-	interrogative_chars = (';', ';') #Second character is Greek semi colon
+	interrogative_chars = {';', ';'} #Second character is Greek semi colon
 	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', 
 	'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
 	pronouns = pronouns | \
@@ -321,11 +321,11 @@ def mean_length_relative_clause(file):
 	return 0 if num_relative_clause == 0 else sum_length_relative_clause / num_relative_clause
 
 #Count of relative pronouns in non-interrogative sentences / total non-interrogative sentences
-@textual_feature('sentences', 'ancient_greek')
+@textual_feature('sentence_words', 'ancient_greek')
 def relative_clause_per_sentence(file):
 	num_relative_pronoun = 0
 	num_non_interrogative_sentence = 0
-	interrogative_chars = (';', ';') #Second character is Greek semi colon
+	interrogative_chars = {';', ';'} #Second character is Greek semi colon
 	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', 
 	'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
 	pronouns = pronouns | \
@@ -335,8 +335,8 @@ def relative_clause_per_sentence(file):
 	{normalize('NFKC', val) for val in pronouns}
 
 	for line in file:
-		if not line.endswith(interrogative_chars):
-			for word in line.split():
+		if line[-1] not in interrogative_chars:
+			for word in line:
 				num_relative_pronoun += 1 if word in pronouns else 0
 			num_non_interrogative_sentence += 1
 
