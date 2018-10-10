@@ -42,6 +42,11 @@ tokenize_types = {
 		'prev_filename': None, 
 		'tokens': None, 
 	}, 
+	'sentence_words': {
+		'func': lambda lang, file: [word_tokenizer.word_tokenize(s) for s in sentence_tokenizers[lang].tokenize(file)], 
+		'prev_filename': None, 
+		'tokens': None, 
+	}, 
 }
 
 debug_output = StringIO()

@@ -43,8 +43,9 @@ def bar(file):
 There are three supported tokenization_types: 'sentences', 'words' and None. This tells the function in 
 what format it will receive the 'file' parameter.
 - If None, the function will receive the file parameter as a string. 
-- If 'sentences', the function will receive the file parameter as a list of sentences
+- If 'sentences', the function will receive the file parameter as a list of sentences, each as a string
 - If 'words', the function will receive the file parameter as a list of words
+- If 'sentence_words', the function will recieve the file parameter as a list of sentences, each as a list of words
 
 There are several supported lang options: None, 'greek', 'estonian', 'ancient_greek', 'turkish', 'polish', 
 'czech', 'portuguese', 'dutch', 'norwegian', 'slovene', 'english', 'danish', 'finnish', 'swedish', 

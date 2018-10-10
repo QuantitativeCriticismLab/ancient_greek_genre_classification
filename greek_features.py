@@ -4,7 +4,7 @@ import extract_features
 import sys
 import os
 from os.path import join
-from textual_feature import textual_feature, decorated_features, word_tokenizer
+from textual_feature import textual_feature, decorated_features
 from color import RED, RESET
 from functools import reduce
 from nltk.tokenize.punkt import PunktLanguageVars
@@ -78,7 +78,7 @@ def freq_demonstrative(file):
 
 	return num_demonstratives_characters / num_characters
 
-@textual_feature('sentences', 'ancient_greek')
+@textual_feature('sentence_words', 'ancient_greek')
 def freq_indefinite_pronoun_in_non_interrogative_sentence(file):
 	num_indefinite_pronoun_chars = 0
 	num_characters = 0
@@ -93,7 +93,6 @@ def freq_indefinite_pronoun_in_non_interrogative_sentence(file):
 
 	for line in file:
 		if line[-1] not in interrogative_chars:
-			line = word_tokenizer.word_tokenize(line)
 			for word in line:
 				num_indefinite_pronoun_chars += len(word) if word in pronoun_chars else 0
 				num_characters += len(word)
@@ -207,7 +206,7 @@ def freq_reflexive(file):
 
 	return num_reflexive / num_characters
 
-@textual_feature('sentences', 'ancient_greek')
+@textual_feature('sentence_words', 'ancient_greek')
 def freq_vocative_sentences(file):
 	num_vocatives = 0
 	vocative_characters = {'ὦ'}
@@ -218,9 +217,10 @@ def freq_vocative_sentences(file):
 	{normalize('NFKC', val) for val in vocative_characters}
 
 	for line in file:
-		line = word_tokenizer.word_tokenize(line)
 		for word in line:
-			num_vocatives += 1 if word in vocative_characters else 0
+			if word in vocative_characters:
+				num_vocatives += 1
+				break
 
 	return num_vocatives / len(file)
 
@@ -261,11 +261,12 @@ def freq_conjunction(file):
 
 	return num_conjunction / num_characters
 
-@textual_feature('sentences', 'ancient_greek')
+@textual_feature('sentence_words', 'ancient_greek')
 def mean_sentence_length(file):
-	return reduce(lambda x, y: x + len(y), file, 0) / len(file)
+	return reduce(lambda cur_len, line: cur_len + 
+	reduce(lambda word_len, word: word_len + len(word), line, 0), file, 0) / len(file)
 
-@textual_feature('sentences', 'ancient_greek')
+@textual_feature('sentence_words', 'ancient_greek')
 def non_interoggative_sentence_with_relative_clause(file):
 	num_sentence_with_clause = 0
 	num_non_interrogative_sentence = 0
@@ -279,8 +280,7 @@ def non_interoggative_sentence_with_relative_clause(file):
 	{normalize('NFKC', val) for val in pronouns}
 
 	for line in file:
-		if not line.endswith(interrogative_chars):
-			line = word_tokenizer.word_tokenize(line)
+		if line[-1] not in interrogative_chars:
 			for word in line:
 				if word in pronouns:
 					num_sentence_with_clause += 1
@@ -488,18 +488,18 @@ def freq_temporal_and_causal_clauses(file):
 
 	return num_clause_characters / num_characters
 
-@textual_feature('sentences', 'ancient_greek')
+@textual_feature('sentence_words', 'ancient_greek')
 def variance_of_sentence_length(file):
 	num_sentences = 0
 	total_len = 0
 
 	for line in file:
 		num_sentences += 1
-		total_len += len(line)
+		total_len += reduce(lambda cur_len, word: cur_len + len(word), line, 0)
 	mean = total_len / num_sentences
 	squared_difference = 0
 	for line in file:
-		squared_difference += (len(line) - mean) ** 2
+		squared_difference += (reduce(lambda cur_len, word: cur_len + len(word), line, 0) - mean) ** 2
 
 	return squared_difference / num_sentences
 
@@ -507,7 +507,7 @@ def variance_of_sentence_length(file):
 def particles_per_sentence(file):
 	num_particles = 0
 	#Word tokenizer doesn't work well with ellision - apostrophes are removed
-	particles = {'ἄν', 'ἂν', 'ἆρα', 'γε', "γ", "δ", 'δέ', 'δὲ','δή', 'δὴ', 'ἕως', "κ", 'κε', 'κέ', 'κὲ', 'κέν', 'κὲν', 
+	particles = {'ἄν', 'ἂν', 'ἆρα', 'γε', "γ", "δ", 'δέ', 'δὲ', 'δή', 'δὴ', 'ἕως', "κ", 'κε', 'κέ', 'κὲ', 'κέν', 'κὲν', 
 	'κεν', 'μά', 'μὰ' 'μέν', 'μὲν', 'μέντοι', 'μή', 'μὴ', 'μήν', 'μὴν', 'μῶν', 'νύ', 'νὺ', 'νυ', 'οὐ', 'οὔ', 'οὒ', 'οὖν', 
 	'περ', 'πω', "τ", 'τε', 'τοι'}
 	particles = particles | \
