@@ -8,6 +8,8 @@ Diagnose warning (and specify framework versions in Pipfile as a potential fix?)
 Remove print statements and user input from python files that should go in the pip package?
 Relative imports https://stackoverflow.com/questions/7279810/what-does-a-in-an-import-statement-in-python-mean
 Allow multiple file extensions in the same extraction session, or no file extension for a default
+Consolidate testing files in a single command
+Have a "clean" command to get rid of demo files, notes, tesserae, etc?
 
 Update research poster
 Send photo to qcrit for website
