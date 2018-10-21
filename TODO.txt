@@ -12,6 +12,7 @@ Consolidate testing files in a single command
 Have a "clean" command to get rid of demo files, notes, tesserae, etc?
 Using "line[-1] not in interrogative_chars" will not work if sentence ends in quote or bracket. Quantify the loss.
 Greek question mark is failing test_freq_interrogatives1 (this is not consequential because there are no greek marks in tesserae)
+Include git commit hash of this repo and git commit hash of tesserae repo in pickle dump, and output it in the ml analyzers so user can know what version of data they are dealing with
 
 Update research poster
 Send photo to qcrit for website

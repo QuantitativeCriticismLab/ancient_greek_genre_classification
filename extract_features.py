@@ -97,7 +97,8 @@ def main(corpus_dir, file_extension, excluded_paths=None, features=None, output_
 		'Output file "' + output_file + '" is invalid or already exists!'
 	from timeit import timeit
 	from functools import partial
-	print('\n\n' + GREEN + 'Elapsed time: ' + \
-		str(timeit(
-			partial(_extract_features, corpus_dir, file_extension, excluded_paths, features, output_file), number=1)) + RESET
-		)
+	print(
+		'\n\n' + GREEN + 'Elapsed time: ' + str(timeit(
+		partial(_extract_features, corpus_dir, file_extension, excluded_paths, features, output_file), number=1)) + 
+		' seconds' + RESET
+	)

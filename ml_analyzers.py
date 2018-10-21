@@ -93,7 +93,7 @@ def random_forest_misclassifications(data, target, file_names, feature_names):
 	print('RF seeds tested: 0-' + str(rf_trials - 1) + ' (inclusive)')
 	print('Cross validation splitter seeds tested: 0-' + str(kfold_trials - 1) + ' (inclusive)')
 	print('Number of splits: ' + str(splits))
-	print('Features tested: (1-' + str(len(feature_names)) + ')')
+	print('Features tested: ' + str(feature_names))
 	print()
 
 	trial_num = 1
@@ -118,9 +118,14 @@ def random_forest_misclassifications(data, target, file_names, feature_names):
 				current_fold += 1
 
 	print(YELLOW + 'Misclassifications from ' + str(rf_trials * kfold_trials * splits) + 
-		' (' + str(rf_trials) + ' * ' + str(kfold_trials) + ' * ' + str(splits) + ') trials' + RESET)
+		' (' + str(rf_trials) + ' * ' + str(kfold_trials) + ' * ' + str(splits) + ') trials. ' + 
+		'Each file was in the testing set 1 / ' + str(splits) + ' of the time (' + 
+		str(rf_trials * kfold_trials) + ' times).' + RESET
+	)
+	largest_num_size = str(len(str(max(misclass_counter.values()))))
 	for t in sorted([(val, cnt) for val, cnt in misclass_counter.items()], key=lambda s: -s[1]):
-		print('%4d (or %2.2f%% of the time): %s' % (t[1], t[1] / rf_trials / kfold_trials / splits * 100, t[0]))
+		print(('%' + largest_num_size + 'd / %d (%2.2f%%): %s') % 
+			(t[1], rf_trials * kfold_trials, t[1] / rf_trials / kfold_trials * 100, t[0]))
 
 @model_analyzer()
 def random_forest_feature_rankings(data, target, file_names, feature_names):
@@ -133,7 +138,7 @@ def random_forest_feature_rankings(data, target, file_names, feature_names):
 	print('RF seeds tested: 0-' + str(rf_trials - 1) + ' (inclusive)')
 	print('Cross validation splitter seeds tested: 0-' + str(kfold_trials - 1) + ' (inclusive)')
 	print('Number of splits: ' + str(splits))
-	print('Features tested: (1-' + str(len(feature_names)) + ')')
+	print('Features tested: ' + str(feature_names))
 	print()
 
 	trial = 0
