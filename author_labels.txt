@@ -62,5 +62,5 @@ Strabo - p
 Theocritus - v
 Theophrastus - p
 Thucydides - p
-Tryphiodorus - p
+Tryphiodorus - v
 Xenophon - p

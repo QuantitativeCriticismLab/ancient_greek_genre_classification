@@ -111,17 +111,16 @@ def random_forest_misclassifications(data, target, file_names, feature_names):
 				expected = labels_validate
 				for i in range(len(results)):
 					if results[i] != expected[i]:
-						misclass_counter[file_names[i]] += 1
+						misclass_counter[file_names[validate_indices[i]]] += 1
 				print_progress_bar(trial_num, rf_trials * kfold_trials * splits, prefix='Progress', 
 					suffix='rf seed: %d, splitter seed: %d, fold: %d' % (rf_seed, kfold_seed, current_fold))
 				trial_num += 1
 				current_fold += 1
 
-
 	print(YELLOW + 'Misclassifications from ' + str(rf_trials * kfold_trials * splits) + 
 		' (' + str(rf_trials) + ' * ' + str(kfold_trials) + ' * ' + str(splits) + ') trials' + RESET)
 	for t in sorted([(val, cnt) for val, cnt in misclass_counter.items()], key=lambda s: -s[1]):
-		print('%4d misclassifications: %s' % (t[1], t[0]))
+		print('%4d (or %2.2f%% of the time): %s' % (t[1], t[1] / rf_trials / kfold_trials / splits * 100, t[0]))
 
 @model_analyzer()
 def random_forest_feature_rankings(data, target, file_names, feature_names):
