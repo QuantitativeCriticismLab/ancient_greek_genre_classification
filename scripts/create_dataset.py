@@ -39,7 +39,8 @@ filename_to_features = _get_features(feature_data_file)
 
 filename_to_classification = _get_file_classifications(classification_data_file)
 
-assert len(filename_to_features.keys() - filename_to_classification.keys()) == 0
+#For every set of features, there should be a corresponding file classification
+assert len(filename_to_features.keys() - filename_to_classification.keys()) == 0, 'file_to_feature len: ' + str(len(filename_to_features.keys())) + ', filename_to_classification len: ' + str(len(filename_to_classification.keys()))
 
 #Convert features and classifications into sorted lists
 file_names = sorted([elem for elem in filename_to_features.keys()])
@@ -49,13 +50,14 @@ data, target = _get_classifier_data(filename_to_features, filename_to_classifica
 
 assert len(data) == len(target) == len(file_names)
 
-git_hash = os.popen('git rev-parse HEAD').read().strip()
+code_hash = os.popen('git rev-parse HEAD').read().strip()
+tesserae_hash = os.popen('git -C "./tesserae" rev-parse HEAD').read().strip()
 prose_file = open('prose_data.csv', mode='w')
 prose_file.write('Ancient Greek Prose Data\n')
 verse_file = open('verse_data.csv', mode='w')
 verse_file.write('Ancient Greek Verse Data\n')
 for f in (prose_file, verse_file):
-	f.write('Data: https://github.com/timgianitsos/tesserae/tree/master/texts/grc,Project: https://www.qcrit.org,Author: Tim Gianitsos (tgianitsos@yahoo.com),Repo (Private): https://github.com/jdexter476/ProseVerseClassification.git,Commit: ' + git_hash + ',Note: Frequencies are per-character\n')
+	f.write('Data: https://github.com/timgianitsos/tesserae/tree/master/texts/grc,Project: https://www.qcrit.org,Author: Tim Gianitsos (tgianitsos@yahoo.com),Repo (Private): https://github.com/jdexter476/ProseVerseClassification.git,Code commit: ' + code_hash + ',Corpus commit: ' + tesserae_hash + ',Note: Frequencies are per-character\n')
 	f.write('file name,' + ','.join(feature_names) + '\n')
 
 for i in range(len(data)):
