@@ -124,7 +124,7 @@ def random_forest_misclassifications(data, target, file_names, feature_names):
 	)
 	largest_num_size = str(len(str(max(misclass_counter.values()))))
 	for t in sorted([(val, cnt) for val, cnt in misclass_counter.items()], key=lambda s: -s[1]):
-		print(('%' + largest_num_size + 'd / %d (%2.2f%%): %s') % 
+		print(('%' + largest_num_size + 'd / %d (%2.3f%%): %s') % 
 			(t[1], rf_trials * kfold_trials, t[1] / rf_trials / kfold_trials * 100, t[0]))
 
 @model_analyzer()

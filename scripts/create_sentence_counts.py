@@ -10,7 +10,7 @@ corpus_dir = join('tesserae', 'texts', 'grc')
 files = _get_filenames(corpus_dir, 'tess', composite_files_to_exclude)
 
 f = open('sentence_counts.csv', mode='w')
-f.write('Data: https://github.com/timgianitsos/tesserae/tree/master/texts/grc,Project: https://www.qcrit.org,Author: Tim Gianitsos (tgianitsos@yahoo.com),Repo (Private): https://github.com/jdexter476/ProseVerseClassification.git,Commit: ' + os.popen('git rev-parse HEAD').read().strip() + '\n')
+f.write('Data: https://github.com/timgianitsos/tesserae/tree/master/texts/grc,Project: https://www.qcrit.org,Author: Tim Gianitsos (tgianitsos@yahoo.com),Repo (Private): https://github.com/jdexter476/ProseVerseClassification.git,Code commit: ' + os.popen('git rev-parse HEAD').read().strip() + ',Corpus commit: ' + os.popen('git -C "./tesserae" rev-parse HEAD').read().strip() + '\n')
 f.write('file name,number of sentences\n')
 for file in files:
 	file_text = parse_tess(file)
