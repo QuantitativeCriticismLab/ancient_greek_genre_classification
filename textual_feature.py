@@ -8,6 +8,7 @@ from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktLanguageVars
 
 decorated_features = OrderedDict()
 
+#The current python file must be in the same directory as tokenizers/
 sentence_tokenizer_dir = join(dirname(abspath(__file__)), 'tokenizers')
 
 #Read tokenizers from pickle files (also include an untrained tokenizer). Mapping from language name to tokenizer
