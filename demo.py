@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #This file may not work on windows because it uses unix based commands
 
 #************************************************************************************************************************
@@ -22,6 +23,11 @@ if not os.path.isdir('demo_files'):
 	f.write(os.path.join('demo_files', 'euripides.heracles.tess') + ',0\n')
 	f.write(os.path.join('demo_files', 'plato.respublica.tess') + ',1\n')
 	f.close()
+
+#If the output file already exists, the feature extraction code will not override it
+#Delete the output file so that the demo can create one
+if os.path.isfile(os.path.join('demo_files', 'output.pickle')):
+	os.system('rm ' + os.path.join('demo_files', 'output.pickle'))
 
 #************************************************************************************************************************
 '''
@@ -67,17 +73,16 @@ file_extension - restrict search to only files with this extension, handles pars
                  currently only supports .tess but easily extensible to xml, txt, etc.
 output_file - the file to output the results into, used to be analyzed during machine learning phase
 
-In order for sentence tokenization to work correctly, PunktLanguageVars.sent_end_chars must be set the 
+In order for sentence tokenization to work correctly, setup_tokenizers() must be set to the 
 terminal punctuation marks of the language being analyzed. Make sure this is done before main() is called.
 '''
 import extract_features
-from textual_feature import textual_feature
+from textual_feature import textual_feature, setup_tokenizers
 from functools import reduce
-from nltk.tokenize.punkt import PunktLanguageVars
 from unicodedata import normalize
 
 #Let sentence tokenizer know that periods and semicolons are the punctuation marks that end sentences in this language
-PunktLanguageVars.sent_end_chars = ('.', ';')
+setup_tokenizers(('.', ';'))
 
 @textual_feature('words', 'ancient_greek') #Using 'words' makes the input 'file' parameter become a list of words
 def num_conjunctions(file): #parameter must be the text of a file

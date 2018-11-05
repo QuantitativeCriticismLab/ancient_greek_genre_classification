@@ -65,3 +65,16 @@ for current_path, current_dir_names, current_file_names in os.walk('tesserae/tex
 			print('\n\n\n\n\n\n\n\n\n')
 			print(no_period_sentences)
 			sys.exit()
+
+'''
+I made a sentence tokenizer with default parameters (1).
+I made a sentence tokenizer by passing in the word tokenizer (2).
+I made a sentence tokenizer by passing in a word tokenizer similar to the previous word tokenizer, but without a period in the regex (3).
+
+Comparing (2) and (3), they were very very similar with only a few numbers different. There were some occurrences of a single greek letter followed by a period that (2) would split into 2 sentences, whereas (3) would keep it as one sentence. I opted to keep (3) because the original regexes in punkt.py didn't have a period, and because it was probably trying to recognize the single Greek letter as an abbreviation, which it is desirable behavior.
+
+Comparing (1) and (3), they were less similar to each other than (2) and (3) to each other, but still quite similar. The main differences I found was that (1) would NOT recognize slant quotes, and (3) DID recognize them.
+
+I opted to use tokenizer (3) for my experiment with one minor modification - the regex would not include "\d" for numbers. I found from testing that including "\d" in the regex would split numbers with decimals as if they were sentences.
+'''
+

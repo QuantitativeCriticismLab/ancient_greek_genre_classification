@@ -11,7 +11,6 @@ decorated_features = OrderedDict()
 #The current python file must be in the same directory as tokenizers/
 sentence_tokenizer_dir = join(dirname(abspath(__file__)), 'tokenizers')
 
-#TODO It's a good idea to not make these None. Make blank objects and then mutate
 word_tokenizer = None
 sentence_tokenizers = None
 
@@ -54,6 +53,12 @@ def setup_tokenizers(terminal_punctuation):
 	for s in sentence_tokenizers.values():
 		s._lang_vars._re_period_context = x._re_period_context
 		s._lang_vars._re_word_tokenizer = x._re_word_tokenizer
+
+def reset_tokenizers():
+	global word_tokenizer
+	global sentence_tokenizers
+	word_tokenizer = None
+	sentence_tokenizers = None
 
 tokenize_types = {
 	None: {
