@@ -92,7 +92,7 @@ def freq_indefinite_pronoun_in_non_interrogative_sentence(file):
 	{normalize('NFKC', val) for val in pronoun_chars}
 
 	for line in file:
-		if line[-1] not in interrogative_chars:
+		if line[-1] not in interrogative_chars and len(line) > 1 and line[-2] not in interrogative_chars:
 			for word in line:
 				num_indefinite_pronoun_chars += len(word) if word in pronoun_chars else 0
 				num_characters += len(word)
@@ -280,7 +280,7 @@ def non_interoggative_sentence_with_relative_clause(file):
 	{normalize('NFKC', val) for val in pronouns}
 
 	for line in file:
-		if line[-1] not in interrogative_chars:
+		if line[-1] not in interrogative_chars and len(line) > 1 and line[-2] not in interrogative_chars:
 			for word in line:
 				if word in pronouns:
 					num_sentence_with_clause += 1
@@ -335,7 +335,7 @@ def relative_clause_per_sentence(file):
 	{normalize('NFKC', val) for val in pronouns}
 
 	for line in file:
-		if line[-1] not in interrogative_chars:
+		if line[-1] not in interrogative_chars and len(line) > 1 and line[-2] not in interrogative_chars:
 			for word in line:
 				num_relative_pronoun += 1 if word in pronouns else 0
 			num_non_interrogative_sentence += 1
