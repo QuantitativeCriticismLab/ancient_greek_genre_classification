@@ -14,6 +14,9 @@ Using "line[-1] not in interrogative_chars" will not work if sentence ends in qu
 Greek question mark is failing test_freq_interrogatives1 (this is not consequential because there are no greek marks in tesserae)
 Include git commit hash of this repo and git commit hash of tesserae repo in pickle dump, and output it in the ml analyzers so user can know what version of data they are dealing with, and allow the recognition of unstaged changes before outputting the pickle file
 Include configuration file that contains location of corpus and other useful?
+Hardcode sentence tokenizer to recongize single Greek letters as numerals as opposed to letting it assume they are abbreviations?
+Generate csv in ml_analyzers
+Include parameters in RF results e.g. Parameters: {'bootstrap': True, 'class_weight': None, 'criterion': 'gini'...
 
 Update research poster
 Qcrit needs a LinkedIn

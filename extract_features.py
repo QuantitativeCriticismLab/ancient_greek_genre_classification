@@ -70,6 +70,7 @@ def _extract_features(corpus_dir, file_extension, excluded_paths, features, outp
 	clear_cache(tokenize_types, debug_output)
 
 	if output_file is not None:
+		#TODO ensure the directory exists
 		print('Feature mining complete. Attempting to write feature results to "' + YELLOW + output_file + RESET + '"...')
 		with open(output_file, 'wb') as pickle_file:
 			pickle_file.write(pickle.dumps(text_to_features))

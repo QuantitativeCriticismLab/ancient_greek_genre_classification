@@ -1,3 +1,5 @@
+#This file may not work on windows because it uses unix based commands
+
 #************************************************************************************************************************
 '''
 0) Setup (only necessary for demo if first run through)

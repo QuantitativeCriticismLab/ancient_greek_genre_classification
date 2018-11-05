@@ -4,14 +4,14 @@ import extract_features
 import sys
 import os
 from os.path import join
-from textual_feature import textual_feature, decorated_features
+from textual_feature import textual_feature, setup_tokenizers
 from color import RED, RESET
 from functools import reduce
 from nltk.tokenize.punkt import PunktLanguageVars
 from unicodedata import normalize
 #Reference: https://jktauber.com/articles/python-unicode-ancient-greek/
 
-PunktLanguageVars.sent_end_chars = ('.', ';', ';') #'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
+setup_tokenizers(('.', ';', ';')) #'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
 
 @textual_feature('sentence_words', 'ancient_greek')
 def freq_interrogatives(file):

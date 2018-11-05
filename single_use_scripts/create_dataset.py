@@ -1,9 +1,10 @@
+import sys
 import os
 import numpy as np
 import pickle
 from analyze_models import _get_features, _get_file_classifications, _get_classifier_data
 
-feature_data_file = 'notes/feature_data.pickle'
+feature_data_file = sys.argv[1] if len(sys.argv) >= 2 else input('Enter pickle file: ')
 
 if not os.path.isfile(feature_data_file):
 	#Download corpus if non-existent
