@@ -12,6 +12,7 @@ def _get_features(feature_data_file):
 		filename_to_features = pickle.loads(pickle_file.read())
 	return filename_to_features
 
+#TODO handle backslash-commas in the csv (they are meant to be read literally and do NOT demarcate a csv cell)
 def _get_file_classifications(classification_data_file):
 	#Obtain classifications for each file
 	filename_to_classification = {}
