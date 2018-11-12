@@ -9,38 +9,32 @@ from progress_bar import print_progress_bar
 from collections import Counter
 from model_analyzer import model_analyzer, decorated_analyzers
 
-def _display_stats(expected, results, file_names, tabs=0):
+def _display_stats(expected, results, file_names, labels_key, tabs=0):
 	assert len(expected) == len(results)
 
 	#Obtain stats
 	num_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] else 0), range(len(results)), 0)
-	num_prose_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] and expected[y] == 1 else 0), 
-	range(len(results)), 0)
-	num_prose = reduce(lambda x, y: x + (1 if expected[y] == 1 else 0), range(len(results)), 0)
-	num_verse_correct = reduce(lambda x, y: x + (1 if results[y] == expected[y] and expected[y] == 0 else 0), 
-	range(len(results)), 0)
-	num_verse = reduce(lambda x, y: x + (1 if expected[y] == 0 else 0), range(len(results)), 0)
+	res_tuples = []
+	for label_num in labels_key.keys():
+		num_label_correct = reduce(lambda cur_tot, index: cur_tot + (1 if expected[index] == label_num 
+			and results[index] == expected[index] else 0), range(len(results)), 0)
+		num_label_total = reduce(lambda cur_tot, index: cur_tot + (1 if expected[index] == label_num 
+			else 0), range(len(results)), 0)
+		res_tuples.append((label_num, num_label_correct, num_label_total))
 
 	#Display stats
 	print('\t' * tabs + YELLOW + 'Stats:' + RESET)
 	print('\t' * tabs + '# correct: ' + GREEN + str(num_correct) + RESET + ' / ' + str(len(expected)))
 	print('\t' * tabs + '% correct: ' + GREEN + '%.4f' % (num_correct / len(results) * 100) + RESET + '%')
-	print('\t' * tabs + '# prose: ' + GREEN + str(num_prose_correct) + RESET + ' / ' + str(num_prose))
-	print('\t' * tabs + '% prose: ' + GREEN + '%.4f' % (num_prose_correct / num_prose * 100) + RESET + '%')
-	print('\t' * tabs + '# verse: ' + GREEN + str(num_verse_correct) + RESET + ' / ' + str(num_verse))
-	print('\t' * tabs + '% verse: ' + GREEN + '%.4f' % (num_verse_correct / num_verse * 100) + RESET + '%')
+	for label_num, num_label_correct, num_label_total in res_tuples:
+		print('\t' * tabs + '# %s: ' % labels_key[label_num] + GREEN + str(num_label_correct) + RESET 
+			+ ' / ' + str(num_label_total))
+		print('\t' * tabs + '%% %s: ' % labels_key[label_num] + GREEN + '%.4f' % 
+			(num_label_correct / num_label_total * 100) + RESET + '%')
 	print()
 
-	print('\t' * tabs + YELLOW + 'Misclassifications:' + RESET)
-	found_misclassification = False
-	for j in range(len(results)):
-		if results[j] != expected[j]:
-			print('\t' * tabs + file_names[j])
-			found_misclassification = True
-	print(('\t' * tabs + GREEN + 'No misclassifications!' + RESET + '\n') if not found_misclassification else '')
-
 @model_analyzer()
-def random_forest_test(data, target, file_names, feature_names):
+def random_forest_test(data, target, file_names, feature_names, labels_key):
 	print(RED + 'Random Forest tests' + RESET)
 
 	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=0)
@@ -51,13 +45,13 @@ def random_forest_test(data, target, file_names, feature_names):
 	tabs = 1
 
 	print('\t' * tabs + YELLOW + 'RF parameters' + RESET + ' = ' + str(clf.get_params()) + '\n')
-	_display_stats(expected, results, file_names, tabs=tabs)
+	_display_stats(expected, results, file_names, labels_key, tabs=tabs)
 	print('\t' * tabs + YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
 	for t in sorted(zip(feature_names, clf.feature_importances_), key=lambda s: -s[1]):
 		print('\t' * tabs + '%f: %s' % (t[1], t[0]))
 
 @model_analyzer()
-def random_forest_cross_validation(data, target, file_names, feature_names):
+def random_forest_cross_validation(data, target, file_names, feature_names, labels_key):
 	print(RED + 'Random Forest cross validation' + RESET)
 	clf = ensemble.RandomForestClassifier(random_state=0)
 	splitter = StratifiedKFold(n_splits=5, shuffle=False, random_state=0)
@@ -75,7 +69,7 @@ def random_forest_cross_validation(data, target, file_names, feature_names):
 
 		print()
 		print('\t' * tabs + YELLOW + 'Validate fold ' + str(cur_fold) + ':' + RESET)
-		_display_stats(expected, results, file_names, tabs=tabs + 1)
+		_display_stats(expected, results, file_names, labels_key, tabs=tabs + 1)
 		print('\t' * (tabs + 1) + YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
 		for t in sorted(zip(feature_names, clf.feature_importances_), key=lambda s: -s[1]):
 			print('\t' * (tabs + 1) + '%f: %s' % (t[1], t[0]))
@@ -83,7 +77,7 @@ def random_forest_cross_validation(data, target, file_names, feature_names):
 		cur_fold += 1
 
 @model_analyzer()
-def random_forest_misclassifications(data, target, file_names, feature_names):
+def random_forest_misclassifications(data, target, file_names, feature_names, labels_key):
 	misclass_counter = Counter()
 	rf_trials = 20
 	kfold_trials = 20
@@ -128,7 +122,7 @@ def random_forest_misclassifications(data, target, file_names, feature_names):
 			(t[1], rf_trials * kfold_trials, t[1] / rf_trials / kfold_trials * 100, t[0]))
 
 @model_analyzer()
-def random_forest_feature_rankings(data, target, file_names, feature_names):
+def random_forest_feature_rankings(data, target, file_names, feature_names, labels_key):
 	rf_trials = 20
 	kfold_trials = 20
 	splits = 5
@@ -165,7 +159,7 @@ def random_forest_feature_rankings(data, target, file_names, feature_names):
 		print('\t' + '%.6f +/- standard deviation of %.4f' % (t[1].mean(), t[1].std()) + ': ' + t[0])
 
 @model_analyzer()
-def sample_classifiers(data, target, file_names, feature_names):
+def sample_classifiers(data, target, file_names, feature_names, labels_key):
 	#Includes all the machine learning classifiers
 	classifiers = [
 		ensemble.RandomForestClassifier(random_state=0), 
@@ -191,7 +185,7 @@ def sample_classifiers(data, target, file_names, feature_names):
 		results = clf.predict(features_test)
 		expected = labels_test
 
-		_display_stats(expected, results, file_names, tabs + 1)
+		_display_stats(expected, results, file_names, labels_key, tabs + 1)
 
 		#Cross validation
 		scores = cross_val_score(clf, features_train, labels_train, cv=5)

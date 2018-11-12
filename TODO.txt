@@ -17,6 +17,7 @@ Include configuration file that contains location of corpus and other useful?
 Hardcode sentence tokenizer to recongize single Greek letters as numerals as opposed to letting it assume they are abbreviations?
 Generate csv in ml_analyzers
 Include parameters in RF results e.g. Parameters: {'bootstrap': True, 'class_weight': None, 'criterion': 'gini'...
+Include kwargs in decorated functions?
 
 Update research poster
 Qcrit needs a LinkedIn

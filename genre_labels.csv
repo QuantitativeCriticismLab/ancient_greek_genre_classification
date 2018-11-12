@@ -1,4 +1,5 @@
-Filename,Genre,Key - prose_miscellaneous:0 letters:1 technical_treatise:2 oratory:3 history:4 philosophy:5 drama:6 epic:7 verse_miscellaneous:8
+prose_miscellaneous:0,letters:1,technical_treatise:2,oratory:3,history:4,philosophy:5,drama:6,epic:7,verse_miscellaneous:8
+Filename,Genre
 tesserae/texts/grc/achilles_tatius.leucippe_et_clitophon.tess,0
 tesserae/texts/grc/aelian.de_natura_animalium.tess,0
 tesserae/texts/grc/aelian.epistulae_rusticae.tess,1
