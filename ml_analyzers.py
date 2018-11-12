@@ -82,17 +82,25 @@ def random_forest_misclassifications(data, target, file_names, feature_names, la
 	rf_trials = 20
 	kfold_trials = 20
 	splits = 5
+	forest_params = {
+		'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 
+		'max_features': 'auto', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 
+		'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 
+		'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': 1, 'oob_score': False, 
+		'verbose': 0, 'warm_start': False
+	}
 	print(RED + 'Random Forest misclassifications' + RESET)
 	print('Obtain misclassifications by testing different RF seeds and different data splits')
 	print('RF seeds tested: 0-' + str(rf_trials - 1) + ' (inclusive)')
 	print('Cross validation splitter seeds tested: 0-' + str(kfold_trials - 1) + ' (inclusive)')
 	print('Number of splits: ' + str(splits))
 	print('Features tested: ' + str(feature_names))
+	print('RF parameters: ' + str(forest_params))
 	print()
 
 	trial_num = 1
 	for rf_seed in range(rf_trials):
-		clf = ensemble.RandomForestClassifier(random_state=rf_seed)
+		clf = ensemble.RandomForestClassifier(random_state=rf_seed, **forest_params)
 		for kfold_seed in range(kfold_trials):
 			splitter = StratifiedKFold(n_splits=splits, shuffle=True, random_state=kfold_seed)
 			current_fold = 0
@@ -127,17 +135,25 @@ def random_forest_feature_rankings(data, target, file_names, feature_names, labe
 	kfold_trials = 20
 	splits = 5
 	feature_rankings = {name: np.zeros(rf_trials * kfold_trials * splits) for name in feature_names}
+	forest_params = {
+		'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 
+		'max_features': 'auto', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 
+		'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 
+		'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': 1, 'oob_score': False, 
+		'verbose': 0, 'warm_start': False
+	}
 	print(RED + 'Random Forest feature rankings' + RESET)
 	print('Obtain rankings by testing different RF seeds and different data splits')
 	print('RF seeds tested: 0-' + str(rf_trials - 1) + ' (inclusive)')
 	print('Cross validation splitter seeds tested: 0-' + str(kfold_trials - 1) + ' (inclusive)')
 	print('Number of splits: ' + str(splits))
 	print('Features tested: ' + str(feature_names))
+	print('RF parameters: ' + str(forest_params))
 	print()
 
 	trial = 0
 	for rf_seed in range(rf_trials):
-		clf = ensemble.RandomForestClassifier(random_state=rf_seed)
+		clf = ensemble.RandomForestClassifier(random_state=rf_seed, **forest_params)
 		for kfold_seed in range(kfold_trials):
 			splitter = StratifiedKFold(n_splits=splits, shuffle=True, random_state=kfold_seed)
 			current_fold = 0

@@ -52,8 +52,8 @@ class TestGreekFeatures(unittest.TestCase):
 		self.assertEqual(expected, result)
 
 	def test_freq_interrogatives1(self):
-		file = 'a b ccccccc. aaafew aaedwp bbdinwe; bnoirenfiob; ads ofiihwio; freino. daieof; frinoe.'
-		#TODO GREEK question doesn't work 'a b ccccccc. aaafew aaedwp bbdinwe; bnoirenfiob; ads ofiihwio; freino. daieof; frinoe.'
+		#Includes GREEK QUESTION MARK after ofiihwio;
+		file = 'a b ccccccc. aaafew aaedwp bbdinwe; bnoirenfiob; ads ofiihwio; freino. daieof; frinoe.'
 		result = freq_interrogatives(file)
 		expected = 4 / 7
 		self.assertEqual(expected, result)

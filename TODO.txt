@@ -10,13 +10,8 @@ Relative imports https://stackoverflow.com/questions/7279810/what-does-a-in-an-i
 Allow multiple file extensions in the same extraction session, or no file extension for a default
 Consolidate testing files in a single command
 Have a "clean" command to get rid of demo files, notes, tesserae, etc?
-Using "line[-1] not in interrogative_chars" will not work if sentence ends in quote or bracket. Quantify the loss. The alternative is scanning the whole sentence for semicolons but this is not ideal because what if the parser left multiple semicolons in the same sentence? It's a trade off.
-Greek question mark is failing test_freq_interrogatives1 (this is not consequential because there are no greek marks in tesserae)
 Include git commit hash of this repo and git commit hash of tesserae repo in pickle dump, and output it in the ml analyzers so user can know what version of data they are dealing with, and allow the recognition of unstaged changes before outputting the pickle file
-Include configuration file that contains location of corpus and other useful?
-Hardcode sentence tokenizer to recongize single Greek letters as numerals as opposed to letting it assume they are abbreviations?
 Generate csv in ml_analyzers
-Include parameters in RF results e.g. Parameters: {'bootstrap': True, 'class_weight': None, 'criterion': 'gini'...
 Include kwargs in decorated functions?
 
 Update research poster

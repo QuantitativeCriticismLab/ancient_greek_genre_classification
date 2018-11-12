@@ -54,7 +54,8 @@ file_to_genre = dict(**pg, **vg)
 output_file = 'genre_labels.csv'
 print('Writing to ' + output_file + '...')
 f = open(output_file, 'w')
-f.write('Filename,Genre,Key - ' + ' '.join(k + ':' + str(v) for k, v in labels.items()) + '\n')
+f.write(','.join(k + ':' + str(v) for k, v in labels.items()) + '\n')
+f.write('Filename,Genre\n')
 for path in sorted(filename_to_path.values()): #Iterate over sorted values so that the order will match prosody_labels.csv
 	filename = path_to_filename[path]
 	if filename in file_to_genre:
