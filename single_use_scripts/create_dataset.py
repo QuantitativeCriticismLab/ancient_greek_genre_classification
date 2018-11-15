@@ -34,11 +34,11 @@ if not os.path.isfile(feature_data_file):
 	)
 
 
-classification_data_file = 'classifications.csv'
+classification_data_file = 'prosody_labels.csv'
 
 filename_to_features = _get_features(feature_data_file)
 
-filename_to_classification = _get_file_classifications(classification_data_file)
+filename_to_classification, labels = _get_file_classifications(classification_data_file)
 
 #For every set of features, there should be a corresponding file classification
 assert len(filename_to_features.keys() - filename_to_classification.keys()) == 0, 'file_to_feature len: ' + str(len(filename_to_features.keys())) + ', filename_to_classification len: ' + str(len(filename_to_classification.keys()))

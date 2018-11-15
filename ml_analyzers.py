@@ -169,7 +169,7 @@ def random_forest_feature_rankings(data, target, file_names, feature_names, labe
 					suffix='rf seed: %d, splitter seed: %d, fold: %d' % (rf_seed, kfold_seed, current_fold))
 				current_fold += 1
 
-	print(YELLOW + 'Gini averages from ' + str(rf_trials * kfold_trials * splits) + 
+	print(YELLOW + 'Gini importance averages from ' + str(rf_trials * kfold_trials * splits) + 
 		' (' + str(rf_trials) + ' * ' + str(kfold_trials) + ' * ' + str(splits) + ') trials' + RESET)
 	for t in sorted([(feat, rank) for feat, rank in feature_rankings.items()], key=lambda s: -1 * s[1].mean()):
 		print('\t' + '%.6f +/- standard deviation of %.4f' % (t[1].mean(), t[1].std()) + ': ' + t[0])

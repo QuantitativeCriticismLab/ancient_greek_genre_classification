@@ -23,21 +23,21 @@ def freq_interrogatives(file):
 	return num_interrogative / len(file)
 
 @textual_feature('words', 'ancient_greek')
-def freq_conditional_characters(file):
-	num_conditional_characters = 0
+def freq_conditional_words(file):
+	num_conditional_words = 0
 	num_characters = 0
-	conditional_characters = {'εἰ', 'εἴ', 'εἲ', 'ἐάν', 'ἐὰν'}
-	conditional_characters = conditional_characters | \
-	{normalize('NFD', val) for val in conditional_characters} | \
-	{normalize('NFC', val) for val in conditional_characters} | \
-	{normalize('NFKD', val) for val in conditional_characters} | \
-	{normalize('NFKC', val) for val in conditional_characters}
+	conditional_words = {'εἰ', 'εἴ', 'εἲ', 'ἐάν', 'ἐὰν'}
+	conditional_words = conditional_words | \
+	{normalize('NFD', val) for val in conditional_words} | \
+	{normalize('NFC', val) for val in conditional_words} | \
+	{normalize('NFKD', val) for val in conditional_words} | \
+	{normalize('NFKC', val) for val in conditional_words}
 
 	for word in file:
-		num_conditional_characters += len(word) if word in conditional_characters else 0
+		num_conditional_words += 1 if word in conditional_words else 0
 		num_characters += len(word)
 
-	return num_conditional_characters / num_characters
+	return num_conditional_words / num_characters
 
 @textual_feature('words', 'ancient_greek')
 def freq_personal_pronouns(file):
@@ -52,14 +52,14 @@ def freq_personal_pronouns(file):
 	{normalize('NFKC', val) for val in personal_pronouns}
 
 	for word in file:
-		num_pronouns += len(word) if word in personal_pronouns else 0
+		num_pronouns += 1 if word in personal_pronouns else 0
 		num_characters += len(word)
 
 	return num_pronouns / num_characters
 
 @textual_feature('words', 'ancient_greek')
 def freq_demonstrative(file):
-	num_demonstratives_characters = 0
+	num_demonstratives = 0
 	num_characters = 0
 	demonstrative_pronouns = {'ἐκεῖνος', 'ἐκείνου', 'ἐκείνῳ', 'ἐκεῖνον', 'ἐκεῖνοι', 'ἐκείνων', 'ἐκείνοις', 'ἐκείνους', 
 	'ἐκείνη', 'ἐκείνης', 'ἐκείνῃ', 'ἐκείνην', 'ἐκεῖναι', 'ἐκείναις', 'ἐκείνᾱς', 'ἐκείνας', 'ἐκεῖνο', 'ἐκεῖνα', 'ὅδε', 
@@ -73,14 +73,14 @@ def freq_demonstrative(file):
 	{normalize('NFKC', val) for val in demonstrative_pronouns}
 
 	for word in file:
-		num_demonstratives_characters += len(word) if word in demonstrative_pronouns else 0
+		num_demonstratives += 1 if word in demonstrative_pronouns else 0
 		num_characters += len(word)
 
-	return num_demonstratives_characters / num_characters
+	return num_demonstratives / num_characters
 
 @textual_feature('sentence_words', 'ancient_greek')
 def freq_indefinite_pronoun_in_non_interrogative_sentence(file):
-	num_indefinite_pronoun_chars = 0
+	num_indefinite_pronouns = 0
 	num_characters = 0
 	interrogative_chars = {';', ';'}
 	pronoun_chars = {'τις', 'τινός', 'τινὸς', 'του', 'τινί', 'τινὶ', 'τῳ', 'τινά', 'τινὰ', 'τινές', 'τινὲς', 'τινῶν', 
@@ -94,14 +94,14 @@ def freq_indefinite_pronoun_in_non_interrogative_sentence(file):
 	for line in file:
 		if line[-1] not in interrogative_chars and len(line) > 1 and line[-2] not in interrogative_chars:
 			for word in line:
-				num_indefinite_pronoun_chars += len(word) if word in pronoun_chars else 0
+				num_indefinite_pronouns += 1 if word in pronoun_chars else 0
 				num_characters += len(word)
 
-	return num_indefinite_pronoun_chars / num_characters
+	return num_indefinite_pronouns / num_characters
 
 @textual_feature('words', 'ancient_greek')
 def freq_indefinite_pronoun_in_any_sentence(file):
-	num_indefinite_pronoun_chars = 0
+	num_indefinite_pronouns = 0
 	num_characters = 0
 	pronoun_chars = {'τις', 'τινός', 'τινὸς', 'του', 'τινί', 'τινὶ', 'τῳ', 'τινά', 'τινὰ', 'τινές', 'τινὲς', 'τινῶν', 
 	'τισί', 'τισὶ', 'τισίν', 'τισὶν', 'τινάς', 'τινὰς', 'τι'}
@@ -112,10 +112,10 @@ def freq_indefinite_pronoun_in_any_sentence(file):
 	{normalize('NFKC', val) for val in pronoun_chars}
 
 	for word in file:
-		num_indefinite_pronoun_chars += len(word) if word in pronoun_chars else 0
+		num_indefinite_pronouns += 1 if word in pronoun_chars else 0
 		num_characters += len(word)
 
-	return num_indefinite_pronoun_chars / num_characters
+	return num_indefinite_pronouns / num_characters
 
 @textual_feature('words', 'ancient_greek')
 def freq_allos(file):
@@ -130,7 +130,7 @@ def freq_allos(file):
 	{normalize('NFKC', val) for val in allos_characters}
 
 	for word in file:
-		num_allos += len(word) if word in allos_characters else 0
+		num_allos += 1 if word in allos_characters else 0
 		num_characters += len(word)
 
 	return num_allos / num_characters
@@ -149,7 +149,7 @@ def freq_autos(file):
 	{normalize('NFKC', val) for val in autos_characters}
 
 	for word in file:
-		num_autos += len(word) if word in autos_characters else 0
+		num_autos += 1 if word in autos_characters else 0
 		num_characters += len(word)
 
 	return num_autos / num_characters
@@ -186,7 +186,7 @@ def freq_reflexive(file):
 
 		#Found monogram characters
 		if word in reflexive_characters:
-			num_reflexive += len(word)
+			num_reflexive += 1
 			bigram_first_half = None
 
 		#Found the first part of the reflexive bigram
@@ -195,7 +195,7 @@ def freq_reflexive(file):
 
 		#Found the second part of the reflexive bigram
 		elif bigram_first_half in bigram_reflexive_characters and word in bigram_reflexive_characters[bigram_first_half]:
-			num_reflexive += len(bigram_first_half) + len(word)
+			num_reflexive += 2
 			bigram_first_half = None
 
 		#Default case
@@ -239,7 +239,7 @@ def freq_superlative(file):
 	[normalize('NFKC', val) for val in superlative_ending_characters])
 
 	for word in file:
-		num_superlative += len(word) if word.endswith(superlative_ending_characters) else 0
+		num_superlative += 1 if word.endswith(superlative_ending_characters) else 0
 		num_characters += len(word)
 
 	return num_superlative / num_characters
@@ -256,7 +256,7 @@ def freq_conjunction(file):
 	{normalize('NFKC', val) for val in conjunction_chars}
 
 	for word in file:
-		num_conjunction += len(word) if word in conjunction_chars else 0
+		num_conjunction += 1 if word in conjunction_chars else 0
 		num_characters += len(word)
 
 	return num_conjunction / num_characters
@@ -264,10 +264,10 @@ def freq_conjunction(file):
 @textual_feature('sentence_words', 'ancient_greek')
 def mean_sentence_length(file):
 	return reduce(lambda cur_len, line: cur_len + 
-	reduce(lambda word_len, word: word_len + len(word), line, 0), file, 0) / len(file)
+		reduce(lambda word_len, word: word_len + len(word), line, 0), file, 0) / len(file)
 
 @textual_feature('sentence_words', 'ancient_greek')
-def non_interoggative_sentence_with_relative_clause(file):
+def non_interrogative_sentence_with_relative_clause(file):
 	num_sentence_with_clause = 0
 	num_non_interrogative_sentence = 0
 	interrogative_chars = {';', ';'} #Second character is Greek semi colon
@@ -322,7 +322,7 @@ def mean_length_relative_clause(file):
 
 #Count of relative pronouns in non-interrogative sentences / total non-interrogative sentences
 @textual_feature('sentence_words', 'ancient_greek')
-def relative_clause_per_sentence(file):
+def relative_clause_per_non_interrogative_sentence(file):
 	num_relative_pronoun = 0
 	num_non_interrogative_sentence = 0
 	interrogative_chars = {';', ';'} #Second character is Greek semi colon
@@ -345,7 +345,7 @@ def relative_clause_per_sentence(file):
 #Count of all standalone instances of ἔπειτα, ὅμως, καίπερ, ἅτε, οἷα
 @textual_feature('words', 'ancient_greek')
 def freq_circumstantial_participial_clauses(file):
-	num_participles_characters = 0
+	num_participles = 0
 	num_characters = 0
 	participles = {'ἔπειτα', 'ὅμως', 'καίπερ', 'ἅτε', 'οἷα'}
 	participles = participles | \
@@ -355,14 +355,14 @@ def freq_circumstantial_participial_clauses(file):
 	{normalize('NFKC', val) for val in participles}
 
 	for word in file:
-		num_participles_characters += len(word) if word in participles else 0
+		num_participles += 1 if word in participles else 0
 		num_characters += len(word)
 
-	return num_participles_characters / num_characters
+	return num_participles / num_characters
 
 @textual_feature('words', 'ancient_greek')
 def freq_purpose_clause(file):
-	num_purpose_characters = 0
+	num_purpose_words = 0
 	num_characters = 0
 	purpose_characters = {'ἵνα', 'ὅπως'}
 	purpose_characters = purpose_characters | \
@@ -372,14 +372,14 @@ def freq_purpose_clause(file):
 	{normalize('NFKC', val) for val in purpose_characters}
 
 	for word in file:
-		num_purpose_characters += len(word) if word in purpose_characters else 0
+		num_purpose_words += 1 if word in purpose_characters else 0
 		num_characters += len(word)
 
-	return num_purpose_characters / num_characters
+	return num_purpose_words / num_characters
 
 @textual_feature('words', 'ancient_greek')
 def freq_ws(file):
-	num_ws_characters = 0
+	num_ws = 0
 	num_characters = 0
 	ws_characters = {'ὡς'}
 	ws_characters = ws_characters | \
@@ -389,10 +389,10 @@ def freq_ws(file):
 	{normalize('NFKC', val) for val in ws_characters}
 
 	for word in file:
-		num_ws_characters += len(word) if word in ws_characters else 0
+		num_ws += 1 if word in ws_characters else 0
 		num_characters += len(word)
 
-	return num_ws_characters / num_characters
+	return num_ws / num_characters
 
 # Bad feature when result is NaN or infinity
 # @textual_feature('words', 'ancient_greek')
@@ -422,7 +422,7 @@ def freq_ws(file):
 
 @textual_feature('words', 'ancient_greek')
 def freq_wste_not_preceded_by_eta(file):
-	num_wste_characters = 0
+	num_wste = 0
 	num_characters = 0
 	wste_characters = {'ὥστε'}
 	wste_characters = wste_characters | \
@@ -439,11 +439,11 @@ def freq_wste_not_preceded_by_eta(file):
 	ok_to_add = True
 
 	for word in file:
-		num_wste_characters += len(word) if word in wste_characters and ok_to_add else 0
+		num_wste += 1 if word in wste_characters and ok_to_add else 0
 		num_characters += len(word)
 		ok_to_add = word not in eta_chars
 
-	return num_wste_characters / num_characters
+	return num_wste / num_characters
 
 # Only 54 matches across 42 files for regex "(ἤ|ἢ) (\w+ )*?ὥστε" and 33 matches across 27 files for "(ἤ|ἢ) ὥστε"
 # @textual_feature('words', 'ancient_greek')
@@ -473,7 +473,7 @@ def freq_wste_not_preceded_by_eta(file):
 
 @textual_feature('words', 'ancient_greek')
 def freq_temporal_and_causal_clauses(file):
-	num_clause_characters = 0
+	num_clause_words = 0
 	num_characters = 0
 	clause_chars = {'μέϰρι', 'ἕως', 'πρίν', 'πρὶν', 'ἐπεί', 'ἐπεὶ', 'ἐπειδή', 'ἐπειδὴ', 'ἐπειδάν', 'ἐπειδὰν', 'ὅτε', 'ὅταν'}
 	clause_chars = clause_chars | \
@@ -483,10 +483,10 @@ def freq_temporal_and_causal_clauses(file):
 	{normalize('NFKC', val) for val in clause_chars}
 
 	for word in file:
-		num_clause_characters += len(word) if word in clause_chars else 0
+		num_clause_words += 1 if word in clause_chars else 0
 		num_characters += len(word)
 
-	return num_clause_characters / num_characters
+	return num_clause_words / num_characters
 
 @textual_feature('sentence_words', 'ancient_greek')
 def variance_of_sentence_length(file):
@@ -536,16 +536,17 @@ def particles_per_sentence(file):
 
 @textual_feature('words', 'ancient_greek')
 def freq_men(file):
+	num_men = 0
+	num_characters = 0
 	men_chars = {'μέν', 'μὲν'}
 	men_chars = men_chars | \
 	{normalize('NFD', val) for val in men_chars} | \
 	{normalize('NFC', val) for val in men_chars} | \
 	{normalize('NFKD', val) for val in men_chars} | \
 	{normalize('NFKC', val) for val in men_chars}
-	num_men = 0
-	num_characters = 0
+
 	for word in file:
-		num_men += len(word) if word in men_chars else 0
+		num_men += 1 if word in men_chars else 0
 		num_characters += len(word)
 	return num_men / num_characters
 
