@@ -17,7 +17,8 @@ if not os.path.isdir('demo_files'):
 	os.system('cp ' + os.path.join(grc_dir, 'euripides.heracles.tess') + ' demo_files')
 	os.system('cp ' + os.path.join(grc_dir, 'plato.respublica.tess') + ' demo_files')
 	f = open(os.path.join('demo_files', 'classifications.csv'), mode='w')
-	f.write('Filename,Is Prose?\n')
+	f.write('verse:0,prose:1\n')
+	f.write('Filename,Label\n')
 	f.write(os.path.join('demo_files', 'aristophanes.ecclesiazusae.tess') + ',0\n')
 	f.write(os.path.join('demo_files', 'aristotle.metaphysics.tess') + ',1\n')
 	f.write(os.path.join('demo_files', 'euripides.heracles.tess') + ',0\n')
@@ -130,7 +131,7 @@ from sklearn import ensemble, neural_network, svm
 from sklearn.model_selection import train_test_split
 
 @model_analyzer()
-def random_forest_analyzer(data, target, file_names, feature_names):
+def random_forest_analyzer(data, target, file_names, feature_names, labels_key):
 	print('-' * 40 + '\nRandom Forest Classifier\n')
 	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.5, random_state=0)
 	clf = ensemble.RandomForestClassifier(random_state=0)
@@ -143,7 +144,7 @@ def random_forest_analyzer(data, target, file_names, feature_names):
 		print('\t%f: %s' % (t[1], t[0]))
 
 @model_analyzer()
-def neural_net_analyzer(data, target, file_names, feature_names):
+def neural_net_analyzer(data, target, file_names, feature_names, labels_key):
 	print('-' * 40 + '\nMultilayer Perceptron\n')
 	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.5, random_state=0)
 	clf = neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0)
@@ -156,7 +157,7 @@ def neural_net_analyzer(data, target, file_names, feature_names):
 	print('\tPercentage correct: ' + str(num_correct / len(target)) + '%')
 
 @model_analyzer()
-def support_vector_machine_analyzer(data, target, file_names, feature_names):
+def support_vector_machine_analyzer(data, target, file_names, feature_names, labels_key):
 	print('-' * 40 + '\nSupport Vector Machine\n')
 	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.5, random_state=1)
 	clf = svm.SVC(gamma=0.00001, kernel='rbf', random_state=0)

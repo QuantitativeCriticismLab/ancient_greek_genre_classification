@@ -58,18 +58,21 @@ def main(feature_data_file, classification_data_file, model_func=None):
 
 	#Convert features and classifications into sorted lists
 	file_names = sorted([elem for elem in filename_to_features.keys()])
-	feature_names = sorted(list({feature for feature_to_val in filename_to_features.values() for feature in feature_to_val.keys()}))
+	feature_names = sorted(list({feature for feature_to_val in filename_to_features.values() 
+		for feature in feature_to_val.keys()}))
 
 	data, target = _get_classifier_data(filename_to_features, filename_to_classification, file_names, feature_names)
 
 	from timeit import timeit
 	if model_func:
-		print('\n\n' + GREEN + 'Elapsed time: ' + 
-			str(timeit(partial(decorated_analyzers[model_func], data, target, file_names, feature_names, labels_key), number=1)) + 
+		print('\n\n' + GREEN + 'Elapsed time: ' + '%.6f' % 
+			timeit(partial(
+			decorated_analyzers[model_func], data, target, file_names, feature_names, labels_key), number=1) + 
 			' seconds' + RESET
 		)
 	else:
 		for func in decorated_analyzers.values():
-			print('\n\n' + GREEN + 'Elapsed time: ' + 
-				str(timeit(partial(func, data, target, file_names, feature_names, labels_key), number=1)) + ' seconds' + RESET + '\n'
+			print('\n\n' + GREEN + 'Elapsed time: ' + '%.6f' % 
+				timeit(partial(func, data, target, file_names, feature_names, labels_key), number=1) + 
+				' seconds' + RESET + '\n'
 			)
