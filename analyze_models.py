@@ -18,6 +18,8 @@ def _get_file_classifications(classification_data_file):
 	#Obtain classifications for each file
 	filename_to_classification = {}
 	with open(classification_data_file, mode='r') as classification_file:
+		#TODO labels_key is a confusing variable name for a dictionary
+		#TODO labels_key is declared in "with" block, but is returned external to it - fix this
 		labels_key = OrderedDict(
 			(np.float64(tok.split(':')[1]), tok.split(':')[0]) for tok in classification_file.readline().strip().split(',')
 		)
@@ -56,10 +58,16 @@ def main(feature_data_file, classification_data_file, model_func=None):
 
 	assert len(filename_to_features.keys() - filename_to_classification.keys()) == 0
 
+	#Filter out unused labels (i.e. a label exists but no files are assigned that label)
+	#TODO we probably don't want to filter here, instead we could remove these two lines, and fix the divide by zero issue
+	#TODO as a special case in ml_analyzers
+	used_label_numbers = {filename_to_classification[filename] for filename in filename_to_features.keys()}
+	labels_key = OrderedDict((k, v) for k, v in labels_key.items() if k in used_label_numbers)
+
 	#Convert features and classifications into sorted lists
 	file_names = sorted([elem for elem in filename_to_features.keys()])
 	feature_names = sorted(list({feature for feature_to_val in filename_to_features.values() 
-		for feature in feature_to_val.keys()}))
+		for feature in feature_to_val.keys()})) #TODO we're doing repeated work
 
 	data, target = _get_classifier_data(filename_to_features, filename_to_classification, file_names, feature_names)
 
