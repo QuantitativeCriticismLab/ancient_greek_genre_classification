@@ -99,23 +99,24 @@ def freq_indefinite_pronoun_in_non_interrogative_sentence(file):
 
 	return num_indefinite_pronouns / num_characters
 
-@textual_feature('words', 'ancient_greek')
-def freq_indefinite_pronoun_in_any_sentence(file):
-	num_indefinite_pronouns = 0
-	num_characters = 0
-	pronoun_chars = {'τις', 'τινός', 'τινὸς', 'του', 'τινί', 'τινὶ', 'τῳ', 'τινά', 'τινὰ', 'τινές', 'τινὲς', 'τινῶν', 
-	'τισί', 'τισὶ', 'τισίν', 'τισὶν', 'τινάς', 'τινὰς', 'τι'}
-	pronoun_chars = pronoun_chars | \
-	{normalize('NFD', val) for val in pronoun_chars} | \
-	{normalize('NFC', val) for val in pronoun_chars} | \
-	{normalize('NFKD', val) for val in pronoun_chars} | \
-	{normalize('NFKC', val) for val in pronoun_chars}
+# Not different enough from 'freq_indefinite_pronoun_in_non_interrogative_sentence'
+# @textual_feature('words', 'ancient_greek')
+# def freq_indefinite_pronoun_in_any_sentence(file):
+# 	num_indefinite_pronouns = 0
+# 	num_characters = 0
+# 	pronoun_chars = {'τις', 'τινός', 'τινὸς', 'του', 'τινί', 'τινὶ', 'τῳ', 'τινά', 'τινὰ', 'τινές', 'τινὲς', 'τινῶν', 
+# 	'τισί', 'τισὶ', 'τισίν', 'τισὶν', 'τινάς', 'τινὰς', 'τι'}
+# 	pronoun_chars = pronoun_chars | \
+# 	{normalize('NFD', val) for val in pronoun_chars} | \
+# 	{normalize('NFC', val) for val in pronoun_chars} | \
+# 	{normalize('NFKD', val) for val in pronoun_chars} | \
+# 	{normalize('NFKC', val) for val in pronoun_chars}
 
-	for word in file:
-		num_indefinite_pronouns += 1 if word in pronoun_chars else 0
-		num_characters += len(word)
+# 	for word in file:
+# 		num_indefinite_pronouns += 1 if word in pronoun_chars else 0
+# 		num_characters += len(word)
 
-	return num_indefinite_pronouns / num_characters
+# 	return num_indefinite_pronouns / num_characters
 
 @textual_feature('words', 'ancient_greek')
 def freq_allos(file):
@@ -248,7 +249,7 @@ def freq_superlative(file):
 def freq_conjunction(file):
 	num_conjunction = 0
 	num_characters = 0
-	conjunction_chars = {'τε', 'καί', 'καὶ', 'δέ', 'δὲ', 'ἀλλά', 'ἀλλὰ', 'καίτοι', 'οὐδέ', 'οὐδὲ', 'μηδέ', 'μηδὲ', 'ἤ', 'ἢ'}
+	conjunction_chars = {'τε', 'καί', 'καὶ', 'ἀλλά', 'ἀλλὰ', 'καίτοι', 'οὐδέ', 'οὐδὲ', 'μηδέ', 'μηδὲ', 'ἤ', 'ἢ'}
 	conjunction_chars = conjunction_chars | \
 	{normalize('NFD', val) for val in conjunction_chars} | \
 	{normalize('NFC', val) for val in conjunction_chars} | \
@@ -267,9 +268,9 @@ def mean_sentence_length(file):
 		reduce(lambda word_len, word: word_len + len(word), line, 0), file, 0) / len(file)
 
 @textual_feature('sentence_words', 'ancient_greek')
-def non_interrogative_sentence_with_relative_clause(file):
+def freq_sentence_with_relative_clause(file):
 	num_sentence_with_clause = 0
-	num_non_interrogative_sentence = 0
+	num_sentences = 0
 	interrogative_chars = {';', ';'} #Second character is Greek semi colon
 	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', 
 	'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
@@ -280,14 +281,13 @@ def non_interrogative_sentence_with_relative_clause(file):
 	{normalize('NFKC', val) for val in pronouns}
 
 	for line in file:
-		if line[-1] not in interrogative_chars and len(line) > 1 and line[-2] not in interrogative_chars:
-			for word in line:
-				if word in pronouns:
-					num_sentence_with_clause += 1
-					break
-			num_non_interrogative_sentence += 1
+		for word in line:
+			if word in pronouns:
+				num_sentence_with_clause += 1
+				break
+		num_sentences += 1
 
-	return num_sentence_with_clause / num_non_interrogative_sentence
+	return num_sentence_with_clause / num_sentences
 
 @textual_feature('words', 'ancient_greek')
 def mean_length_relative_clause(file):
@@ -508,8 +508,8 @@ def particles_per_sentence(file):
 	num_particles = 0
 	#Word tokenizer doesn't work well with ellision - apostrophes are removed
 	particles = {'ἄν', 'ἂν', 'ἆρα', 'γε', "γ", "δ", 'δέ', 'δὲ', 'δή', 'δὴ', 'ἕως', "κ", 'κε', 'κέ', 'κὲ', 'κέν', 'κὲν', 
-	'κεν', 'μά', 'μὰ' 'μέν', 'μὲν', 'μέντοι', 'μή', 'μὴ', 'μήν', 'μὴν', 'μῶν', 'νύ', 'νὺ', 'νυ', 'οὐ', 'οὔ', 'οὒ', 'οὖν', 
-	'περ', 'πω', "τ", 'τε', 'τοι'}
+	'κεν', 'μά', 'μὰ' 'μέν', 'μὲν', 'μέντοι', 'μήν', 'μὴν', 'μῶν', 'νύ', 'νὺ', 'νυ', 'οὖν', 
+	'περ', 'πω', 'τοι'}
 	particles = particles | \
 	{normalize('NFD', val) for val in particles} | \
 	{normalize('NFC', val) for val in particles} | \
