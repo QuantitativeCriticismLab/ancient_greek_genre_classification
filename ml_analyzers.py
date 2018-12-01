@@ -46,9 +46,6 @@ def random_forest_test(data, target, file_names, feature_names, labels_key):
 
 	print('\t' * tabs + YELLOW + 'RF parameters' + RESET + ' = ' + str(clf.get_params()) + '\n')
 	_display_stats(expected, results, file_names, labels_key, tabs=tabs)
-	print('\t' * tabs + YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
-	for t in sorted(zip(feature_names, clf.feature_importances_), key=lambda s: -s[1]):
-		print('\t' * tabs + '%f: %s' % (t[1], t[0]))
 
 @model_analyzer()
 def random_forest_cross_validation(data, target, file_names, feature_names, labels_key):
@@ -70,9 +67,6 @@ def random_forest_cross_validation(data, target, file_names, feature_names, labe
 		print()
 		print('\t' * tabs + YELLOW + 'Validate fold ' + str(cur_fold) + ':' + RESET)
 		_display_stats(expected, results, file_names, labels_key, tabs=tabs + 1)
-		print('\t' * (tabs + 1) + YELLOW + 'Random Forest Gini Importance : Feature Name' + RESET)
-		for t in sorted(zip(feature_names, clf.feature_importances_), key=lambda s: -s[1]):
-			print('\t' * (tabs + 1) + '%f: %s' % (t[1], t[0]))
 
 		cur_fold += 1
 
@@ -94,6 +88,7 @@ def random_forest_misclassifications(data, target, file_names, feature_names, la
 	print('RF seeds tested: 0-' + str(rf_trials - 1) + ' (inclusive)')
 	print('Cross validation splitter seeds tested: 0-' + str(kfold_trials - 1) + ' (inclusive)')
 	print('Number of splits: ' + str(splits))
+	print('Labels tested: [' + ', '.join(v + ' (value of ' + str(k) + ')' for k, v in labels_key.items()) + ']')#TODO should filtering be done here?
 	print('Features tested: ' + str(feature_names))
 	print('RF parameters: ' + str(forest_params))
 	print()
@@ -147,6 +142,7 @@ def random_forest_feature_rankings(data, target, file_names, feature_names, labe
 	print('RF seeds tested: 0-' + str(rf_trials - 1) + ' (inclusive)')
 	print('Cross validation splitter seeds tested: 0-' + str(kfold_trials - 1) + ' (inclusive)')
 	print('Number of splits: ' + str(splits))
+	print('Labels tested: [' + ', '.join(v + ' (value of ' + str(k) + ')' for k, v in labels_key.items()) + ']')#TODO should filtering be done here?
 	print('Features tested: ' + str(feature_names))
 	print('RF parameters: ' + str(forest_params))
 	print()

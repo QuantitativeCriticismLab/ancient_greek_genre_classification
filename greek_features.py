@@ -504,8 +504,9 @@ def variance_of_sentence_length(file):
 	return squared_difference / num_sentences
 
 @textual_feature('words', 'ancient_greek')
-def particles_per_sentence(file):
+def freq_particles(file):
 	num_particles = 0
+	num_characters = 0
 	#Word tokenizer doesn't work well with ellision - apostrophes are removed
 	particles = {'ἄν', 'ἂν', 'ἆρα', 'γε', "γ", "δ", 'δέ', 'δὲ', 'δή', 'δὴ', 'ἕως', "κ", 'κε', 'κέ', 'κὲ', 'κέν', 'κὲν', 
 	'κεν', 'μά', 'μὰ' 'μέν', 'μὲν', 'μέντοι', 'μήν', 'μὴν', 'μῶν', 'νύ', 'νὺ', 'νυ', 'οὖν', 
@@ -518,9 +519,9 @@ def particles_per_sentence(file):
 
 	for word in file:
 		num_particles += 1 if word in particles else 0
+		num_characters += len(word)
 
-	num_sentences = file.count('.') + file.count(';') + file.count(';') #Greek semi colon
-	return num_particles / num_sentences
+	return num_particles / num_characters
 
 # No interpunct symbols found in the entire tesserae corpus - searched with regex: (·|·|∙|⋅|•|᛫|‧|⦁|⸳|・|ꞏ|･|𐄁)
 # @textual_feature('default', 'ancient_greek')
