@@ -56,7 +56,9 @@ def main(feature_data_file, classification_data_file, model_func=None):
 
 	filename_to_classification, labels_key = _get_file_classifications(classification_data_file)
 
-	assert len(filename_to_features.keys() - filename_to_classification.keys()) == 0
+	assert len(filename_to_features.keys() - filename_to_classification.keys()) == 0, \
+		'There exist some files for which no label exists: {\n\t' \
+		+ '\n\t'.join(filename_to_features.keys() - filename_to_classification.keys()) + '\n}'
 
 	#Filter out unused labels (i.e. a label exists but no files are assigned that label)
 	#TODO we probably don't want to filter here, instead we could remove these two lines, and fix the divide by zero issue

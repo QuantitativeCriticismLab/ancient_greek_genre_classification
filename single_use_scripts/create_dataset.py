@@ -34,7 +34,7 @@ if not os.path.isfile(feature_data_file):
 	)
 
 
-classification_data_file = 'prosody_labels.csv'
+classification_data_file = 'labels/prosody_labels.csv'
 
 filename_to_features = _get_features(feature_data_file)
 
