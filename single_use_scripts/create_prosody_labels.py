@@ -30,8 +30,9 @@ for file in file_names:
 	isprose = author_to_isprose[author]
 	file_to_isprose[file] = isprose
 
-with open("classifications.csv", mode="w") as file:
-	file.write("Filename,Is Prose?\n")
+with open("prosody_labels.csv", mode="w") as file:
+	file.write("verse:0,prose:1\n")
+	file.write("Filename,Label\n")
 	for k, v in file_to_isprose.items():
 		file.write(k + ',' + str(v) + '\n')
 

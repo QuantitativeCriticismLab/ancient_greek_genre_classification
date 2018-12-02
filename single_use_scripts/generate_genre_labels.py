@@ -58,6 +58,7 @@ f.write(','.join(k + ':' + str(v) for k, v in labels.items()) + '\n')
 f.write('Filename,Genre\n')
 for path in sorted(filename_to_path.values()): #Iterate over sorted values so that the order will match prosody_labels.csv
 	filename = path_to_filename[path]
+	genre = None
 	if filename in file_to_genre:
 		genre = file_to_genre[filename]
 	else:
@@ -66,5 +67,6 @@ for path in sorted(filename_to_path.values()): #Iterate over sorted values so th
 			if filename[:filename.rindex('.tess')] in fi: #name of the composite file is contained within the subsidiary file 
 				genre = file_to_genre[fi] #copy the genre of the subsidiary file
 				break
+	assert genre is not None
 	f.write(filename_to_path[filename] + ',' + str(labels[genre]) + '\n')
 print('Success!')
