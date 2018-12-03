@@ -1,3 +1,6 @@
+#TODO do an average of many cross validations?
+#TODO display files tested? 
+
 import sys
 import numpy as np
 import analyze_models
