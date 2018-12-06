@@ -131,8 +131,8 @@ def random_forest_averaged_cross_validation(data, target, file_names, feature_na
 				trial_num += 1
 				current_fold += 1
 
-	print(YELLOW + 'Averaged percentages from ' + str(rf_trials * kfold_trials * splits) + 
-		' (' + str(rf_trials) + ' * ' + str(kfold_trials) + ' * ' + str(splits) + ') trials.'
+	print(YELLOW + 'Averaged percentages from ' + str(rf_trials * kfold_trials * splits) + ' (' 
+		+ str(rf_trials) + ' * ' + str(kfold_trials) + ' * ' + str(splits) + ') trials.' + RESET
 	)
 	print('\t' + 'Percentage correct: %s%.4f%s%% +/- standard deviation of %.4f%%' % 
 		(GREEN, sum(tup[0] for tup in numcorrect_numtotal_f1micro_f1macro_f1weighted) 

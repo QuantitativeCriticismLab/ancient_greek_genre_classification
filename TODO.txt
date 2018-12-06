@@ -13,6 +13,7 @@ Have a "clean" command to get rid of demo files, notes, tesserae, etc?
 Include git commit hash of this repo and git commit hash of tesserae repo in pickle dump, and output it in the ml analyzers so user can know what version of data they are dealing with, and allow the recognition of unstaged changes before outputting the pickle file
 Generate csv in ml_analyzers
 Include kwargs in decorated functions?
+Write generalized script to create labels csv comparing any categories against any others?
 
 Update research poster
 Qcrit needs a LinkedIn

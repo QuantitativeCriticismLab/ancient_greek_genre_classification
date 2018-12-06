@@ -170,9 +170,6 @@ if __name__ == '__main__':
 		#Exclude the following directories and files
 		excluded_paths=composite_files_to_exclude | verse_files_to_exclude,
 
-		#Only extract the following features
-		# features=['freq_men'], 
-
 		#Output the results to a file in order to be processed by machine learning algorithms
 		output_file=None if len(sys.argv) <= 1 else sys.argv[1] 
 	)

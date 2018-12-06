@@ -1,5 +1,22 @@
 from greek_features import *
 
+verse_misc_files_to_exclude = {
+	'tesserae/texts/grc/bion_of_phlossa.fragmenta.tess',
+	'tesserae/texts/grc/pindar.odes/pindar.odes.part.1.isthmeans.tess',
+	'tesserae/texts/grc/lucian.podagra.tess',
+	'tesserae/texts/grc/pindar.odes/pindar.odes.part.4.pythians.tess',
+	'tesserae/texts/grc/pindar.odes/pindar.odes.part.3.olympians.tess',
+	'tesserae/texts/grc/bacchylides.epinicians.tess',
+	'tesserae/texts/grc/bion_of_phlossa.epitaphius.tess',
+	'tesserae/texts/grc/callimachus.epigrams.tess',
+	'tesserae/texts/grc/callimachus.hymns.tess',
+	'tesserae/texts/grc/bacchylides.dithyrambs.tess',
+	'tesserae/texts/grc/pindar.odes/pindar.odes.part.2.nemeans.tess',
+	'tesserae/texts/grc/lycophron.alexandra.tess',
+	'tesserae/texts/grc/bion_of_phlossa.epithalamium.tess',
+	'tesserae/texts/grc/theocritus.epigrams.tess',
+}
+
 prose_files_to_exclude = {
 	'tesserae/texts/grc/achilles_tatius.leucippe_et_clitophon.tess',
 	'tesserae/texts/grc/aelian.de_natura_animalium.tess',
@@ -650,7 +667,7 @@ if __name__ == '__main__':
 		'tess', 
 
 		#Exclude the following directories and files
-		excluded_paths=composite_files_to_exclude | prose_files_to_exclude,
+		excluded_paths=composite_files_to_exclude | verse_misc_files_to_exclude | prose_files_to_exclude,
 
 		#Output the results to a file in order to be processed by machine learning algorithms
 		output_file=None if len(sys.argv) <= 1 else sys.argv[1] 
