@@ -8,7 +8,7 @@ PunktLanguageVars.sent_end_chars = ('.', ';', ';')
 PunktLanguageVars.internal_punctuation = (',', '·', ':')
 
 cltk_params = open_pickle('tokenizers/ancient_greek.pickle')._params
-kjohnson_params = open_pickle('notes/kjohnson_greek.pickle').get_params()
+kjohnson_params = open_pickle('feature_data/kjohnson_greek.pickle').get_params()
 
 #Are the attributes from ~/cltk_data/greek/model/greek_models_cltk/tokenizers/sentence/greek.pickle the same as https://github.com/cltk/greek_training_set_sentence_cltk/blob/master/greek.pickle ? Yes they are
 print(cltk_params.abbrev_types)

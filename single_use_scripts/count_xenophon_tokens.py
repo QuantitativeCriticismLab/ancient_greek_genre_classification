@@ -19,9 +19,9 @@ new_tokenizer = PunktSentenceTokenizer(trainer.get_params())
 print('tokenizers equal? ' + str(tokenizer == new_tokenizer))
 print('tokenization equal? ' + str(tokenizer.tokenize(text) == new_tokenizer.tokenize(text)))
 
-old_tok_out = open('notes/old_tok.txt', mode='w')
+old_tok_out = open('feature_data/old_tok.txt', mode='w')
 old_tok_out.write('\n'.join(tokenizer.tokenize(text)))
-new_tok_out = open('notes/new_tok.txt', mode='w')
+new_tok_out = open('feature_data/new_tok.txt', mode='w')
 new_tok_out.write('\n'.join(new_tokenizer.tokenize(text)))
 
 

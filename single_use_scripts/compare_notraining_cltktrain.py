@@ -9,7 +9,7 @@ PunktLanguageVars.internal_punctuation = (',', '·', ':')
 
 notrain_tokenizer = PunktSentenceTokenizer()
 cltk_tokenizer = open_pickle('tokenizers/ancient_greek.pickle')
-kjohnson_tokenizer = PunktSentenceTokenizer(open_pickle('notes/kjohnson_greek.pickle').get_params())
+kjohnson_tokenizer = PunktSentenceTokenizer(open_pickle('feature_data/kjohnson_greek.pickle').get_params())
 
 corpus_dir = 'tesserae' + os.sep + 'texts' + os.sep + 'grc'
 file_extension = 'tess'
@@ -19,7 +19,7 @@ file_names = sorted(list({current_path + os.sep + current_file_name for current_
 os.walk(corpus_dir) for current_file_name in current_file_names if current_file_name.endswith('.' + file_extension)}))
 
 counter = 1
-f = open('notes/diff_tokenizers_notrain_cltk.txt', mode='w')
+f = open('feature_data/diff_tokenizers_notrain_cltk.txt', mode='w')
 f.write('Differences:\n\n')
 for file_name in file_names:
 	file_text = file_parsers[file_extension](file_name)
@@ -42,7 +42,7 @@ It appears that the following three tokenizers produce the same sentence tokeniz
 
 2) From https://github.com/cltk/greek_models_cltk/blob/master/tokenizers/sentence/greek.pickle: open_pickle('tokenizers/ancient_greek.pickle')
 
-3) From https://github.com/cltk/greek_training_set_sentence_cltk/blob/master/greek.pickle: PunktSentenceTokenizer(open_pickle('notes/kjohnson_greek.pickle').get_params())
+3) From https://github.com/cltk/greek_training_set_sentence_cltk/blob/master/greek.pickle: PunktSentenceTokenizer(open_pickle('feature_data/kjohnson_greek.pickle').get_params())
 
 After further investigation, it appears that tokenizers (2) and (3) have identical instance variables on their internal PunktParameters object (called _params), and are therefore equivalent. The instance variables compared on the PunktParameters object were abbrev_types, collocations, sent_starters, ortho_context.
 '''

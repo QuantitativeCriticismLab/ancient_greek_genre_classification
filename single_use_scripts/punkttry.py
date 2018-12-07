@@ -15,9 +15,9 @@ p._re_word_tokenizer = re.compile(PunktLanguageVars._word_tokenize_fmt % {
 s = 'test test test. test test; test test? test test test test test. test. test test. test? test test.'
 assert p.word_tokenize(s) == w.tokenize(s)
 
-d = [('tesserae/texts/grc/achilles_tatius.leucippe_et_clitophon.tess', 'notes/a.txt', 'notes/b.txt'), 
-	('tesserae/texts/grc/bacchylides.epinicians.tess', 'notes/m.txt', 'notes/n.txt'), 
-	('tesserae/texts/grc/polybius.histories.tess', 'notes/x.txt', 'notes/y.txt')]
+d = [('tesserae/texts/grc/achilles_tatius.leucippe_et_clitophon.tess', 'feature_data/a.txt', 'feature_data/b.txt'), 
+	('tesserae/texts/grc/bacchylides.epinicians.tess', 'feature_data/m.txt', 'feature_data/n.txt'), 
+	('tesserae/texts/grc/polybius.histories.tess', 'feature_data/x.txt', 'feature_data/y.txt')]
 
 for t in d:
 	with open(t[0], mode='r', encoding='utf-8') as f:

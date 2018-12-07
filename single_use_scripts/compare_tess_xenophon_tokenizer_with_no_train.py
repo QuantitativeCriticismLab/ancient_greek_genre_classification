@@ -17,8 +17,8 @@ file_extension = 'tess'
 file_names = sorted(list({current_path + os.sep + current_file_name for current_path, current_dir_names, current_file_names in \
 os.walk(corpus_dir) for current_file_name in current_file_names if current_file_name.endswith('.' + file_extension)}))
 
-n_file = open('notes/notrain_sentences.txt', mode='w')
-t_file = open('notes/tesstrain_sentences.txt', mode='w')
+n_file = open('feature_data/notrain_sentences.txt', mode='w')
+t_file = open('feature_data/tesstrain_sentences.txt', mode='w')
 counter = 1
 for file_name in file_names:
 	file_text = file_parsers[file_extension](file_name)
@@ -45,7 +45,7 @@ There is no space between "ἐγώ.ευριπιδες". However, in the Perse
 
 I ran the following command, comparing the output of a tokenizer that was not trained vs a tokenizer that was trained on xenophon.anabasis.tess from the tesserae corpus.
 
-diff notes/notrain_sentences.txt notes/tesstrain_sentences.txt > notes/notrain_tess.diff
+diff feature_data/notrain_sentences.txt feature_data/tesstrain_sentences.txt > feature_data/notrain_tess.diff
 
 
 One difference between the tokenizers is in Apollodorus's Epitome where the former tokenizer didn't cut the sentence after "... καὶ Θέτιδος ν. ἐκ Φυλάκης ..." The "ν." is not an abbreviation, but the Greek number fifty followed by a period - therefore it should have cut the sentence.

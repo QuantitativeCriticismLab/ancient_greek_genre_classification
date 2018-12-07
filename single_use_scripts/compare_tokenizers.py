@@ -4,7 +4,7 @@ from extract_features import file_parsers
 from progress_bar import print_progress_bar
 
 xeno_tokenizer = open_pickle('tokenizers/ancient_greek.pickle')
-tess_tokenizer = open_pickle('notes/tesserae_greek.pickle')
+tess_tokenizer = open_pickle('feature_data/tesserae_greek.pickle')
 corpus_dir = 'tesserae' + os.sep + 'texts' + os.sep + 'grc'
 file_extension = 'tess'
 #Obtain all the files to parse by traversing through the directory
@@ -17,13 +17,13 @@ for file_name in ['tesserae/texts/grc/achilles_tatius.leucippe_et_clitophon.tess
 	x_tokens = xeno_tokenizer.tokenize(file_text)
 	t_tokens = tess_tokenizer.tokenize(file_text)
 	if t_tokens != x_tokens:
-		xeno_out = open('notes/xeno_token_achilles.txt', mode='w')
+		xeno_out = open('feature_data/xeno_token_achilles.txt', mode='w')
 		xeno_out.write('\n'.join(x_tokens))
-		tess_out = open('notes/tess_token_achilles.txt', mode='w')
+		tess_out = open('feature_data/tess_token_achilles.txt', mode='w')
 		tess_out.write('\n'.join(t_tokens))
 	# print_progress_bar(counter, len(file_names))
 	counter += 1
 
 '''
-I trained Punkt on the entire tesserae corpus (notes/tesserae_greek.pickle). It's performance was actually worse than the tokenizer that was created from training on just Xenophon (tokenizers/ancient_greek.pickle). The tokenizer created from training on just Xenophon does well, except for failing to tokenize sentences where the terminal punctuation is not followed by a space.
+I trained Punkt on the entire tesserae corpus (feature_data/tesserae_greek.pickle). It's performance was actually worse than the tokenizer that was created from training on just Xenophon (tokenizers/ancient_greek.pickle). The tokenizer created from training on just Xenophon does well, except for failing to tokenize sentences where the terminal punctuation is not followed by a space.
 '''
