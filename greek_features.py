@@ -9,7 +9,7 @@ from color import RED, RESET
 from functools import reduce
 from nltk.tokenize.punkt import PunktLanguageVars
 from unicodedata import normalize
-#Reference: https://jktauber.com/articles/python-unicode-ancient-greek/
+#Reference for normalization: https://jktauber.com/articles/python-unicode-ancient-greek/
 
 setup_tokenizers(('.', ';', ';')) #'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
 
@@ -23,7 +23,7 @@ def freq_interrogatives(file):
 	return num_interrogative / len(file)
 
 @textual_feature('words', 'ancient_greek')
-def freq_conditional_words(file):
+def freq_conditional_markers(file):
 	num_conditional_words = 0
 	num_characters = 0
 	conditional_words = {'εἰ', 'εἴ', 'εἲ', 'ἐάν', 'ἐὰν'}
@@ -44,7 +44,7 @@ def freq_personal_pronouns(file):
 	num_pronouns = 0
 	num_characters = 0
 	personal_pronouns = {'ἐγώ', 'ἐγὼ', 'ἐμοῦ', 'μου', 'ἐμοί', 'ἐμοὶ', 'μοι', 'ἐμέ', 'ἐμὲ', 'με', 'ἡμεῖς', 'ἡμῶν', 
-	'ἡμῖν', 'ἡμᾶς', 'σύ', 'σὺ', 'σοῦ', 'σου', 'σοί', 'σοὶ', 'σοι', 'σέ', 'σὲ', 'σε', 'ὑμεῖς', 'ὑμῶν', 'ὑμῖν', 'ὑμᾶς'}
+	'ἡμῖν', 'ἡμᾶς', 'σύ', 'σὺ', 'σοῦ', 'σου', 'σοί', 'σοὶ', 'σοι', 'σέ', 'σὲ', 'σε', 'ὑμεῖς', 'ὑμῶν', 'ὑμῖν', 'ὑμᾶς', 'μ', 'σ'}
 	personal_pronouns = personal_pronouns | \
 	{normalize('NFD', val) for val in personal_pronouns} | \
 	{normalize('NFC', val) for val in personal_pronouns} | \
@@ -65,7 +65,9 @@ def freq_demonstrative(file):
 	'ἐκείνη', 'ἐκείνης', 'ἐκείνῃ', 'ἐκείνην', 'ἐκεῖναι', 'ἐκείναις', 'ἐκείνᾱς', 'ἐκείνας', 'ἐκεῖνο', 'ἐκεῖνα', 'ὅδε', 
 	'τοῦδε', 'τῷδε', 'τόνδε', 'οἵδε', 'τῶνδε', 'τοῖσδε', 'τούσδε', 'ἥδε', 'τῆσδε', 'τῇδε', 'τήνδε', 'αἵδε', 'ταῖσδε', 
 	'τᾱ́σδε', 'τάσδε', 'τόδε', 'τάδε', 'οὗτος', 'τούτου', 'τούτῳ', 'τοῦτον', 'οὗτοι', 'τούτων', 'τούτοις', 'τούτους', 
-	'αὕτη', 'ταύτης', 'ταύτῃ', 'ταύτην', 'αὕται', 'ταύταις', 'ταύτᾱς', 'ταύτας', 'τοῦτο', 'ταῦτα'}
+	'αὕτη', 'ταύτης', 'ταύτῃ', 'ταύτην', 'αὕται', 'ταύταις', 'ταύτᾱς', 'ταύτας', 'τοῦτο', 'ταῦτα', 
+	'ἐκεῖν', 'ὅδ', 'τοῦδ', 'τῷδ', 'τόνδ', 'οἵδ', 'τῶνδ', 'τοῖσδ', 'τούσδ', 'ἥδ','τῆσδ','τῇδ','τήνδ','αἵδ', 'ταῖσδ', 
+	'τάσδ','τόδ', 'τάδ'}
 	demonstrative_pronouns = demonstrative_pronouns | \
 	{normalize('NFD', val) for val in demonstrative_pronouns} | \
 	{normalize('NFC', val) for val in demonstrative_pronouns} | \
@@ -208,7 +210,7 @@ def freq_reflexive(file):
 	return num_reflexive / num_characters
 
 @textual_feature('sentence_words', 'ancient_greek')
-def freq_vocative_sentences(file):
+def freq_sentences_with_vocative_omega(file):
 	num_vocatives = 0
 	vocative_characters = {'ὦ'}
 	vocative_characters = vocative_characters | \
@@ -230,8 +232,8 @@ def freq_superlative(file):
 	num_superlative = 0
 	num_characters = 0
 	superlative_ending_characters = ['τατος', 'τάτου', 'τάτῳ', 'τατον', 'τατοι', 'τάτων', 
-	'τάτοις', 'τάτους', 'τάτη', 'τάτης', 'τάτῃ', 'τάτην', 'ταται', 
-	'τάταις', 'τάτας', 'τατα']
+	'τάτοις', 'τάτους', 'τάτη', 'τάτης', 'τάτῃ', 'τάτην', 
+	'τάταις', 'τάτας', 'τατα'] #ταται was excluded since it appears frequently in third person middle/passive singular
 	#The endswith() method requires a tuple
 	superlative_ending_characters = tuple(superlative_ending_characters + \
 	[normalize('NFD', val) for val in superlative_ending_characters] + \
@@ -249,7 +251,7 @@ def freq_superlative(file):
 def freq_conjunction(file):
 	num_conjunction = 0
 	num_characters = 0
-	conjunction_chars = {'τε', 'καί', 'καὶ', 'ἀλλά', 'ἀλλὰ', 'καίτοι', 'οὐδέ', 'οὐδὲ', 'μηδέ', 'μηδὲ', 'ἤ', 'ἢ'}
+	conjunction_chars = {'τε', 'καί', 'καὶ', 'ἀλλά', 'ἀλλὰ', 'καίτοι', 'οὐδέ', 'οὐδὲ', 'μηδέ', 'μηδὲ', 'οὔτε', 'οὔτ', 'μήτε', 'μήτ', 'οὐδ', 'μηδ', 'ἤ', 'ἢ', 'τ'}
 	conjunction_chars = conjunction_chars | \
 	{normalize('NFD', val) for val in conjunction_chars} | \
 	{normalize('NFC', val) for val in conjunction_chars} | \
@@ -320,34 +322,33 @@ def mean_length_relative_clause(file):
 
 	return 0 if num_relative_clause == 0 else sum_length_relative_clause / num_relative_clause
 
-#Count of relative pronouns in non-interrogative sentences / total non-interrogative sentences
-@textual_feature('sentence_words', 'ancient_greek')
-def relative_clause_per_non_interrogative_sentence(file):
-	num_relative_pronoun = 0
-	num_non_interrogative_sentence = 0
-	interrogative_chars = {';', ';'} #Second character is Greek semi colon
-	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', 
-	'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
-	pronouns = pronouns | \
-	{normalize('NFD', val) for val in pronouns} | \
-	{normalize('NFC', val) for val in pronouns} | \
-	{normalize('NFKD', val) for val in pronouns} | \
-	{normalize('NFKC', val) for val in pronouns}
+# Too similar to freq_sentence_with_relative_clause
+# @textual_feature('sentence_words', 'ancient_greek')
+# def relative_clause_per_non_interrogative_sentence(file):
+# 	num_relative_pronoun = 0
+# 	num_non_interrogative_sentence = 0
+# 	interrogative_chars = {';', ';'} #Second character is Greek semi colon
+# 	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', 
+# 	'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
+# 	pronouns = pronouns | \
+# 	{normalize('NFD', val) for val in pronouns} | \
+# 	{normalize('NFC', val) for val in pronouns} | \
+# 	{normalize('NFKD', val) for val in pronouns} | \
+# 	{normalize('NFKC', val) for val in pronouns}
 
-	for line in file:
-		if line[-1] not in interrogative_chars and len(line) > 1 and line[-2] not in interrogative_chars:
-			for word in line:
-				num_relative_pronoun += 1 if word in pronouns else 0
-			num_non_interrogative_sentence += 1
+# 	for line in file:
+# 		if line[-1] not in interrogative_chars and len(line) > 1 and line[-2] not in interrogative_chars:
+# 			for word in line:
+# 				num_relative_pronoun += 1 if word in pronouns else 0
+# 			num_non_interrogative_sentence += 1
 
-	return num_relative_pronoun / num_non_interrogative_sentence
+# 	return num_relative_pronoun / num_non_interrogative_sentence
 
-#Count of all standalone instances of ἔπειτα, ὅμως, καίπερ, ἅτε, οἷα
 @textual_feature('words', 'ancient_greek')
-def freq_circumstantial_participial_clauses(file):
+def freq_circumstantial_markers(file):
 	num_participles = 0
 	num_characters = 0
-	participles = {'ἔπειτα', 'ὅμως', 'καίπερ', 'ἅτε', 'οἷα'}
+	participles = {'ἔπειτα', 'ὅμως', 'καίπερ', 'ἅτε', 'ἔπειτ','ἅτ'}
 	participles = participles | \
 	{normalize('NFD', val) for val in participles} | \
 	{normalize('NFC', val) for val in participles} | \
@@ -361,10 +362,10 @@ def freq_circumstantial_participial_clauses(file):
 	return num_participles / num_characters
 
 @textual_feature('words', 'ancient_greek')
-def freq_purpose_clause(file):
+def freq_hina_hopos(file):
 	num_purpose_words = 0
 	num_characters = 0
-	purpose_characters = {'ἵνα', 'ὅπως'}
+	purpose_characters = {'ἵνα', 'ὅπως', 'ἵν'}
 	purpose_characters = purpose_characters | \
 	{normalize('NFD', val) for val in purpose_characters} | \
 	{normalize('NFC', val) for val in purpose_characters} | \
@@ -472,7 +473,7 @@ def freq_wste_not_preceded_by_eta(file):
 # 	return num_wste_characters / num_characters
 
 @textual_feature('words', 'ancient_greek')
-def freq_temporal_and_causal_clauses(file):
+def freq_temporal_causal_markers(file):
 	num_clause_words = 0
 	num_characters = 0
 	clause_chars = {'μέϰρι', 'ἕως', 'πρίν', 'πρὶν', 'ἐπεί', 'ἐπεὶ', 'ἐπειδή', 'ἐπειδὴ', 'ἐπειδάν', 'ἐπειδὰν', 'ὅτε', 'ὅταν'}
