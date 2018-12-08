@@ -273,7 +273,6 @@ def mean_sentence_length(file):
 def freq_sentence_with_relative_clause(file):
 	num_sentence_with_clause = 0
 	num_sentences = 0
-	interrogative_chars = {';', ';'} #Second character is Greek semi colon
 	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', 
 	'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
 	pronouns = pronouns | \
@@ -348,7 +347,7 @@ def mean_length_relative_clause(file):
 def freq_circumstantial_markers(file):
 	num_participles = 0
 	num_characters = 0
-	participles = {'ἔπειτα', 'ὅμως', 'καίπερ', 'ἅτε', 'ἔπειτ','ἅτ'}
+	participles = {'ἔπειτα', 'ὅμως', 'καίπερ', 'ἅτε', 'ἔπειτ', 'ἅτ', 'ὁμῶς'}
 	participles = participles | \
 	{normalize('NFD', val) for val in participles} | \
 	{normalize('NFC', val) for val in participles} | \
