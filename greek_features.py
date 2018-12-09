@@ -233,7 +233,7 @@ def freq_superlative(file):
 	num_characters = 0
 	superlative_ending_characters = ['τατος', 'τάτου', 'τάτῳ', 'τατον', 'τατοι', 'τάτων', 
 	'τάτοις', 'τάτους', 'τάτη', 'τάτης', 'τάτῃ', 'τάτην', 
-	'τάταις', 'τάτας', 'τατα'] #ταται was excluded since it appears frequently in third person middle/passive singular
+	'τάταις', 'τάτας', 'τατα','τατά', 'τατε']
 	#The endswith() method requires a tuple
 	superlative_ending_characters = tuple(superlative_ending_characters + \
 	[normalize('NFD', val) for val in superlative_ending_characters] + \
