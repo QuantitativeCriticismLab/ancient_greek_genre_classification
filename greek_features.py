@@ -361,21 +361,38 @@ def freq_circumstantial_markers(file):
 	return num_participles / num_characters
 
 @textual_feature('words', 'ancient_greek')
-def freq_hina_hopos(file):
-	num_purpose_words = 0
+def freq_hina(file):
+	num_hina = 0
 	num_characters = 0
-	purpose_characters = {'ἵνα', 'ὅπως', 'ἵν'}
-	purpose_characters = purpose_characters | \
-	{normalize('NFD', val) for val in purpose_characters} | \
-	{normalize('NFC', val) for val in purpose_characters} | \
-	{normalize('NFKD', val) for val in purpose_characters} | \
-	{normalize('NFKC', val) for val in purpose_characters}
+	ina_characters = {'ἵνα', 'ἵν'}
+	ina_characters = ina_characters | \
+	{normalize('NFD', val) for val in ina_characters} | \
+	{normalize('NFC', val) for val in ina_characters} | \
+	{normalize('NFKD', val) for val in ina_characters} | \
+	{normalize('NFKC', val) for val in ina_characters}
 
 	for word in file:
-		num_purpose_words += 1 if word in purpose_characters else 0
+		num_hina += 1 if word in ina_characters else 0
 		num_characters += len(word)
 
-	return num_purpose_words / num_characters
+	return num_hina / num_characters
+
+@textual_feature('words', 'ancient_greek')
+def freq_hopos(file):
+	num_hopos = 0
+	num_characters = 0
+	hopos_characters = {'ὅπως'}
+	hopos_characters = hopos_characters | \
+	{normalize('NFD', val) for val in hopos_characters} | \
+	{normalize('NFC', val) for val in hopos_characters} | \
+	{normalize('NFKD', val) for val in hopos_characters} | \
+	{normalize('NFKC', val) for val in hopos_characters}
+
+	for word in file:
+		num_hopos += 1 if word in hopos_characters else 0
+		num_characters += len(word)
+
+	return num_hopos / num_characters
 
 @textual_feature('words', 'ancient_greek')
 def freq_ws(file):
