@@ -47,18 +47,25 @@ def _get_classifier_data(filename_to_features, filename_to_classification, file_
 	target = np.asarray(target)
 	return (data, target)
 
-def main(feature_data_file, classification_data_file, model_func=None):
-	assert os.path.isfile(feature_data_file), 'File "' + feature_data_file + '" does not exist'
-	assert os.path.isfile(classification_data_file), 'File "' + classification_data_file + '" does not exist'
-	assert model_func is None or model_func in decorated_analyzers, '"' + model_func + '" is not a decorated model analyzer'
+#TODO unit test this
+def main(feature_data_file, classification_data_file, model_funcs=None):
+	if model_funcs is None: model_funcs = decorated_analyzers.keys()
+
+	if not os.path.isfile(feature_data_file): raise ValueError('File "' + feature_data_file + '" does not exist')
+	if not os.path.isfile(classification_data_file):
+		raise ValueError('File "' + classification_data_file + '" does not exist')
+	if not model_funcs: raise ValueError('No model analyzers were provided')
+	if not all(f in decorated_analyzers for f in model_funcs):
+		raise ValueError('The values in set ' + str(set(model_funcs) - decorated_analyzers.keys()) 
+			+ ' are not among the decorated model analyzers in ' + str(decorated_analyzers.keys()))
 
 	filename_to_features = _get_features(feature_data_file)
 
 	filename_to_classification, labels_key = _get_file_classifications(classification_data_file)
 
-	assert len(filename_to_features.keys() - filename_to_classification.keys()) == 0, \
-		'There exist some files for which no label exists: {\n\t' \
-		+ '\n\t'.join(filename_to_features.keys() - filename_to_classification.keys()) + '\n}'
+	if not len(filename_to_features.keys() - filename_to_classification.keys()) == 0:
+		raise ValueError('There exist some files for which no label exists: {\n\t'
+			+ '\n\t'.join(filename_to_features.keys() - filename_to_classification.keys()) + '\n}')
 
 	#Filter out unused labels (i.e. a label exists but no files are assigned that label)
 	#TODO we probably don't want to filter here, instead we could remove these two lines, and fix the divide by zero issue
@@ -74,15 +81,8 @@ def main(feature_data_file, classification_data_file, model_func=None):
 	data, target = _get_classifier_data(filename_to_features, filename_to_classification, file_names, feature_names)
 
 	from timeit import timeit
-	if model_func:
+	for funcname in model_funcs:
 		print('\n\n' + GREEN + 'Elapsed time: ' + '%.4f' % 
-			timeit(partial(
-			decorated_analyzers[model_func], data, target, file_names, feature_names, labels_key), number=1) + 
-			' seconds' + RESET
+			timeit(partial(decorated_analyzers[funcname], data, target, file_names, feature_names, labels_key), number=1) 
+			+ ' seconds' + RESET + '\n'
 		)
-	else:
-		for func in decorated_analyzers.values():
-			print('\n\n' + GREEN + 'Elapsed time: ' + '%.4f' % 
-				timeit(partial(func, data, target, file_names, feature_names, labels_key), number=1) + 
-				' seconds' + RESET + '\n'
-			)

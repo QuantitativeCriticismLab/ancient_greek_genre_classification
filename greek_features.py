@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import extract_features
-import sys
-import os
-from os.path import join
 from textual_feature import textual_feature, setup_tokenizers
-from color import RED, RESET
 from functools import reduce
-from nltk.tokenize.punkt import PunktLanguageVars
 from unicodedata import normalize
 #Reference for normalization: https://jktauber.com/articles/python-unicode-ancient-greek/
 
@@ -567,61 +561,3 @@ def freq_men(file):
 		num_men += 1 if word in men_chars else 0
 		num_characters += len(word)
 	return num_men / num_characters
-
-#These files are composites of files that already exist in parts
-composite_files_to_exclude = {
-	'tesserae/texts/grc/antiphon.speeches.tess',
-	'tesserae/texts/grc/apollonius.argonautica.tess',
-	'tesserae/texts/grc/appian.civil_wars.tess',
-	'tesserae/texts/grc/dionysius_halicarnassensis.antiquitates_romanae.tess',
-	'tesserae/texts/grc/eusebius_caesarea.historia_ecclesiastica.tess',
-	'tesserae/texts/grc/flavius_josephus.antiquitates_judaicae.tess',
-	'tesserae/texts/grc/flavius_josephus.contra_apionem.tess',
-	'tesserae/texts/grc/flavius_josephus.de_bello_judaico_libri_vii.tess',
-	'tesserae/texts/grc/galen.natural_faculties.tess',
-	'tesserae/texts/grc/herodotus.histories.tess',
-	'tesserae/texts/grc/homer.iliad.tess',
-	'tesserae/texts/grc/homer.odyssey.tess',
-	'tesserae/texts/grc/hyperides.speeches.tess',
-	'tesserae/texts/grc/isaeus.speeches.tess',
-	'tesserae/texts/grc/isocrates.letters.tess',
-	'tesserae/texts/grc/isocrates.speeches.tess',
-	'tesserae/texts/grc/lysias.speeches.tess',
-	'tesserae/texts/grc/nonnus_of_panopolis.dionysiaca.tess',
-	'tesserae/texts/grc/oppian.halieutica.tess',
-	'tesserae/texts/grc/oppian_of_apamea.cynegetica.tess',
-	'tesserae/texts/grc/pausanias.description_of_greece.tess',
-	'tesserae/texts/grc/philostratus_the_athenian.vita_apollonii.tess',
-	'tesserae/texts/grc/pindar.odes.tess',
-	'tesserae/texts/grc/plato.epistles.tess',
-	'tesserae/texts/grc/plato.leges.tess',
-	'tesserae/texts/grc/plato.respublica.tess',
-	'tesserae/texts/grc/quintus_smyrnaeus.fall_of_troy.tess',
-	'tesserae/texts/grc/strabo.geography.tess',
-	'tesserae/texts/grc/thucydides.peleponnesian_war.tess',
-}
-
-if __name__ == '__main__':
-
-	#Download corpus if non-existent
-	corpus_dir = join('tesserae', 'texts', 'grc')
-	tesserae_clone_command = 'git clone https://github.com/timgianitsos/tesserae.git'
-	if not os.path.isdir(corpus_dir):
-		print(RED + 'Corpus at ' + corpus_dir + ' does not exist - attempting to clone repository...' + RESET)
-		if os.system(tesserae_clone_command) is not 0:
-			raise Exception('Unable to obtain corpus for feature extraction')
-
-	#Feature extractions
-	extract_features.main(
-		corpus_dir, 
-		'tess', 
-
-		#Exclude the following directories and files
-		excluded_paths=composite_files_to_exclude,
-
-		#Only extract the following features
-		# features=['freq_men'], 
-
-		#Output the results to a file in order to be processed by machine learning algorithms
-		output_file=None if len(sys.argv) <= 1 else sys.argv[1] 
-	)

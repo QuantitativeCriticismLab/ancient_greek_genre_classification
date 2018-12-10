@@ -3,9 +3,7 @@
 import warnings
 warnings.filterwarnings('ignore') #TODO consider whether to keep
 
-import sys
 import numpy as np
-import analyze_models
 from functools import reduce
 import statistics
 import sklearn
@@ -14,7 +12,7 @@ from sklearn.model_selection import train_test_split, cross_val_score, Stratifie
 from color import RED, GREEN, YELLOW, PURPLE, RESET
 from progress_bar import print_progress_bar
 from collections import Counter
-from model_analyzer import model_analyzer, decorated_analyzers
+from model_analyzer import model_analyzer
 
 def _display_stats(expected, results, file_names, labels_key, tabs=0):
 	assert len(expected) == len(results)
@@ -286,12 +284,3 @@ def random_forest_feature_rankings(data, target, file_names, feature_names, labe
 # 		print('\t' * (tabs + 1) + 'Scores: ' + str(scores))
 # 		print('\t' * (tabs + 1) + 'Avg Accuracy: %0.2f (+/- %0.2f)' % (scores.mean(), scores.std() * 2))
 
-if __name__ == '__main__':
-	analyze_models.main(
-		sys.argv[1] if len(sys.argv) > 1 else input('Enter filename to extract feature data: '), 
-		sys.argv[2] if len(sys.argv) > 2 else input('Enter filename to extract classification data: '), 
-		None if len(sys.argv) > 3 and sys.argv[3] == 'all' else 
-		sys.argv[3] if len(sys.argv) > 3 else input('What would you like to do?\n' + 
-		'\n'.join(('\t' + name for name in decorated_analyzers)) + '\n'
-		)
-	)

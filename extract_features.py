@@ -92,7 +92,8 @@ def main(corpus_dir, file_extension, excluded_paths=None, features=None, output_
 	if not all(os.path.isfile(path) or os.path.isdir(path) for path in excluded_paths):
 		raise ValueError('Each path in ' + str(excluded_paths) + ' must be a valid path for a file or directory!')
 	if not all(name in decorated_features.keys() for name in features):
-		raise ValueError('Features names must be among ' + str(decorated_features.keys()))
+		raise ValueError('The values in set ' + str(set(features) - decorated_features.keys())
+			+ ' are not among the decorated features in ' + str(decorated_features.keys()))
 
 	if output_file:
 		if not isinstance(output_file, str): raise ValueError('Output file must be a string for a file path')
@@ -106,7 +107,7 @@ def main(corpus_dir, file_extension, excluded_paths=None, features=None, output_
 	from timeit import timeit
 	from functools import partial
 	print(
-		'\n\n' + GREEN + 'Elapsed time: ' + '%.4f' % timeit(
+		'\n\n' + GREEN + 'Feature mining elapsed time: ' + '%.4f' % timeit(
 		partial(_extract_features, corpus_dir, file_extension, excluded_paths, features, output_file), number=1) + 
 		' seconds' + RESET
 	)
