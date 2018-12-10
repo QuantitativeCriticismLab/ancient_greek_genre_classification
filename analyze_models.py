@@ -75,14 +75,14 @@ def main(feature_data_file, classification_data_file, model_func=None):
 
 	from timeit import timeit
 	if model_func:
-		print('\n\n' + GREEN + 'Elapsed time: ' + '%.6f' % 
+		print('\n\n' + GREEN + 'Elapsed time: ' + '%.4f' % 
 			timeit(partial(
 			decorated_analyzers[model_func], data, target, file_names, feature_names, labels_key), number=1) + 
 			' seconds' + RESET
 		)
 	else:
 		for func in decorated_analyzers.values():
-			print('\n\n' + GREEN + 'Elapsed time: ' + '%.6f' % 
+			print('\n\n' + GREEN + 'Elapsed time: ' + '%.4f' % 
 				timeit(partial(func, data, target, file_names, feature_names, labels_key), number=1) + 
 				' seconds' + RESET + '\n'
 			)

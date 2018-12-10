@@ -70,7 +70,6 @@ def _extract_features(corpus_dir, file_extension, excluded_paths, features, outp
 	clear_cache(tokenize_types, debug_output)
 
 	if output_file is not None:
-		#TODO ensure the directory exists
 		print('Feature mining complete. Attempting to write feature results to "' + YELLOW + output_file + RESET + '"...')
 		with open(output_file, 'wb') as pickle_file:
 			pickle_file.write(pickle.dumps(text_to_features))
@@ -80,26 +79,34 @@ def _extract_features(corpus_dir, file_extension, excluded_paths, features, outp
 # If excluded_paths is given, it must be a set and it can contain files or directories (the directories must 
 # end in a file separator e.g. slash on Mac or Linux and backslash on Windows)
 def main(corpus_dir, file_extension, excluded_paths=None, features=None, output_file=None):
-	if features is None:
-		features = decorated_features.keys()
-	if excluded_paths is None:
-		excluded_paths = set()
-	assert corpus_dir and file_extension and features, \
-		'Parameters must be truthy'
-	assert os.path.isdir(corpus_dir), \
-		'Path "' + corpus_dir + '" is not a valid directory'
-	assert file_extension in file_parsers, \
-		'"' + str(file_extension) + '" is not an available file extension to parse'
-	assert not excluded_paths or all(os.path.isfile(path) or os.path.isdir(path) for path in excluded_paths), \
-		'Each path in ' + str(excluded_paths) + ' must be a valid path for a file or directory!'
-	assert all(name in decorated_features.keys() for name in features), \
-		'Features names must be among ' + str(decorated_features.keys())
-	assert output_file is None or (output_file and type(output_file) is str and not os.path.isfile(output_file)), \
-		'Output file "' + output_file + '" is invalid or already exists!'
+	if excluded_paths is None: excluded_paths = set()
+	if features is None: features = decorated_features.keys()
+
+	if not corpus_dir: raise ValueError('Must provide a directory that contains the corpus')
+	if not file_extension: raise ValueError('Must provide a file extension of files to parse')
+	if not features: raise ValueError('No features were provided')
+	if not os.path.isdir(corpus_dir): raise ValueError('Path "' + corpus_dir + '" is not a valid directory')
+	if not file_extension in file_parsers:
+		raise ValueError('"' + str(file_extension) + '" is not an available file extension to parse')
+	if not isinstance(excluded_paths, set): raise ValueError('Excluded paths must be in a set')
+	if not all(os.path.isfile(path) or os.path.isdir(path) for path in excluded_paths):
+		raise ValueError('Each path in ' + str(excluded_paths) + ' must be a valid path for a file or directory!')
+	if not all(name in decorated_features.keys() for name in features):
+		raise ValueError('Features names must be among ' + str(decorated_features.keys()))
+
+	if output_file:
+		if not isinstance(output_file, str): raise ValueError('Output file must be a string for a file path')
+		if os.path.isfile(output_file): raise ValueError('Output file "' + output_file + '" already exists!')
+		if os.path.isdir(output_file):
+			raise ValueError('The end of the path "' + output_file + '" is a directory - please specify a filename')
+		if os.sep in output_file and not os.path.isdir(os.path.dirname(output_file)):
+			raise ValueError('"' + os.path.dirname(output_file) + '" is not a valid directory!')
+	elif output_file is not None: raise ValueError('Output file must be truthy, or None')
+
 	from timeit import timeit
 	from functools import partial
 	print(
-		'\n\n' + GREEN + 'Elapsed time: ' + str(timeit(
-		partial(_extract_features, corpus_dir, file_extension, excluded_paths, features, output_file), number=1)) + 
+		'\n\n' + GREEN + 'Elapsed time: ' + '%.4f' % timeit(
+		partial(_extract_features, corpus_dir, file_extension, excluded_paths, features, output_file), number=1) + 
 		' seconds' + RESET
 	)

@@ -1,6 +1,7 @@
 import pickle
 import os
 import re
+from inspect import signature
 from os.path import dirname, abspath, join
 from collections import OrderedDict
 from io import StringIO
@@ -93,11 +94,18 @@ def clear_cache(cache, debug):
 	debug.seek(0)
 
 def textual_feature(tokenize_type=None, lang=None, debug=False):
-	assert tokenize_type in tokenize_types, '"' + str(tokenize_type) + '" is not a valid tokenize type: Choose from among ' + \
-		str(list(tokenize_types.keys()))
-	assert lang in sentence_tokenizers, '"' + str(lang) + '" is not an available language: Choose from among ' + \
-		str(list(sentence_tokenizers.keys()))
+	#TODO convert these to ValueErrors
+	if not (word_tokenizer and sentence_tokenizers):
+		raise ValueError('Tokenizers not initialized: Use "setup_tokenizers(<collection of punctutation>)"')
+	if tokenize_type not in tokenize_types:
+		raise ValueError('"' + str(tokenize_type) + '" is not a valid tokenize type: Choose from among ' + 
+			str(list(tokenize_types.keys())))
+	if lang not in sentence_tokenizers:
+		raise ValueError('"' + str(lang) + '" is not an available language: Choose from among ' + 
+			str(list(sentence_tokenizers.keys())))
 	def decor(f):
+		#TODO make this more extensible. Use keyword args somehow instead of 'file' parameter?
+		if 'file' not in signature(f).parameters: raise ValueError('Decorated functions must take a "file" parameter')
 		def wrapper(file, filename=None):
 			if filename:
 				#Cache the tokenized version of this file if this filename is new
