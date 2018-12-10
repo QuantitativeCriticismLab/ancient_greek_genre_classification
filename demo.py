@@ -53,7 +53,7 @@ The textual_feature decorator takes two optional arguments: the type of tokeniza
 def bar(file):
 	return 0
 
-There are three supported tokenization_types: 'sentences', 'words' and None. This tells the function in 
+There are four supported tokenization_types: 'sentences', 'words', 'sentence_words' and None. This tells the function in 
 what format it will receive the 'file' parameter.
 - If None, the function will receive the file parameter as a string. 
 - If 'sentences', the function will receive the file parameter as a list of sentences, each as a string
@@ -76,7 +76,7 @@ extract_features.main(corpus_dir='demo_files', file_extension='tess', output_fil
 corpus_dir - the directory to search for files containing texts, this will traverse all sub-directories as well
 file_extension - restrict search to only files with this extension, handles parsing out of unnecessary tags, 
                  currently only supports .tess but easily extensible to xml, txt, etc.
-output_file - the file to output the results into, used to be analyzed during machine learning phase
+output_file - the file to output the results into, created to be analyzed during machine learning phase
 
 In order for sentence tokenization to work correctly, setup_tokenizers() must be set to the 
 terminal punctuation marks of the language being analyzed. Make sure this is done before main() is called.
@@ -86,7 +86,7 @@ from textual_feature import textual_feature, setup_tokenizers
 from functools import reduce
 from unicodedata import normalize
 
-#Let sentence tokenizer know that periods and semicolons are the punctuation marks that end sentences in this language
+#Let sentence tokenizer know that periods and semicolons are the punctuation marks that end sentences
 setup_tokenizers(('.', ';'))
 
 @textual_feature('words', 'ancient_greek') #Using 'words' makes the input 'file' parameter become a list of words

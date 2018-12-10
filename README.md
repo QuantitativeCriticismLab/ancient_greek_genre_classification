@@ -1,5 +1,5 @@
 # Greek Prose Classifier
-Data mining a corpus of Ancient Greek texts to train machine learning classifiers that distinguish poetry from prose.
+Data mining a corpus of Ancient Greek texts to train machine learning classifiers that distinguish different genres.
 
 ## Setup (Instructions for Mac)
 Install Homebrew:
@@ -7,7 +7,10 @@ Install Homebrew:
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 
-Install pipenv: `brew install pipenv`
+Install pipenv:
+```bash
+brew install pipenv
+```
 
 (Optional) Set environment variable by executing the following lines (which will modify `~/.bash_profile`)
 ```bash
@@ -37,9 +40,29 @@ Install dependencies:
 pipenv install
 ```
 
-Run the demo:
+Run the demo (this does a simple feature extraction, and analyzes the results in one step):
 ```bash
 python demo.py
+```
+
+Extract features from all files:
+```bash
+python run_feature_extraction.py all_data.pickle
+```
+
+Extract features from only drama and epic files:
+```bash
+python run_feature_extraction.py drama_epic_data.pickle drama epic
+```
+
+Run all model analyzer functions on the data from all files to classify prose from verse:
+```bash
+python run_ml_analyzers.py all_data.pickle labels/prosody_labels.csv all
+```
+
+Run all model analyzer functions on the data from only drama and epic files to classify drama from epic:
+```bash
+python run_ml_analyzers.py drama_epic_data.pickle labels/genre_labels.csv all
 ```
 
 To leave the virtual environment, use 
