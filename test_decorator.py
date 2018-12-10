@@ -1,5 +1,8 @@
-from textual_feature import textual_feature, decorated_features, tokenize_types, clear_cache, debug_output
+from textual_feature import textual_feature, decorated_features, \
+tokenize_types, clear_cache, debug_output, setup_tokenizers
 import unittest
+
+setup_tokenizers(('.', '?')) #'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
 
 @textual_feature('sentences', 'greek', debug=True)
 def foo(file):

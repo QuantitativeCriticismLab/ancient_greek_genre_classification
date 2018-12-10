@@ -16,19 +16,19 @@ class TestGreekFeatures(unittest.TestCase):
 	def test_freq_indefinite_pronoun_in_non_interrogative_sentence2(self):
 		file = 'τις τινός τινός, αβγ δεζ. ηθικλ τις μνξοπρσ; τινός. τω τι τυφχψω.'
 		result = freq_indefinite_pronoun_in_non_interrogative_sentence(file)
-		expected = 21 / 39
+		expected = 5 / 39
 		self.assertEqual(expected, result)
 
-	def test_freq_vocative_sentences1(self):
+	def test_freq_sentences_with_vocative_omega(self):
 		file = 'ὦ α βγδ ὦ εζθικλ. μνξ ὦ οπ, ρσὦ τυ; φχψω. ὦ.'
-		result = freq_vocative_sentences(file)
+		result = freq_sentences_with_vocative_omega(file)
 		expected = 3 / 4
 		self.assertEqual(expected, result)
 
-	def test_non_interoggative_sentence_with_relative_clause1(self):
+	def test_freq_sentence_with_relative_clause(self):
 		file = 'ὅς αφνιοςε ςοεφπκ. ὃ ςενςεο; ΝΕΣΟΝΦΕΙΝΟΣΙ ὧν. ὧν. νψςειοιοςνφψλε.'
-		result = non_interoggative_sentence_with_relative_clause(file)
-		expected = 3 / 4
+		result = freq_sentence_with_relative_clause(file)
+		expected = 4 / 5
 		self.assertEqual(expected, result)
 
 	def test_mean_sentence_length1(self):
@@ -43,12 +43,6 @@ class TestGreekFeatures(unittest.TestCase):
 		vals = (16, 8, 15, 3, 15)
 		mean = sum(vals) / len(vals)
 		expected = reduce(lambda cur_sum, val: cur_sum + (val - mean) ** 2, vals, 0) / len(vals)
-		self.assertEqual(expected, result)
-
-	def test_relative_clause_per_sentence1(self):
-		file = 'ὅς αφνιοςε ςοεφπκ. ὃ ςενςεο; ΝΕΣΟΝΦΕΙΝΟΣΙ ὧν αἷς. ὧν. νψςειοιοςνφψλε. ἥ ἥ ἥ ἥ ἥ.'
-		result = relative_clause_per_sentence(file)
-		expected = 9 / 5
 		self.assertEqual(expected, result)
 
 	def test_freq_interrogatives1(self):
