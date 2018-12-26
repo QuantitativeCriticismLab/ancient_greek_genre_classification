@@ -93,7 +93,7 @@ def clear_cache(cache, debug):
 	debug.truncate(0)
 	debug.seek(0)
 
-def textual_feature(tokenize_type=None, lang=None, debug=False):
+def textual_feature(*, tokenize_type=None, lang=None, debug=False):
 	if not (word_tokenizer and sentence_tokenizers):
 		raise ValueError('Tokenizers not initialized: Use "setup_tokenizers(<collection of punctutation>)"')
 	if tokenize_type not in tokenize_types:
@@ -105,7 +105,9 @@ def textual_feature(tokenize_type=None, lang=None, debug=False):
 	def decor(f):
 		#TODO make this more extensible. Use keyword args somehow instead of 'file' parameter?
 		#TODO Ensure that features with duplicated names aren’t put in the ordered dict (this can happen if they come from different files)
-		if 'file' not in signature(f).parameters: raise ValueError('Decorated functions must take a "file" parameter')
+		reqrd_params = {'text'}
+		if not all(tok in signature(f).parameters for tok in reqrd_params):
+			raise ValueError('Decorated functions must take a ' + reqrd_params + ' parameters')
 		def wrapper(file, filename=None):
 			if filename:
 				#TODO languages don't cache their own tokens, therefore using multiple languages will cause problems
