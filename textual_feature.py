@@ -94,7 +94,6 @@ def clear_cache(cache, debug):
 	debug.seek(0)
 
 def textual_feature(tokenize_type=None, lang=None, debug=False):
-	#TODO convert these to ValueErrors
 	if not (word_tokenizer and sentence_tokenizers):
 		raise ValueError('Tokenizers not initialized: Use "setup_tokenizers(<collection of punctutation>)"')
 	if tokenize_type not in tokenize_types:
@@ -105,9 +104,11 @@ def textual_feature(tokenize_type=None, lang=None, debug=False):
 			str(list(sentence_tokenizers.keys())))
 	def decor(f):
 		#TODO make this more extensible. Use keyword args somehow instead of 'file' parameter?
+		#TODO Ensure that features with duplicated names aren’t put in the ordered dict (this can happen if they come from different files)
 		if 'file' not in signature(f).parameters: raise ValueError('Decorated functions must take a "file" parameter')
 		def wrapper(file, filename=None):
 			if filename:
+				#TODO languages don't cache their own tokens, therefore using multiple languages will cause problems
 				#Cache the tokenized version of this file if this filename is new
 				if tokenize_types[tokenize_type]['prev_filename'] != filename:
 					tokenize_types[tokenize_type]['prev_filename'] = filename
