@@ -56,8 +56,8 @@ def _extract_features(corpus_dir, file_extension, excluded_paths, features, outp
 
 		file_text = file_parsers[file_extension](file_name)
 
-		for feature_name, func in feature_tuples:
-			score = func(file_text, file_name)
+		for feature_name, feature_func in feature_tuples:
+			score = feature_func(text=file_text, filepath=file_name)
 			text_to_features[file_name][feature_name] = score
 			if output_file is None:
 				print(file_name + ', ' + str(feature_name) + ', ' + GREEN + str(score) + RESET)

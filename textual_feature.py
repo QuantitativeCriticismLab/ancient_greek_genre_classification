@@ -63,23 +63,23 @@ def reset_tokenizers():
 
 tokenize_types = {
 	None: {
-		'func': lambda lang, file: file, 
-		'prev_filename': None, 
+		'func': lambda lang, text: text, 
+		'prev_filepath': None, 
 		'tokens': None, 
 	}, 
 	'sentences': {
-		'func': lambda lang, file: sentence_tokenizers[lang].tokenize(file), 
-		'prev_filename': None, 
+		'func': lambda lang, text: sentence_tokenizers[lang].tokenize(text), 
+		'prev_filepath': None, 
 		'tokens': None, 
 	}, 
 	'words': {
-		'func': lambda lang, file: word_tokenizer.word_tokenize(file), 
-		'prev_filename': None, 
+		'func': lambda lang, text: word_tokenizer.word_tokenize(text), 
+		'prev_filepath': None, 
 		'tokens': None, 
 	}, 
 	'sentence_words': {
-		'func': lambda lang, file: [word_tokenizer.word_tokenize(s) for s in sentence_tokenizers[lang].tokenize(file)], 
-		'prev_filename': None, 
+		'func': lambda lang, text: [word_tokenizer.word_tokenize(s) for s in sentence_tokenizers[lang].tokenize(text)], 
+		'prev_filepath': None, 
 		'tokens': None, 
 	}, 
 }
@@ -88,12 +88,12 @@ debug_output = StringIO()
 
 def clear_cache(cache, debug):
 	for k, v in cache.items():
-		v['prev_filename'] = None
+		v['prev_filepath'] = None
 		v['tokens'] = None
 	debug.truncate(0)
 	debug.seek(0)
 
-def textual_feature(*, tokenize_type=None, lang=None, debug=False):
+def textual_feature(*, tokenize_type=None, lang=None, debug=False, **kwargs):
 	if not (word_tokenizer and sentence_tokenizers):
 		raise ValueError('Tokenizers not initialized: Use "setup_tokenizers(<collection of punctutation>)"')
 	if tokenize_type not in tokenize_types:
@@ -103,23 +103,26 @@ def textual_feature(*, tokenize_type=None, lang=None, debug=False):
 		raise ValueError('"' + str(lang) + '" is not an available language: Choose from among ' + 
 			str(list(sentence_tokenizers.keys())))
 	def decor(f):
-		#TODO make this more extensible. Use keyword args somehow instead of 'file' parameter?
+		#TODO make this more extensible. Use keyword args somehow instead of 'text' parameter?
 		#TODO Ensure that features with duplicated names aren’t put in the ordered dict (this can happen if they come from different files)
 		reqrd_params = {'text'}
-		if not all(tok in signature(f).parameters for tok in reqrd_params):
-			raise ValueError('Decorated functions must take a ' + reqrd_params + ' parameters')
-		def wrapper(file, filename=None):
-			if filename:
+		sig_params = signature(f).parameters
+		if not all(tok in sig_params for tok in reqrd_params):
+			raise ValueError('Error for "' + f.__name__ 
+				+ '":\nMinimal required parameters: ' + str(reqrd_params) 
+				+ '\nFound parameters: ' + str(set(sig_params)))
+		def wrapper(*, text, filepath=None):
+			if filepath:
 				#TODO languages don't cache their own tokens, therefore using multiple languages will cause problems
-				#Cache the tokenized version of this file if this filename is new
-				if tokenize_types[tokenize_type]['prev_filename'] != filename:
-					tokenize_types[tokenize_type]['prev_filename'] = filename
-					tokenize_types[tokenize_type]['tokens'] = tokenize_types[tokenize_type]['func'](lang, file)
+				#Cache the tokenized version of this text if this filepath is new
+				if tokenize_types[tokenize_type]['prev_filepath'] != filepath:
+					tokenize_types[tokenize_type]['prev_filepath'] = filepath
+					tokenize_types[tokenize_type]['tokens'] = tokenize_types[tokenize_type]['func'](lang, text)
 				elif debug:
-					debug_output.write('Cache hit! ' + 'function: <' + f.__name__ + '>, filename: ' + filename + '\n')
+					debug_output.write('Cache hit! ' + 'function: <' + f.__name__ + '>, filepath: ' + filepath + '\n')
 				return f(tokenize_types[tokenize_type]['tokens'])
 			else:
-				return f(tokenize_types[tokenize_type]['func'](lang, file))
+				return f(tokenize_types[tokenize_type]['func'](lang, text))
 		decorated_features[f.__name__] = wrapper
 		return wrapper
 	return decor
