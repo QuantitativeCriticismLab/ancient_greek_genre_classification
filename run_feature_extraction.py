@@ -1,4 +1,4 @@
-import greek_features #seemingly unused here, but this makes the environment recognize features
+import greek_features #seemingly unused here, but this makes the environment recognize features that are decorated
 import extract_features
 import os
 import sys

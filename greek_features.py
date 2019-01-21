@@ -5,9 +5,9 @@ from functools import reduce
 from unicodedata import normalize
 #Reference for normalization: https://jktauber.com/articles/python-unicode-ancient-greek/
 
-setup_tokenizers(('.', ';', ';')) #'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
+setup_tokenizers(terminal_punctuation=('.', ';', ';'), language='ancient_greek') #'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
 
-@textual_feature(tokenize_type='sentence_words', lang='ancient_greek')
+@textual_feature(tokenize_type='sentence_words')
 def freq_interrogatives(text):
 	num_interrogative = 0
 	interrogative_chars = {';', ';'}
@@ -16,7 +16,7 @@ def freq_interrogatives(text):
 
 	return num_interrogative / len(text)
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_conditional_markers(text):
 	num_conditional_words = 0
 	num_characters = 0
@@ -33,7 +33,7 @@ def freq_conditional_markers(text):
 
 	return num_conditional_words / num_characters
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_personal_pronouns(text):
 	num_pronouns = 0
 	num_characters = 0
@@ -51,7 +51,7 @@ def freq_personal_pronouns(text):
 
 	return num_pronouns / num_characters
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_demonstrative(text):
 	num_demonstratives = 0
 	num_characters = 0
@@ -74,7 +74,7 @@ def freq_demonstrative(text):
 
 	return num_demonstratives / num_characters
 
-@textual_feature(tokenize_type='sentence_words', lang='ancient_greek')
+@textual_feature(tokenize_type='sentence_words')
 def freq_indefinite_pronoun_in_non_interrogative_sentence(text):
 	num_indefinite_pronouns = 0
 	num_characters = 0
@@ -96,7 +96,7 @@ def freq_indefinite_pronoun_in_non_interrogative_sentence(text):
 	return num_indefinite_pronouns / num_characters
 
 # Not different enough from 'freq_indefinite_pronoun_in_non_interrogative_sentence'
-# @textual_feature(tokenize_type='words', lang='ancient_greek')
+# @textual_feature(tokenize_type='words')
 # def freq_indefinite_pronoun_in_any_sentence(text):
 # 	num_indefinite_pronouns = 0
 # 	num_characters = 0
@@ -114,7 +114,7 @@ def freq_indefinite_pronoun_in_non_interrogative_sentence(text):
 
 # 	return num_indefinite_pronouns / num_characters
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_allos(text):
 	num_allos = 0
 	num_characters = 0
@@ -132,7 +132,7 @@ def freq_allos(text):
 
 	return num_allos / num_characters
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_autos(text):
 	num_autos = 0
 	num_characters = 0
@@ -151,7 +151,7 @@ def freq_autos(text):
 
 	return num_autos / num_characters
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_reflexive(text):
 	num_reflexive = 0
 	num_characters = 0
@@ -203,7 +203,7 @@ def freq_reflexive(text):
 
 	return num_reflexive / num_characters
 
-@textual_feature(tokenize_type='sentence_words', lang='ancient_greek')
+@textual_feature(tokenize_type='sentence_words')
 def freq_sentences_with_vocative_omega(text):
 	num_vocatives = 0
 	vocative_characters = {'ὦ'}
@@ -221,7 +221,7 @@ def freq_sentences_with_vocative_omega(text):
 
 	return num_vocatives / len(text)
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_superlative(text):
 	num_superlative = 0
 	num_characters = 0
@@ -241,7 +241,7 @@ def freq_superlative(text):
 
 	return num_superlative / num_characters
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_conjunction(text):
 	num_conjunction = 0
 	num_characters = 0
@@ -258,12 +258,12 @@ def freq_conjunction(text):
 
 	return num_conjunction / num_characters
 
-@textual_feature(tokenize_type='sentence_words', lang='ancient_greek')
+@textual_feature(tokenize_type='sentence_words')
 def mean_sentence_length(text):
 	return reduce(lambda cur_len, line: cur_len + 
 		reduce(lambda word_len, word: word_len + len(word), line, 0), text, 0) / len(text)
 
-@textual_feature(tokenize_type='sentence_words', lang='ancient_greek')
+@textual_feature(tokenize_type='sentence_words')
 def freq_sentence_with_relative_clause(text):
 	num_sentence_with_clause = 0
 	num_sentences = 0
@@ -284,7 +284,7 @@ def freq_sentence_with_relative_clause(text):
 
 	return num_sentence_with_clause / num_sentences
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def mean_length_relative_clause(text):
 	num_relative_clause = 0
 	sum_length_relative_clause = 0
@@ -316,7 +316,7 @@ def mean_length_relative_clause(text):
 	return 0 if num_relative_clause == 0 else sum_length_relative_clause / num_relative_clause
 
 # Too similar to freq_sentence_with_relative_clause
-# @textual_feature(tokenize_type='sentence_words', lang='ancient_greek')
+# @textual_feature(tokenize_type='sentence_words')
 # def relative_clause_per_non_interrogative_sentence(text):
 # 	num_relative_pronoun = 0
 # 	num_non_interrogative_sentence = 0
@@ -337,7 +337,7 @@ def mean_length_relative_clause(text):
 
 # 	return num_relative_pronoun / num_non_interrogative_sentence
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_circumstantial_markers(text):
 	num_participles = 0
 	num_characters = 0
@@ -354,7 +354,7 @@ def freq_circumstantial_markers(text):
 
 	return num_participles / num_characters
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_hina(text):
 	num_hina = 0
 	num_characters = 0
@@ -371,7 +371,7 @@ def freq_hina(text):
 
 	return num_hina / num_characters
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_hopos(text):
 	num_hopos = 0
 	num_characters = 0
@@ -388,7 +388,7 @@ def freq_hopos(text):
 
 	return num_hopos / num_characters
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_ws(text):
 	num_ws = 0
 	num_characters = 0
@@ -406,7 +406,7 @@ def freq_ws(text):
 	return num_ws / num_characters
 
 # Bad feature when result is NaN or infinity
-# @textual_feature(tokenize_type='words', lang='ancient_greek')
+# @textual_feature(tokenize_type='words')
 # def ratio_ina_to_opos(text):
 # 	num_ina = 0
 # 	num_opos = 0
@@ -431,7 +431,7 @@ def freq_ws(text):
 
 # 	return math.nan if num_ina == 0 and num_opos == 0 else math.inf if num_opos == 0 else num_ina / num_opos
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_wste_not_preceded_by_eta(text):
 	num_wste = 0
 	num_characters = 0
@@ -457,7 +457,7 @@ def freq_wste_not_preceded_by_eta(text):
 	return num_wste / num_characters
 
 # Only 54 matches across 42 files for regex "(ἤ|ἢ) (\w+ )*?ὥστε" and 33 matches across 27 files for "(ἤ|ἢ) ὥστε"
-# @textual_feature(tokenize_type='words', lang='ancient_greek')
+# @textual_feature(tokenize_type='words')
 # def freq_wste_preceded_by_eta(text):
 # 	num_wste_characters = 0
 # 	num_characters = 0
@@ -482,7 +482,7 @@ def freq_wste_not_preceded_by_eta(text):
 
 # 	return num_wste_characters / num_characters
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_temporal_causal_markers(text):
 	num_clause_words = 0
 	num_characters = 0
@@ -499,7 +499,7 @@ def freq_temporal_causal_markers(text):
 
 	return num_clause_words / num_characters
 
-@textual_feature(tokenize_type='sentence_words', lang='ancient_greek')
+@textual_feature(tokenize_type='sentence_words')
 def variance_of_sentence_length(text):
 	num_sentences = 0
 	total_len = 0
@@ -514,7 +514,7 @@ def variance_of_sentence_length(text):
 
 	return squared_difference / num_sentences
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_particles(text):
 	num_particles = 0
 	num_characters = 0
@@ -535,7 +535,7 @@ def freq_particles(text):
 	return num_particles / num_characters
 
 # No interpunct symbols found in the entire tesserae corpus - searched with regex: (·|·|∙|⋅|•|᛫|‧|⦁|⸳|・|ꞏ|･|𐄁)
-# @textual_feature('default', lang='ancient_greek')
+# @textual_feature('default')
 # def freq_raised_dot(text):
 # 	#Unicode from https://en.wikipedia.org/wiki/Interpunct#Similar_symbols
 # 	#'\u00B7' is '·', '\u0387' is '·', '\u2219' is '∙', '\u22C5' is '⋅', '\u2022' is '•', '\u16EB' is '᛫', '\u2027' is '‧', 
@@ -546,7 +546,7 @@ def freq_particles(text):
 # 		num_dot_chars += 1 if char in dot_chars else 0
 # 	return num_dot_chars / len(text)
 
-@textual_feature(tokenize_type='words', lang='ancient_greek')
+@textual_feature(tokenize_type='words')
 def freq_men(text):
 	num_men = 0
 	num_characters = 0

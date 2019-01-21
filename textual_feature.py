@@ -12,14 +12,18 @@ decorated_features = OrderedDict()
 #The current python file must be in the same directory as tokenizers/
 sentence_tokenizer_dir = join(dirname(abspath(__file__)), 'tokenizers')
 
+lang = None
 word_tokenizer = None
 sentence_tokenizers = None
 
-def setup_tokenizers(terminal_punctuation):
-	PunktLanguageVars.sent_end_chars = terminal_punctuation
-	PunktLanguageVars.re_boundary_realignment = re.compile(r'[›»》’”\'\"）\)\]\}\>]+?(?:\s+|(?=--)|$)', re.MULTILINE)
+#TODO should the language determine the punctuation, or should the ability to specify both remain for flexibility?
+def setup_tokenizers(*, language=None, terminal_punctuation):
+	global lang
 	global word_tokenizer
 	global sentence_tokenizers
+	lang = language
+	PunktLanguageVars.sent_end_chars = terminal_punctuation
+	PunktLanguageVars.re_boundary_realignment = re.compile(r'[›»》’”\'\"）\)\]\}\>]+?(?:\s+|(?=--)|$)', re.MULTILINE)
 
 	#Accessing private variables of PunktLanguageVars because nltk has a faulty design pattern that necessitates it.
 	#Issue reported here: https://github.com/nltk/nltk/issues/2068
@@ -63,22 +67,22 @@ def reset_tokenizers():
 
 tokenize_types = {
 	None: {
-		'func': lambda lang, text: text, 
+		'func': lambda text: text, 
 		'prev_filepath': None, 
 		'tokens': None, 
 	}, 
 	'sentences': {
-		'func': lambda lang, text: sentence_tokenizers[lang].tokenize(text), 
+		'func': lambda text: sentence_tokenizers[lang].tokenize(text), 
 		'prev_filepath': None, 
 		'tokens': None, 
 	}, 
 	'words': {
-		'func': lambda lang, text: word_tokenizer.word_tokenize(text), 
+		'func': lambda text: word_tokenizer.word_tokenize(text), 
 		'prev_filepath': None, 
 		'tokens': None, 
 	}, 
 	'sentence_words': {
-		'func': lambda lang, text: [word_tokenizer.word_tokenize(s) for s in sentence_tokenizers[lang].tokenize(text)], 
+		'func': lambda text: [word_tokenizer.word_tokenize(s) for s in sentence_tokenizers[lang].tokenize(text)], 
 		'prev_filepath': None, 
 		'tokens': None, 
 	}, 
@@ -93,7 +97,8 @@ def clear_cache(cache, debug):
 	debug.truncate(0)
 	debug.seek(0)
 
-def textual_feature(*, tokenize_type=None, lang=None, debug=False, **kwargs):
+def textual_feature(*, tokenize_type=None, debug=False, **kwargs):
+	global lang
 	if not (word_tokenizer and sentence_tokenizers):
 		raise ValueError('Tokenizers not initialized: Use "setup_tokenizers(<collection of punctutation>)"')
 	if tokenize_type not in tokenize_types:
@@ -117,7 +122,7 @@ def textual_feature(*, tokenize_type=None, lang=None, debug=False, **kwargs):
 				#Cache the tokenized version of this text if this filepath is new
 				if tokenize_types[tokenize_type]['prev_filepath'] != filepath:
 					tokenize_types[tokenize_type]['prev_filepath'] = filepath
-					tokenize_types[tokenize_type]['tokens'] = tokenize_types[tokenize_type]['func'](lang, text)
+					tokenize_types[tokenize_type]['tokens'] = tokenize_types[tokenize_type]['func'](text)
 				elif debug:
 					debug_output.write('Cache hit! ' + 'function: <' + f.__name__ + '>, filepath: ' + filepath + '\n')
 				return f(tokenize_types[tokenize_type]['tokens'])
