@@ -1,0 +1,5 @@
+We need two experiments: 1.) RF, five fold cross validation multi-class classification between the genres (column B on the spreadsheets) keeping prose and verse separate.  
+2.)  RF, five fold cross validation binary classification of each genre against the other genres (i.e., epic vs elegy, drama, misc., elegy vs. epic, drama, misc. etc.) again, keeping prose and verse separate. 
+
+With both of these experiments, we also need reporting in each experiment for accuracy, F1, misclassified texts, and Gini importance.
+
