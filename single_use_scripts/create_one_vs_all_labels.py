@@ -10,15 +10,15 @@
 # input_filename = 'labels/genre_labels.csv'
 # output_dir = 'labels/one_vs_all_in_same_genre/'
 #------ Latin prose
-# labels = {'history': '0', 'oratory': '1', 'miscellaneous': '2', 'letters': '3', 'technical treatise': '4', 'philosophy': '5'}
+# labels = {'history': '0', 'oratory': '1', 'miscellaneous': '2', 'letters': '3', 'technical_treatise': '4', 'philosophy': '5'}
 # category = 'prose'
 # input_filename = 'latin/labels/prose_labels.csv'
 # output_dir = 'latin/labels/one_vs_all_in_same_genre/'
 #------ Latin verse
-labels = {'miscellaneous': '0', 'elegy': '1', 'epic': '2', 'drama': '3'}
-category = 'verse'
-input_filename = 'latin/labels/verse_labels.csv'
-output_dir = 'latin/labels/one_vs_all_in_same_genre/'
+# labels = {'miscellaneous': '0', 'elegy': '1', 'epic': '2', 'drama': '3'}
+# category = 'verse'
+# input_filename = 'latin/labels/verse_labels.csv'
+# output_dir = 'latin/labels/one_vs_all_in_same_genre/'
 
 for k, v in labels.items():
 	output_filename = output_dir + k + '_vs_rest_of_' + category + '.csv'
