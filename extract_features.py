@@ -77,7 +77,7 @@ def _extract_features(corpus_dir, file_extension, excluded_paths, features, outp
 
 # file_extension must not include the dot ('.')
 # If excluded_paths is given, it must be a set and it can contain files or directories (the directories must 
-# end in a file separator e.g. slash on Mac or Linux and backslash on Windows)
+# end in a file separator e.g. slash on Mac or Linux)
 def main(corpus_dir, file_extension, excluded_paths=None, features=None, output_file=None):
 	if excluded_paths is None: excluded_paths = set()
 	if features is None: features = decorated_features.keys()

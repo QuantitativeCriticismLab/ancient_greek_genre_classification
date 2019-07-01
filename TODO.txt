@@ -15,6 +15,7 @@ Generate csv in ml_analyzers
 Include kwargs in decorated functions?
 Write generalized script to create labels csv comparing any categories against any others?
 Languages don't cache their own tokens, therefore using multiple languages will cause problems - fix this
+Update Python version to 3.7?
 
 Update research poster
 Qcrit needs a LinkedIn

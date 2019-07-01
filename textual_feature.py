@@ -97,7 +97,7 @@ def clear_cache(cache, debug):
 	debug.truncate(0)
 	debug.seek(0)
 
-def textual_feature(*, tokenize_type=None, debug=False, **kwargs):
+def textual_feature(*, tokenize_type=None, debug=False):
 	global lang
 	if not (word_tokenizer and sentence_tokenizers):
 		raise ValueError('Tokenizers not initialized: Use "setup_tokenizers(<collection of punctutation>)"')
