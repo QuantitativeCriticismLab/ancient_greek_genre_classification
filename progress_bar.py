@@ -1,6 +1,8 @@
-# # From https://stackoverflow.com/a/34325723
+# From https://stackoverflow.com/a/34325723
 
-# # Print iterations progress
+_prev_str_length = None
+
+# Print iterations progress
 def print_progress_bar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█'):
 	"""
 	Call in a loop to create terminal progress bar
@@ -16,11 +18,16 @@ def print_progress_bar (iteration, total, prefix = '', suffix = '', decimals = 1
 	percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
 	filledLength = int(length * iteration // total)
 	bar = fill * filledLength + '-' * (length - filledLength)
-	print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end = '\r')
-	
+	s = '%s |%s| %s%% %s' % (prefix, bar, percent, suffix)
+	global _prev_str_length
+	if _prev_str_length:
+		print(' ' * _prev_str_length, end='\r') #Clear out previous bar to prevent lingering characters if current bar is shorter
+	print(s, end='\r')
+	_prev_str_length = len(s)
 
 	# Print New Line on Complete
 	if iteration == total: 
+		_prev_str_length = None
 		print()
 
 if __name__ == '__main__':
@@ -28,12 +35,11 @@ if __name__ == '__main__':
 	# Sample Usage
 	# 
 
-	# https://stackoverflow.com/questions/566746/how-to-get-linux-console-window-width-in-python
-	import os
-	# columns is width of window printing progress bar
-	rows, columns = os.popen('stty size', 'r').read().split()
-
 	from time import sleep
+
+	#get width (columns) of terminal
+	import shutil;
+	columns, rows = shutil.get_terminal_size()
 
 	# A List of Items
 	items = list(range(0, 57))
@@ -48,17 +54,14 @@ if __name__ == '__main__':
 			# Do stuff...
 			sleep(0.1)
 			# Update Progress bar
-
-			#import shutil; shutil.get_terminal_size()
-			#columns
-
 			print_progress_bar(i + 1, l, prefix = 'Progress:', suffix = 'Complete', length = barLen)
 
 
 	else :
 		print("Window size too small to show progress bar")
 
-
+	# Sample Output
+	# Progress: |█████████████████████████████████████████████-----| 90.0% Complete
 
 
 
