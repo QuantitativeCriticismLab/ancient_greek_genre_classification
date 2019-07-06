@@ -6,8 +6,8 @@ from textual_feature import textual_feature, setup_tokenizers
 
 setup_tokenizers(terminal_punctuation=('.', ';', ';')) #'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
 
-@textual_feature('words', 'ancient_greek', debug=True)
-def dummy_feature(file):
+@textual_feature(tokenize_type='words', debug=True)
+def dummy_feature(text):
 	pass
 
 class TestExtractFeatures(unittest.TestCase):
