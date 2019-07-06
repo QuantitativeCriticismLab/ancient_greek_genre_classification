@@ -16,7 +16,6 @@ lang = None
 word_tokenizer = None
 sentence_tokenizers = None
 
-#TODO should the language determine the punctuation, or should the ability to specify both remain for flexibility?
 def setup_tokenizers(*, language=None, terminal_punctuation):
 	global lang
 	global word_tokenizer
@@ -127,7 +126,7 @@ def textual_feature(*, tokenize_type=None, debug=False):
 					debug_output.write('Cache hit! ' + 'function: <' + f.__name__ + '>, filepath: ' + filepath + '\n')
 				return f(tokenize_types[tokenize_type]['tokens'])
 			else:
-				return f(tokenize_types[tokenize_type]['func'](lang, text))
+				return f(tokenize_types[tokenize_type]['func'](text))
 		decorated_features[f.__name__] = wrapper
 		return wrapper
 	return decor

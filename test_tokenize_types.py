@@ -7,7 +7,7 @@ import re
 #[^\s\d’”\'\"）\)\]\}\.,:;]
 #[“‘—\-†&vâ\*\^（α-ωΑ-Ὠ`̔]
 #΄´´``′″‴
-textual_feature.setup_tokenizers(('.', ';', ';'))
+textual_feature.setup_tokenizers(terminal_punctuation=('.', ';', ';'))
 p = PunktLanguageVars()
 #TODO don't mess with the PunktLanguageVars instance variables, mess with the class variables
 p._re_word_tokenizer = re.compile(PunktLanguageVars._word_tokenize_fmt % {

@@ -4,7 +4,7 @@ from textual_feature import textual_feature, setup_tokenizers
 
 #Run this file with "-b" to ignore output in passing tests (failing tests still display output)
 
-setup_tokenizers(('.', ';', ';')) #'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
+setup_tokenizers(terminal_punctuation=('.', ';', ';')) #'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
 
 @textual_feature('words', 'ancient_greek', debug=True)
 def dummy_feature(file):

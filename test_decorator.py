@@ -2,39 +2,39 @@ from textual_feature import textual_feature, decorated_features, \
 tokenize_types, clear_cache, debug_output, setup_tokenizers
 import unittest
 
-setup_tokenizers(('.', '?')) #'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
+setup_tokenizers(terminal_punctuation=('.', '?')) #'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
 
-@textual_feature('sentences', 'greek', debug=True)
-def foo(file):
+@textual_feature(tokenize_type='sentences', debug=True)
+def foo(text):
 	return 'foo'
 
-@textual_feature('sentences', 'greek', debug=True)
-def bar(file):
+@textual_feature(tokenize_type='sentences', debug=True)
+def bar(text):
 	return 'bar'
 
-@textual_feature('words', 'greek', debug=True)
-def taz(file):
+@textual_feature(tokenize_type='words', debug=True)
+def taz(text):
 	return 'taz'
 
-@textual_feature('words', 'greek', debug=True)
-def qux(file):
+@textual_feature(tokenize_type='words', debug=True)
+def qux(text):
 	return 'qux'
 
-@textual_feature('sentences', 'greek', debug=True)
-def rup(file):
+@textual_feature(tokenize_type='sentences', debug=True)
+def rup(text):
 	return 'rup'
 
-@textual_feature('sentences', 'greek', debug=True)
-def lon(file):
+@textual_feature(tokenize_type='sentences', debug=True)
+def lon(text):
 	return 'lon'
 
-@textual_feature('sentences', 'greek', debug=True)
-def return_sentences(file):
-	return file
+@textual_feature(tokenize_type='sentences', debug=True)
+def return_sentences(text):
+	return text
 
-@textual_feature('words', 'greek', debug=True)
-def return_words(file):
-	return file
+@textual_feature(tokenize_type='words', debug=True)
+def return_words(text):
+	return text
 
 class TestTextualFeature(unittest.TestCase):
 
@@ -45,38 +45,38 @@ class TestTextualFeature(unittest.TestCase):
 		file = 'test test. test test test test test test? test test. test.'
 
 		filename = 'abc/def'
-		foo(file, filename)
-		bar(file, filename)
-		rup(file, filename)
-		self.assertEqual(debug_output.getvalue(), 'Cache hit! function: <bar>, filename: abc/def\n' + \
-			'Cache hit! function: <rup>, filename: abc/def\n')
+		foo(text=file, filepath=filename)
+		bar(text=file, filepath=filename)
+		rup(text=file, filepath=filename)
+		self.assertEqual(debug_output.getvalue(), 'Cache hit! function: <bar>, filepath: abc/def\n' + \
+			'Cache hit! function: <rup>, filepath: abc/def\n')
 
 		clear_cache(tokenize_types, debug_output)
 
 		filename = 'abc/ghi'
-		foo(file, filename)
-		taz(file, filename)
-		qux(file, filename)
-		self.assertEqual(debug_output.getvalue(), 'Cache hit! function: <qux>, filename: abc/ghi\n')
+		foo(text=file, filepath=filename)
+		taz(text=file, filepath=filename)
+		qux(text=file, filepath=filename)
+		self.assertEqual(debug_output.getvalue(), 'Cache hit! function: <qux>, filepath: abc/ghi\n')
 		filename = 'abc/jkl'
-		foo(file, filename)
-		bar(file, filename)
-		taz(file, filename)
-		qux(file, filename)
-		self.assertEqual(debug_output.getvalue(), 'Cache hit! function: <qux>, filename: abc/ghi\n' + \
-			'Cache hit! function: <bar>, filename: abc/jkl\n' + \
-			'Cache hit! function: <qux>, filename: abc/jkl\n')
+		foo(text=file, filepath=filename)
+		bar(text=file, filepath=filename)
+		taz(text=file, filepath=filename)
+		qux(text=file, filepath=filename)
+		self.assertEqual(debug_output.getvalue(), 'Cache hit! function: <qux>, filepath: abc/ghi\n' + \
+			'Cache hit! function: <bar>, filepath: abc/jkl\n' + \
+			'Cache hit! function: <qux>, filepath: abc/jkl\n')
 
 	def test_sentence_tokenization(self):
 		file = 'test test. test test test test test test? test test. test.'
 		filename = 'abc/def'
-		self.assertEqual(return_sentences(file, filename), ['test test.', 'test test test test test test?', \
+		self.assertEqual(return_sentences(text=file, filepath=filename), ['test test.', 'test test test test test test?', \
 			'test test.', 'test.'])
 
 	def test_word_tokenization(self):
 		file = 'test test. test test test test test test? test test. test.'
 		filename = 'abc/def'
-		self.assertEqual(return_words(file, filename), ['test', 'test', '.', 'test', 'test', 'test', 'test', \
+		self.assertEqual(return_words(text=file, filepath=filename), ['test', 'test', '.', 'test', 'test', 'test', 'test', \
 			'test', 'test', '?', 'test', 'test', '.', 'test', '.'])
 
 	def test_loop_over_all_features(self):
@@ -88,13 +88,15 @@ class TestTextualFeature(unittest.TestCase):
 
 		i = 0
 		for v in decorated_features.values():
-			self.assertEqual(v(file, filename), outputs[i])
+			self.assertEqual(v(text=file, filepath=filename), outputs[i])
 			i += 1
 
 	def test_no_filename(self):
 		file = 'test test. test test test test test test? test test. test.'
 		filename = 'abc/def'
-		self.assertEqual(foo(file, filename), foo(file))
+		a = foo(text=file, filepath=filename)
+		b = foo(text=file)
+		self.assertEqual(a, b)
 
 if __name__ == '__main__':
 	unittest.main()
