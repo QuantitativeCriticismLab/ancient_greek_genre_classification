@@ -1,9 +1,6 @@
 Inject normalized characters to each feature?
 Update progress bar to accomodate terminal window size (import shutil; shutil.get_terminal_size())
-Use MIT License?
-Give user option to create their own language through training?
 For languages with pickle file, unserialize PunktSentenceTokenizer from pickle file, set the ('_re_period_context', '_re_word_tokenizer') variables with the appropriate punctuation, and then re-pickle so that the user doesn't have to set punctuation themselves everytime?
-Find corpora for other languages
 Diagnose warning (and specify framework versions in Pipfile as a potential fix?) "/Users/timgianitsos/Git/GreekFeatureExtraction/.venv/lib/python3.6/site-packages/sklearn/ensemble/weight_boosting.py:29: DeprecationWarning: numpy.core.umath_tests is an internal NumPy module and should not be imported. It will be removed in a future NumPy release.""
 Remove print statements and user input from python files that should go in the pip package?
 Relative imports https://stackoverflow.com/questions/7279810/what-does-a-in-an-import-statement-in-python-mean
@@ -12,16 +9,9 @@ Consolidate testing files in a single command
 Have a "clean" command to get rid of demo files, notes, tesserae, etc?
 Include git commit hash of this repo and git commit hash of tesserae repo in pickle dump, and output it in the ml analyzers so user can know what version of data they are dealing with, and allow the recognition of unstaged changes before outputting the pickle file
 Generate csv in ml_analyzers
-Include kwargs in decorated functions?
 Write generalized script to create labels csv comparing any categories against any others?
-Languages don't cache their own tokens, therefore using multiple languages will cause problems - fix this
 Update Python version to 3.7?
-
 Update research poster
 Qcrit needs a LinkedIn
 How to get Qcirt logo to appear on linkedin
-Modern Greek
-Old English
-Make pip package?
-Make Github organization repo
-
+Make pip package

@@ -16,13 +16,40 @@ lang = None
 word_tokenizer = None
 sentence_tokenizers = None
 
+tokenize_types = {
+	None: {
+		'func': lambda text: text, 
+		'prev_filepath': None, 
+		'tokens': None, 
+	}, 
+	'sentences': {
+		'func': lambda text: sentence_tokenizers[lang].tokenize(text), 
+		'prev_filepath': None, 
+		'tokens': None, 
+	}, 
+	'words': {
+		'func': lambda text: word_tokenizer.word_tokenize(text), 
+		'prev_filepath': None, 
+		'tokens': None, 
+	}, 
+	'sentence_words': {
+		'func': lambda text: [word_tokenizer.word_tokenize(s) for s in sentence_tokenizers[lang].tokenize(text)], 
+		'prev_filepath': None, 
+		'tokens': None, 
+	}, 
+}
+
 def setup_tokenizers(*, language=None, terminal_punctuation):
 	global lang
 	global word_tokenizer
 	global sentence_tokenizers
+	global tokenize_types
 	lang = language
 	PunktLanguageVars.sent_end_chars = terminal_punctuation
 	PunktLanguageVars.re_boundary_realignment = re.compile(r'[›»》’”\'\"）\)\]\}\>]+?(?:\s+|(?=--)|$)', re.MULTILINE)
+	for tokenize_type_data in tokenize_types.values():
+		tokenize_type_data['prev_filepath'] = None
+		tokenize_type_data['tokens'] = None
 
 	#Accessing private variables of PunktLanguageVars because nltk has a faulty design pattern that necessitates it.
 	#Issue reported here: https://github.com/nltk/nltk/issues/2068
@@ -64,29 +91,6 @@ def reset_tokenizers():
 	word_tokenizer = None
 	sentence_tokenizers = None
 
-tokenize_types = {
-	None: {
-		'func': lambda text: text, 
-		'prev_filepath': None, 
-		'tokens': None, 
-	}, 
-	'sentences': {
-		'func': lambda text: sentence_tokenizers[lang].tokenize(text), 
-		'prev_filepath': None, 
-		'tokens': None, 
-	}, 
-	'words': {
-		'func': lambda text: word_tokenizer.word_tokenize(text), 
-		'prev_filepath': None, 
-		'tokens': None, 
-	}, 
-	'sentence_words': {
-		'func': lambda text: [word_tokenizer.word_tokenize(s) for s in sentence_tokenizers[lang].tokenize(text)], 
-		'prev_filepath': None, 
-		'tokens': None, 
-	}, 
-}
-
 debug_output = StringIO()
 
 def clear_cache(cache, debug):
@@ -99,7 +103,7 @@ def clear_cache(cache, debug):
 def textual_feature(*, tokenize_type=None, debug=False):
 	global lang
 	if not (word_tokenizer and sentence_tokenizers):
-		raise ValueError('Tokenizers not initialized: Use "setup_tokenizers(<collection of punctutation>)"')
+		raise ValueError('Tokenizers not initialized: Use "setup_tokenizers(terminal_punctuation=<collection of punctutation>)"')
 	if tokenize_type not in tokenize_types:
 		raise ValueError('"' + str(tokenize_type) + '" is not a valid tokenize type: Choose from among ' + 
 			str(list(tokenize_types.keys())))
