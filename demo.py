@@ -87,13 +87,13 @@ from functools import reduce
 from unicodedata import normalize
 
 #Let sentence tokenizer know that periods and semicolons are the punctuation marks that end sentences
-setup_tokenizers(('.', ';'))
+setup_tokenizers(terminal_punctuation=('.', ';'), language='ancient_greek')
 
-@textual_feature('words', 'ancient_greek') #Using 'words' makes the input 'file' parameter become a list of words
+@textual_feature(tokenize_type='words') #Using 'words' makes the input 'file' parameter become a list of words
 def num_conjunctions(file): #parameter must be the text of a file
 	return reduce(lambda count, word: count + (1 if word in {normalize('NFD', val) for val in ['καί', 'καὶ', 'ἀλλά', 'ἀλλὰ', 'ἤ', 'ἢ']} else 0), file, 0)
 
-@textual_feature('sentences', 'ancient_greek') #Using 'sentences' makes the input 'file' parameter become a list of sentences
+@textual_feature(tokenize_type='sentences') #Using 'sentences' makes the input 'file' parameter become a list of sentences
 def mean_sentence_length(file): #parameter must be the text of a file
 	return reduce(lambda count, sentence: count + len(sentence), file, 0) / len(file)
 

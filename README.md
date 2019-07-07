@@ -1,5 +1,5 @@
-# Greek Prose Classifier
-We are data mining a corpus of Ancient Greek texts to train machine learning classifiers that distinguish between different genres.
+# Genre Classifier
+We are data mining a corpus of ancient texts to train machine learning classifiers that distinguish between different genres.
 
 ## Setup (Instructions for Mac)
 
