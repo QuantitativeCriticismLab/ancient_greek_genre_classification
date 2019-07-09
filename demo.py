@@ -90,16 +90,16 @@ from unicodedata import normalize
 setup_tokenizers(terminal_punctuation=('.', ';'), language='ancient_greek')
 
 @textual_feature(tokenize_type='words') #Using 'words' makes the input 'file' parameter become a list of words
-def num_conjunctions(file): #parameter must be the text of a file
-	return reduce(lambda count, word: count + (1 if word in {normalize('NFD', val) for val in ['καί', 'καὶ', 'ἀλλά', 'ἀλλὰ', 'ἤ', 'ἢ']} else 0), file, 0)
+def num_conjunctions(text): #parameter must be the text of a file
+	return reduce(lambda count, word: count + (1 if word in {normalize('NFD', val) for val in ['καί', 'καὶ', 'ἀλλά', 'ἀλλὰ', 'ἤ', 'ἢ']} else 0), text, 0)
 
 @textual_feature(tokenize_type='sentences') #Using 'sentences' makes the input 'file' parameter become a list of sentences
-def mean_sentence_length(file): #parameter must be the text of a file
-	return reduce(lambda count, sentence: count + len(sentence), file, 0) / len(file)
+def mean_sentence_length(text): #parameter must be the text of a file
+	return reduce(lambda count, sentence: count + len(sentence), text, 0) / len(text)
 
 @textual_feature() #Not putting any decorator parameters will leave the input 'file' parameter unchanged as a string of text
-def num_interrogatives(file): #parameter must be the text of a file
-	return file.count(';')
+def num_interrogatives(text): #parameter must be the text of a file
+	return text.count(';')
 
 
 extract_features.main(corpus_dir='demo_files', file_extension='tess', output_file=os.path.join('demo_files', 'output.pickle'))
