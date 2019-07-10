@@ -9,12 +9,16 @@ from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktLanguageVars
 
 decorated_features = OrderedDict()
 
-#The current python file must be in the same directory as tokenizers/
-sentence_tokenizer_dir = join(dirname(abspath(__file__)), 'tokenizers')
-
+#The current python file must be in the same directory as the tokenizers/ directory
+# sentence_tokenizer_dir = join(dirname(abspath(__file__)), 'tokenizers')
 lang = None
 word_tokenizer = None
 sentence_tokenizers = None
+debug_output = StringIO()
+NON_WORD_CHARS = (
+	r"\?¿؟\!¡！‽…⋯᠁ฯ,،，､、。°※··᛫~\:;;\\\/⧸⁄（）\(\)\[\]\{\}\<\>"
+	r"\'\"‘’“”‹›«»《》\|‖\=\-\‐\‒\–\—\―_\+\*\^\$£€§%#@&†‡"
+)
 
 tokenize_types = {
 	None: {
@@ -39,66 +43,71 @@ tokenize_types = {
 	}, 
 }
 
-def setup_tokenizers(*, language=None, terminal_punctuation):
-	global lang
-	global word_tokenizer
-	global sentence_tokenizers
-	global tokenize_types
-	lang = language
-	PunktLanguageVars.sent_end_chars = terminal_punctuation
-	PunktLanguageVars.re_boundary_realignment = re.compile(r'[›»》’”\'\"）\)\]\}\>]+?(?:\s+|(?=--)|$)', re.MULTILINE)
-	for tokenize_type_data in tokenize_types.values():
-		tokenize_type_data['prev_filepath'] = None
-		tokenize_type_data['tokens'] = None
-
-	#Accessing private variables of PunktLanguageVars because nltk has a faulty design pattern that necessitates it.
-	#Issue reported here: https://github.com/nltk/nltk/issues/2068
-	word_tokenizer = PunktLanguageVars()
-	word_tokenizer._re_word_tokenizer = re.compile(PunktLanguageVars._word_tokenize_fmt % {
-	    'NonWord': r"(?:[\d\.\?¿؟\!¡！‽…⋯᠁ฯ,،，､、。°※··᛫~\:;;\\\/⧸⁄（）\(\)\[\]\{\}\<\>\'\"‘’“”‹›«»《》\|‖\=\-\‐\‒\–\—\―_\+\*\^\$£€§%#@&†‡])",
-	    'MultiChar': PunktLanguageVars._re_multi_char_punct,
-	    'WordStart': r"[^\d\.\?¿؟\!¡！‽…⋯᠁ฯ,،，､、。°※··᛫~\:;;\\\/⧸⁄（）\(\)\[\]\{\}\<\>\'\"‘’“”‹›«»《》\|‖\=\-\‐\‒\–\—\―_\+\*\^\$£€§%#@&†‡]",
-	}, re.UNICODE | re.VERBOSE)
-	word_tokenizer._re_period_context = re.compile(PunktLanguageVars._period_context_fmt % {
-		'NonWord': r"(?:[\d\.\?¿؟\!¡！‽…⋯᠁ฯ,،，､、。°※··᛫~\:;;\\\/⧸⁄（）\(\)\[\]\{\}\<\>\'\"‘’“”‹›«»《》\|‖\=\-\‐\‒\–\—\―_\+\*\^\$£€§%#@&†‡])",
-		'SentEndChars': word_tokenizer._re_sent_end_chars, 
-	}, re.UNICODE | re.VERBOSE)
-
-	x = PunktLanguageVars()
-	x._re_word_tokenizer = re.compile(PunktLanguageVars._word_tokenize_fmt % {
-	    'NonWord': r"(?:[\?¿؟\!¡！‽…⋯᠁ฯ,،，､、。°※··᛫~\:;;\\\/⧸⁄（）\(\)\[\]\{\}\<\>\'\"‘’“”‹›«»《》\|‖\=\-\‐\‒\–\—\―_\+\*\^\$£€§%#@&†‡])",
-	    'MultiChar': PunktLanguageVars._re_multi_char_punct,
-	    'WordStart': r"[^\?¿؟\!¡！‽…⋯᠁ฯ,،，､、。°※··᛫~\:;;\\\/⧸⁄（）\(\)\[\]\{\}\<\>\'\"‘’“”‹›«»《》\|‖\=\-\‐\‒\–\—\―_\+\*\^\$£€§%#@&†‡]",
-	}, re.UNICODE | re.VERBOSE)
-	x._re_period_context = re.compile(PunktLanguageVars._period_context_fmt % {
-		'NonWord': r"(?:[\?¿؟\!¡！‽…⋯᠁ฯ,،，､、。°※··᛫~\:;;\\\/⧸⁄（）\(\)\[\]\{\}\<\>\'\"‘’“”‹›«»《》\|‖\=\-\‐\‒\–\—\―_\+\*\^\$£€§%#@&†‡])",
-		'SentEndChars': x._re_sent_end_chars, 
-	}, re.UNICODE | re.VERBOSE)
-
-	#Read tokenizers from pickle files (also include an untrained tokenizer). Mapping from language name to tokenizer
-	sentence_tokenizers = dict({None: PunktSentenceTokenizer(lang_vars=PunktLanguageVars())}, **{
-		current_file_name[:current_file_name.index('.')]: pickle.load(open(join(current_path, current_file_name), mode='rb'))
-		for current_path, current_dir_names, current_file_names in os.walk(sentence_tokenizer_dir) 
-		for current_file_name in current_file_names if current_file_name.endswith('.pickle')
-	})
-	for s in sentence_tokenizers.values():
-		s._lang_vars._re_period_context = x._re_period_context
-		s._lang_vars._re_word_tokenizer = x._re_word_tokenizer
-
-def reset_tokenizers():
-	global word_tokenizer
-	global sentence_tokenizers
-	word_tokenizer = None
-	sentence_tokenizers = None
-
-debug_output = StringIO()
-
 def clear_cache(cache, debug):
 	for k, v in cache.items():
 		v['prev_filepath'] = None
 		v['tokens'] = None
 	debug.truncate(0)
 	debug.seek(0)
+
+def setup_tokenizers(*, language=None, terminal_punctuation):
+	global lang
+	global word_tokenizer
+	global sentence_tokenizers
+	global tokenize_types
+	lang = language #TODO validate in this function, not in textual_feature()
+	PunktLanguageVars.sent_end_chars = terminal_punctuation
+	PunktLanguageVars.re_boundary_realignment = re.compile(r'[›»》’”\'\"）\)\]\}\>]+?(?:\s+|(?=--)|$)', re.MULTILINE)
+	clear_cache(tokenize_types, debug_output)
+
+	'''
+	Accessing private variables of PunktLanguageVars because 
+	nltk has a faulty design pattern that necessitates it.
+	Issue reported here: https://github.com/nltk/nltk/issues/2068
+	'''
+
+	'''
+	A word tokenizer should strip the non word chars from words, 
+	as well as periods and numbers
+	'''
+	word_tokenizer = PunktLanguageVars()
+	word_tokenizer._re_word_tokenizer = re.compile(PunktLanguageVars._word_tokenize_fmt % {
+	    'NonWord': fr"(?:[\d\.{NON_WORD_CHARS}])",
+	    'MultiChar': PunktLanguageVars._re_multi_char_punct,
+	    'WordStart': fr"[^\d\.{NON_WORD_CHARS}]",
+	}, re.UNICODE | re.VERBOSE)
+	word_tokenizer._re_period_context = re.compile(PunktLanguageVars._period_context_fmt % {
+		'NonWord': fr"(?:[\d\.{NON_WORD_CHARS}])",
+		'SentEndChars': word_tokenizer._re_sent_end_chars, 
+	}, re.UNICODE | re.VERBOSE)
+
+	'''
+	A sentence tokenizer should strip the non word chars from words.
+	This regex excludes periods because the original regex in the Punkt class
+	excludes them, and it excludes numbers because we do not want to 
+	treat numbers with decimals as if they were sentences
+	'''
+	sent_tok_vars = PunktLanguageVars()
+	sent_tok_vars._re_word_tokenizer = re.compile(PunktLanguageVars._word_tokenize_fmt % {
+	    'NonWord': fr"(?:[{NON_WORD_CHARS}])",
+	    'MultiChar': PunktLanguageVars._re_multi_char_punct,
+	    'WordStart': fr"[^{NON_WORD_CHARS}]",
+	}, re.UNICODE | re.VERBOSE)
+	sent_tok_vars._re_period_context = re.compile(PunktLanguageVars._period_context_fmt % {
+		'NonWord': fr"(?:[{NON_WORD_CHARS}])",
+		'SentEndChars': sent_tok_vars._re_sent_end_chars, 
+	}, re.UNICODE | re.VERBOSE)
+
+	sentence_tokenizers = {None: PunktSentenceTokenizer(lang_vars=PunktLanguageVars())}
+	#Read tokenizers from pickle files (also include an untrained tokenizer). Mapping from language name to tokenizer
+	'''dict({None: PunktSentenceTokenizer(lang_vars=PunktLanguageVars())}, **{
+		current_file_name[:current_file_name.index('.')]: pickle.load(open(join(current_path, current_file_name), mode='rb'))
+		for current_path, current_dir_names, current_file_names in os.walk(sentence_tokenizer_dir) 
+		for current_file_name in current_file_names if current_file_name.endswith('.pickle')
+	})'''
+	for s in sentence_tokenizers.values():
+		s._lang_vars._re_period_context = sent_tok_vars._re_period_context
+		s._lang_vars._re_word_tokenizer = sent_tok_vars._re_word_tokenizer
 
 def textual_feature(*, tokenize_type=None, debug=False):
 	global lang

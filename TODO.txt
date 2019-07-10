@@ -1,7 +1,8 @@
 Make pip package
-	Remove print statements and user input from python files that should go in the pip package?
 	Remove tokenizers/ directory and write logic to download necessary tokenizers dynamically
-Update progress bar to accomodate terminal window size (import shutil; shutil.get_terminal_size())
+	Move into sub directory
+	Remove print statements and user input from python files that should go in the pip package?
+Update progress bar to accomodate terminal window size (import shutil; shutil.get_terminal_size()) or install 3rd party bar
 Include git commit hash of this repo and git commit hash of tesserae repo in pickle dump, and output it in the ml analyzers so user can know what version of data they are dealing with, and allow the recognition of unstaged changes before outputting the pickle file
 
 Diagnose warning (and specify framework versions in Pipfile as a potential fix?) "/Users/timgianitsos/Git/GreekFeatureExtraction/.venv/lib/python3.6/site-packages/sklearn/ensemble/weight_boosting.py:29: DeprecationWarning: numpy.core.umath_tests is an internal NumPy module and should not be imported. It will be removed in a future NumPy release.""
