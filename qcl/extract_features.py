@@ -2,10 +2,11 @@ import sys
 import pickle
 import os
 from os.path import join
-from color import RED, GREEN, YELLOW, RESET
-from textual_feature import decorated_features, clear_cache, tokenize_types, debug_output
-from progress_bar import print_progress_bar
 from io import StringIO
+
+from .color import RED, GREEN, YELLOW, RESET
+from .textual_feature import decorated_features, clear_cache, tokenize_types, debug_output
+from .progress_bar import print_progress_bar
 
 def parse_tess(file_name):
 	file_text = StringIO()

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from textual_feature import textual_feature, setup_tokenizers
+from qcl.textual_feature import textual_feature, setup_tokenizers
 from functools import reduce
 from unicodedata import normalize
 #Reference for normalization: https://jktauber.com/articles/python-unicode-ancient-greek/

@@ -1,5 +1,4 @@
 Make pip package
-	Remove tokenizers/ directory and write logic to download necessary tokenizers dynamically
 	Move into sub directory
 	Remove print statements and user input from python files that should go in the pip package?
 Update progress bar to accomodate terminal window size (import shutil; shutil.get_terminal_size()) or install 3rd party bar

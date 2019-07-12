@@ -9,7 +9,6 @@ from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktLanguageVars
 
 decorated_features = OrderedDict()
 
-#The current python file must be in the same directory as the tokenizers/ directory
 # sentence_tokenizer_dir = join(dirname(abspath(__file__)), 'tokenizers')
 lang = None
 word_tokenizer = None
@@ -130,7 +129,6 @@ def textual_feature(*, tokenize_type=None, debug=False):
 				+ '\nFound parameters: ' + str(set(sig_params)))
 		def wrapper(*, text, filepath=None):
 			if filepath:
-				#TODO languages don't cache their own tokens, therefore using multiple languages will cause problems
 				#Cache the tokenized version of this text if this filepath is new
 				if tokenize_types[tokenize_type]['prev_filepath'] != filepath:
 					tokenize_types[tokenize_type]['prev_filepath'] = filepath

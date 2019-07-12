@@ -1,10 +1,10 @@
 import greek_features #seemingly unused here, but this makes the environment recognize features that are decorated
-import extract_features
 import os
 import sys
 from corpus_categories import composite_files, genre_to_files
 from functools import reduce
-from color import RED, RESET
+from qcl.color import RED, RESET
+import qcl.extract_features
 
 if __name__ == '__main__':
 
@@ -22,7 +22,7 @@ if __name__ == '__main__':
 			raise Exception('Unable to obtain corpus for feature extraction')
 
 	#Feature extractions
-	extract_features.main(
+	qcl.extract_features.main(
 		corpus_dir, 
 
 		'tess', 

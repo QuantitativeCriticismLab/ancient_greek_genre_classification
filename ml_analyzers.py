@@ -9,10 +9,10 @@ import statistics
 import sklearn
 from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
-from color import RED, GREEN, YELLOW, PURPLE, RESET
-from progress_bar import print_progress_bar
 from collections import Counter
-from model_analyzer import model_analyzer
+from qcl.color import RED, GREEN, YELLOW, PURPLE, RESET
+from qcl.progress_bar import print_progress_bar
+from qcl.model_analyzer import model_analyzer
 
 def _display_stats(expected, results, file_names, labels_key, tabs=0):
 	assert len(expected) == len(results)

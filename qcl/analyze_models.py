@@ -1,10 +1,11 @@
 import os
 import pickle
 import numpy as np
-from model_analyzer import decorated_analyzers
-from color import GREEN, RESET
 from functools import partial
 from collections import OrderedDict
+
+from .model_analyzer import decorated_analyzers
+from .color import GREEN, RESET
 
 def _get_features(feature_data_file):
 	#Obtain features that were previously mined and serialized into a file
