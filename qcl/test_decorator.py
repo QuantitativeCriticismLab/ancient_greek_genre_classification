@@ -1,5 +1,5 @@
-from textual_feature import textual_feature, decorated_features, \
-tokenize_types, clear_cache, debug_output, setup_tokenizers
+from .textual_feature import textual_feature, decorated_features, \
+	tokenize_types, clear_cache, debug_output, setup_tokenizers
 import unittest
 
 setup_tokenizers(terminal_punctuation=('.', '?')) #'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'

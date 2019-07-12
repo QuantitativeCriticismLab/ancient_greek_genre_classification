@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
 from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktLanguageVars
-import textual_feature
 import re
+
+from . import textual_feature
 
 #[^\s\d’”\'\"）\)\]\}\.,:;]
 #[“‘—\-†&vâ\*\^（α-ωΑ-Ὠ`̔]
@@ -46,14 +47,14 @@ class TestParsers(unittest.TestCase):
 		['freino', '.'], ['daieof', ';'], ['frinoe', '.']]
 		self.assertEqual(expected, result)
 
-	def test_sentence_words2(self):
+	def test_sentence_words3(self):
 		file = 'a b ccccccc. aaa aa bb; bb; ads ofiihwio; freino. daieof; frinoe.'
 		result = textual_feature.tokenize_types['words']['func'](file)
 		expected = ['a', 'b', 'ccccccc', '.', 'aaa', 'aa', 'bb', ';', 'bb', ';', 'ads', 'ofiihwio', ';', 
 		'freino', '.', 'daieof', ';', 'frinoe', '.']
 		self.assertEqual(expected, result)
 
-	def test_sentence_words3(self):
+	def test_sentence_words4(self):
 		file = 'a b ccccccc. aaa aa bb; bb; ads ofiihwio; freino. daieof; frinoe.'
 		result = p.word_tokenize(file)
 		expected = ['a', 'b', 'ccccccc', '.', 'aaa', 'aa', 'bb', ';', 'bb', ';', 'ads', 'ofiihwio', ';', 
@@ -68,7 +69,7 @@ class TestParsers(unittest.TestCase):
 
 	def test_sentence_slant_quote1_5(self):
 		s = 'a b c. "a b c". a b c. "a b c." a b c. “a b c”. a b c. “a b c.” a b c.'
-		result = textual_feature.sentence_tokenizers['ancient_greek'].tokenize(s)
+		result = textual_feature.sentence_tokenizers[None].tokenize(s)
 		expected = ['a b c.', '"a b c".', 'a b c.', '"a b c."', 'a b c.', '“a b c”.', 'a b c.', '“a b c.”', 'a b c.']
 		self.assertEqual(expected, result)
 

@@ -1,6 +1,6 @@
 import unittest
-from extract_features import main
-from textual_feature import textual_feature, setup_tokenizers
+from .extract_features import main
+from .textual_feature import textual_feature, setup_tokenizers
 
 #Run this file with "-b" to ignore output in passing tests (failing tests still display output)
 
