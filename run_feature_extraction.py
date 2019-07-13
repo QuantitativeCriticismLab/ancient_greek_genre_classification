@@ -3,8 +3,8 @@ import os
 import sys
 from corpus_categories import composite_files, genre_to_files
 from functools import reduce
-from qcl.color import RED, RESET
-import qcl.extract_features
+from qcrit.color import RED, RESET
+import qcrit.extract_features
 
 if __name__ == '__main__':
 
@@ -22,7 +22,7 @@ if __name__ == '__main__':
 			raise Exception('Unable to obtain corpus for feature extraction')
 
 	#Feature extractions
-	qcl.extract_features.main(
+	qcrit.extract_features.main(
 		corpus_dir, 
 
 		'tess', 
