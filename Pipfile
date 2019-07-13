@@ -8,6 +8,7 @@ sklearn = "*"
 numpy = "*"
 scipy = "*"
 nltk = "*"
+qcrit = "*"
 
 [dev-packages]
 pylint = "*"
