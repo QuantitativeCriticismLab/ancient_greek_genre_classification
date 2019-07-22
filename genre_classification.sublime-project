@@ -5,6 +5,6 @@
 		}
 	],
 	"settings": {
-	    "python_interpreter": ".venv/bin/python"
+		"python_interpreter": ".venv/bin/python"
 	}
 }

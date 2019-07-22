@@ -1,11 +1,14 @@
-# -*- coding: utf-8 -*-
-
-from qcrit.textual_feature import textual_feature, setup_tokenizers
+'''
+Greek features
+'''
 from functools import reduce
 from unicodedata import normalize
+
+from qcrit.textual_feature import textual_feature, setup_tokenizers
 #Reference for normalization: https://jktauber.com/articles/python-unicode-ancient-greek/
 
-setup_tokenizers(terminal_punctuation=('.', ';', ';'), language=None) #'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
+#'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
+setup_tokenizers(terminal_punctuation=('.', ';', ';'), language=None)
 
 @textual_feature(tokenize_type='sentence_words')
 def freq_interrogatives(text):
