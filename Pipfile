@@ -9,6 +9,7 @@ numpy = "*"
 scipy = "*"
 nltk = "*"
 qcrit = "*"
+tqdm = "*"
 
 [dev-packages]
 pylint = "*"
