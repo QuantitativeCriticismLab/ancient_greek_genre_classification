@@ -5,31 +5,32 @@ We are data mining a corpus of ancient texts to train machine learning classifie
 
 Open the Terminal app
 
-Check if you have Python 3.6 installed:
+Check if you have `Python 3.6` installed:
 ```bash
 which python3.6
 ```
-If it is installed, this command should have output a path. For example: `/Library/Frameworks/Python.framework/Versions/3.6/bin/python3.6`. If nothing was output, download Python 3.6 here: https://www.python.org/downloads/release/python-368/
+If it is installed, this command should have output a path. For example: `/Library/Frameworks/Python.framework/Versions/3.6/bin/python3.6`. If nothing was output, download `Python 3.6` here: https://www.python.org/downloads/release/python-368/
 
-Ensure that you have the Xcode command-line tools installed on your Mac by running the `git` command in terminal:
+Ensure that you have the Xcode command-line tools installed on your Mac by running the following:
 ```bash
-git
+xcode-select --install
 ```
-If the command outputs information about how to use `git`, then you already have it installed. If a dialog box appears that prompts you to install, then click `Install`.
+If you are prompted with a dialog box, then select `Install`.
 
 Check that you have `brew` installed:
 ```bash
 which brew
 ```
-If it is installed, this command should have output the following path: `/usr/local/bin/brew`. If nothing was output, install brew with the following command: 
+If it is installed, this command should have output the following path: `/usr/local/bin/brew`. If nothing was output, install `brew` with the following command: 
 ```bash
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 
-Install pipenv:
+Install `pipenv`:
 ```bash
 brew install pipenv
 ```
+If `pipenv` had already been installed in the past, you may have to run `brew reinstall pipenv`.
 
 (Optional) Set environment variable by executing the following lines (which will modify `~/.bash_profile`). This should only ever need to be done once.
 ```bash
