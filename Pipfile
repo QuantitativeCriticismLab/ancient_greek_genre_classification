@@ -8,7 +8,7 @@ sklearn = "*"
 numpy = "*"
 scipy = "*"
 nltk = "*"
-qcrit = "*"
+qcrit = "==0.0.9"
 tqdm = "*"
 
 [dev-packages]

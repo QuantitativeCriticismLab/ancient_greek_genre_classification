@@ -50,7 +50,12 @@ Navigate inside the project folder:
 cd <the project folder you just cloned>
 ```
 
-Create/Enter virtual environment:
+Create virtual environment:
+```bash
+pipenv --python 3.6
+```
+
+Enter virtual environment:
 ```bash
 pipenv shell
 ```
@@ -58,11 +63,6 @@ pipenv shell
 Install dependencies: 
 ```bash
 pipenv install
-```
-
-Run the demo (this does a feature extraction for a small sample of files, and analyzes the results in one step):
-```bash
-python demo.py
 ```
 
 Extract features from all files:
