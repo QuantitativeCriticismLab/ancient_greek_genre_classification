@@ -1,69 +1,39 @@
 # Genre Classifier
 We are data mining a corpus of ancient texts to train machine learning classifiers that distinguish between different genres.
 
-## Setup (Instructions for Mac)
+## Setup
 
-Open the Terminal app
+1. This project requires a certain version of `Python`. You can find this version by running the following command from the project directory:
+	```bash
+	grep 'python_version' Pipfile | cut -f 2 -d '"'
+	```
+	To determine whether this version is installed on your system, run:
+	```bash
+	which python`grep 'python_version' Pipfile | cut -f 2 -d '"'`
+	```
+	If the version is already installed, a path will be output (e.g. /Library/Frameworks/Python.framework/Versions/3.x/bin/python3.x). If nothing was output, then you don't have the necessary version of `Python` installed. You can install it [here](https://www.python.org/downloads/).
+1. Ensure `pipenv`<sup id="a1">[1](#f1)</sup> is already installed by using:
+	```bash
+	which pipenv
+	```
+	If no path is output, then install `pipenv` with:
+	```bash
+	pip3 install pipenv
+	```
+1. While in the project directory, run the following command. This will generate a virtual environment called `.venv/` in the current directory<sup id="a2">[2](#f2)</sup> that will contain all<sup id="a3">[3](#f3)</sup> the `Python` dependencies for this project.
+	```bash
+	PIPENV_VENV_IN_PROJECT=true pipenv install --dev
+	```
+1. The following command will activate the virtual environment. After activation, running `Python` commands will ignore the system-level `Python` version & packages, and only use the version & packages from the virtual environment.
+	```bash
+	pipenv shell
+	```
 
-Check if you have `Python 3.6` installed:
-```bash
-which python3.6
-```
-If it is installed, this command should have output a path. For example: `/Library/Frameworks/Python.framework/Versions/3.6/bin/python3.6`. If nothing was output, download `Python 3.6` here: https://www.python.org/downloads/release/python-368/
+Using `exit` will exit the virtual environment i.e. it restores the system-level `Python` configurations to your shell. Whenever you want to resume working on the project, run `pipenv shell` while in the project directory to activate the virtual environment again.
 
-Ensure that you have the Xcode command-line tools installed on your Mac by running the following:
-```bash
-xcode-select --install
-```
-If you are prompted with a dialog box, then select `Install`.
+Use `pipenv check` to ensure that your `Pipfile` and `Pipfile.lock` are in sync. If there is some discrepancy or you lack dependencies, then run `pipenv install --dev` while your virtual environment is activated. This should ensure that your project has all the necessary dependencies.
 
-Check that you have `brew` installed:
-```bash
-which brew
-```
-If it is installed, this command should have output the following path: `/usr/local/bin/brew`. If nothing was output, install `brew` with the following command: 
-```bash
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-```
-
-Install `pipenv`:
-```bash
-brew install pipenv
-```
-If `pipenv` had already been installed in the past, you may have to run `brew reinstall pipenv`.
-
-(Optional) Set environment variable by executing the following lines (which will modify `~/.bash_profile`). This should only ever need to be done once.
-```bash
-echo "#When pipenv makes a virtual environment, it will create it in the same directory as the project instead of ~/.local/share/virtualenv/" >> ~/.bash_profile
-echo "PIPENV_VENV_IN_PROJECT=true" >> ~/.bash_profile
-echo "export PIPENV_VENV_IN_PROJECT" >> ~/.bash_profile
-```
-Close terminal, then repoen terminal
-
-Clone this repository - click on green 'clone' button on right side of github webpage for this repo to copy the link:
-```bash
-git clone <link you just copied>
-```
-
-Navigate inside the project folder:
-```bash
-cd <the project folder you just cloned>
-```
-
-Create virtual environment:
-```bash
-pipenv --python 3.6
-```
-
-Enter virtual environment:
-```bash
-pipenv shell
-```
-
-Install dependencies: 
-```bash
-pipenv install
-```
+## Development
 
 Extract features from all files:
 ```bash
@@ -94,3 +64,11 @@ To start the virtual environment again, use
 ```bash
 pipenv shell
 ```
+
+## Footnotes
+
+<b id="f1">1)</b> The `pipenv` tool works by making a project-specific directory called a virtual environment that hold the dependencies for that project. After a virtual environment is activated, newly installed dependencies will automatically go into the virtual environment instead of being placed among your system-level `Python` packages. This precludes the possiblity of different projects on the same machine from having dependencies that conflict with one another. [↩](#a1)
+
+<b id="f2">2)</b> Setting the `PIPENV_VENV_IN_PROJECT` variable to true will indicate to `pipenv` to make this virtual environment within the same directory as the project so that all the files corresponding to a project can be in the same place. This is [not default behavior](https://github.com/pypa/pipenv/issues/1382) (e.g. on Mac, the environments will normally be placed in `~/.local/share/virtualenvs/` by default). [↩](#a2)
+
+<b id="f3">3)</b> Using `--dev` ensures that even development dependencies will be installed (dev dependencies may include testing and linting frameworks which are not necessary for normal execution of the code). `Pipfile.lock` specifies the packages and exact versions (for both dev dependencies and regular dependencies) for the virtual environment. After installation, you can find all dependencies in `<path to virtual environment>/lib/python<python version>/site-packages/`. [↩](#a3)
