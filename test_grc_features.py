@@ -1,6 +1,9 @@
+# pylint: disable = missing-function-docstring, missing-class-docstring
+'''Tests'''
 import unittest
-from greek_features import *
 from functools import reduce
+
+from greek_features import * # pylint: disable = wildcard-import, unused-wildcard-import
 
 class TestGreekFeatures(unittest.TestCase):
 

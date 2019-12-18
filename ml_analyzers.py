@@ -1,18 +1,30 @@
-#TODO display files tested? 
+# pylint: disable = trailing-whitespace, C0330, unused-argument
+'''
+Analyzers for a single time period
+'''
 
-
-import warnings
-warnings.filterwarnings('ignore') #TODO consider whether to keep
-from tqdm import tqdm
-import numpy as np
 from functools import reduce
 import statistics
+from collections import Counter
+import warnings
+
+from sklearn.exceptions import UndefinedMetricWarning
+import numpy as np
+from tqdm import tqdm
 import sklearn
 from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
-from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
-from collections import Counter
-from qcrit.color import RED, GREEN, YELLOW, PURPLE, RESET
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold, GridSearchCV
 from qcrit.model_analyzer import model_analyzer
+
+
+#Ignores warning for undefined F1-score when a category is never predicted.
+warnings.filterwarnings(action='ignore', category=UndefinedMetricWarning)
+
+RED = '\033[91m'
+GREEN = '\033[92m'
+YELLOW = '\033[93m'
+PURPLE = '\033[95m'
+RESET = '\033[0m'
 
 def _display_stats(expected, results, file_names, labels_key, tabs=0):
 	assert len(expected) == len(results)
@@ -51,7 +63,7 @@ def _display_stats(expected, results, file_names, labels_key, tabs=0):
 # 	print(RED + 'Random Forest tests' + RESET)
 
 # 	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=0)
-# 	clf = ensemble.RandomForestClassifier(random_state=0)
+# 	clf = ensemble.RandomForestClassifier(random_state=0, n_estimators=10)
 # 	clf.fit(features_train, labels_train)
 # 	results = clf.predict(features_test)
 # 	expected = labels_test
@@ -63,7 +75,7 @@ def _display_stats(expected, results, file_names, labels_key, tabs=0):
 @model_analyzer()
 def random_forest_cross_validation(data, target, file_names, feature_names, labels_key):
 	print(RED + 'Random Forest cross validation' + RESET)
-	clf = ensemble.RandomForestClassifier(random_state=0)
+	clf = ensemble.RandomForestClassifier(random_state=0, n_estimators=10)
 	splitter = StratifiedKFold(n_splits=5, shuffle=False, random_state=0)
 	tabs = 1
 
@@ -248,38 +260,66 @@ def random_forest_feature_rankings(data, target, file_names, feature_names, labe
 	for t in sorted([(feat, rank) for feat, rank in feature_rankings.items()], key=lambda s: -1 * s[1].mean()):
 		print('\t' + '%.6f +/- standard deviation of %.4f' % (t[1].mean(), t[1].std()) + ': ' + t[0])
 
-# @model_analyzer()
-# def sample_classifiers(data, target, file_names, feature_names, labels_key):
-# 	#Includes all the machine learning classifiers
-# 	classifiers = [
-# 		ensemble.RandomForestClassifier(random_state=0), 
-# 		svm.SVC(gamma=0.00001, kernel='rbf', random_state=0), 
-# 		naive_bayes.GaussianNB(priors=None), 
-# 		neighbors.KNeighborsClassifier(n_neighbors=5), 
-# 		neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0), 
-# 	]
-# 	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
+@model_analyzer()
+def random_forest_hyper_parameters(data, target, file_names, feature_names, labels_key):
+	default_forest_params = {
+		'bootstrap': True, 'class_weight': None, 'max_depth': None, 
+		'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 
+		'min_impurity_split': None, 'min_samples_split': 2, 
+		'min_weight_fraction_leaf': 0.0, 'n_jobs': 1, 'oob_score': False, 
+		'verbose': 0, 'warm_start': False
+	}
 
-# 	print(RED + 'Miscellaneous machine learning models:' + RESET)
+	candidate_params = {
+		'max_features': range(int(data.shape[1] ** 0.5), data.shape[1]),
+		'n_estimators': (10, 50, 100),
+		# 'min_samples_leaf': range(1, int(len(target) ** 0.5)),
+		# 'criterion': ('gini', 'entropy'),
+	}
+	#Best parameters: {'criterion': 'gini', 'max_features': 11, 'min_samples_leaf': 1, 'n_estimators': 100}
+	print(f'Testing candidate parameters {candidate_params}')
 
-# 	tabs = 1
-# 	for clf in classifiers:
-# 		print('\n' + PURPLE + '\t' * tabs + clf.__class__.__name__ + RESET)
+	best_params = GridSearchCV(
+		ensemble.RandomForestClassifier(**default_forest_params), candidate_params,
+		verbose=2, cv=3,
+	).fit(data, target).best_params_
+	print(f'Best parameters: {best_params}')
+	clf = ensemble.RandomForestClassifier(**default_forest_params, **best_params)
+	print('accuracy from cross-validation = {}'.format(
+		statistics.mean(cross_val_score(clf, data, target, scoring='accuracy', cv=5))
+	))
 
-# 		#Parameters used in creating this classifier
-# 		print('\t' * (tabs + 1) + 'Parameters: ' + str(clf.get_params()))
-# 		print()
+@model_analyzer()
+def sample_classifiers(data, target, file_names, feature_names, labels_key):
+	#Includes a sample of several the machine learning classifiers
+	classifiers = [
+		ensemble.RandomForestClassifier(random_state=0, n_estimators=10), 
+		svm.SVC(gamma=0.00001, kernel='rbf', random_state=0), 
+		naive_bayes.GaussianNB(priors=None), 
+		neighbors.KNeighborsClassifier(n_neighbors=5), 
+		neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0), 
+	]
+	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
 
-# 		#Train & predict classifier
-# 		clf.fit(features_train, labels_train)
-# 		results = clf.predict(features_test)
-# 		expected = labels_test
+	print(RED + 'Miscellaneous machine learning models:' + RESET)
 
-# 		_display_stats(expected, results, file_names, labels_key, tabs + 1)
+	tabs = 1
+	for clf in classifiers:
+		print('\n' + PURPLE + '\t' * tabs + clf.__class__.__name__ + RESET)
 
-# 		#Cross validation
-# 		scores = cross_val_score(clf, features_train, labels_train, cv=5)
-# 		print('\t' * (tabs + 1) + YELLOW + 'Cross Validation:' + RESET)
-# 		print('\t' * (tabs + 1) + 'Scores: ' + str(scores))
-# 		print('\t' * (tabs + 1) + 'Avg Accuracy: %0.2f (+/- %0.2f)' % (scores.mean(), scores.std() * 2))
+		#Parameters used in creating this classifier
+		print('\t' * (tabs + 1) + 'Parameters: ' + str(clf.get_params()))
+		print()
 
+		#Train & predict classifier
+		clf.fit(features_train, labels_train)
+		results = clf.predict(features_test)
+		expected = labels_test
+
+		_display_stats(expected, results, file_names, labels_key, tabs + 1)
+
+		#Cross validation
+		scores = cross_val_score(clf, features_train, labels_train, cv=5)
+		print('\t' * (tabs + 1) + YELLOW + 'Cross Validation:' + RESET)
+		print('\t' * (tabs + 1) + 'Scores: ' + str(scores))
+		print('\t' * (tabs + 1) + 'Avg Accuracy: %0.2f (+/- %0.2f)' % (scores.mean(), scores.std() * 2))

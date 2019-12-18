@@ -572,4 +572,4 @@ overgeneral-exceptions=BaseException,
 
 [IGNORE WARNINGS]
 
-errors-only=yes
+# errors-only=yes

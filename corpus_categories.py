@@ -1,3 +1,4 @@
+# pylint: disable = C
 from collections import OrderedDict
 
 #These files are composites of files that already exist in parts in the tesserae corpus
