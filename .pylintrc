@@ -314,14 +314,14 @@ expected-line-ending-format=
 ignore-long-lines=^\s*(# )?<?https?://\S+>?$
 
 # Number of spaces of indent required inside a hanging or continued line.
-indent-after-paren=4
+indent-after-paren=1
 
 # String used as indentation unit. This is usually "    " (4 spaces) or "\t" (1
 # tab).
 indent-string='\t'
 
 # Maximum number of characters on a single line.
-max-line-length=100
+max-line-length=115
 
 # Maximum number of lines in a module.
 max-module-lines=1000
@@ -339,7 +339,7 @@ single-line-class-stmt=no
 
 # Allow the body of an if to be on the same line as the test if there is no
 # else.
-single-line-if-stmt=no
+single-line-if-stmt=yes
 
 
 [SIMILARITIES]
@@ -573,3 +573,4 @@ overgeneral-exceptions=BaseException,
 [IGNORE WARNINGS]
 
 # errors-only=yes
+
