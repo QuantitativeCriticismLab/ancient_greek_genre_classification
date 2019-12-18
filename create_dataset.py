@@ -1,34 +1,27 @@
+#pylint: disable = C
 import sys
 import os
 import numpy as np
-import pickle
-from analyze_models import _get_features, _get_file_classifications, _get_classifier_data
+
+from qcrit.analyze_models import _get_features, _get_file_classifications, _get_classifier_data
+import qcrit.extract_features
+
+from download_corpus import download_corpus
 
 feature_data_file = sys.argv[1] if len(sys.argv) >= 2 else input('Enter pickle file: ')
 
 if not os.path.isfile(feature_data_file):
-	#Download corpus if non-existent
-	corpus_dir = os.path.join('tesserae', 'texts', 'grc')
-	tesserae_clone_command = 'git clone https://github.com/timgianitsos/tesserae.git'
-	if not os.path.isdir(corpus_dir):
-		print(RED + 'Corpus at ' + corpus_dir + ' does not exist - attempting to clone repository...' + RESET)
-		if os.system(tesserae_clone_command) is not 0:
-			raise Exception('Unable to obtain corpus for feature extraction')
+	corpus_path = ('tesserae', 'texts', 'grc')
+	download_corpus(corpus_path)
 
-
-	from greek_features import composite_files_to_exclude
-	import extract_features
+	from corpus_categories import composite_files
+	from greek_features import * # pylint: disable = wildcard-import, unused-wildcard-import
 	#Feature extractions
-	extract_features.main(
-		corpus_dir, 
-		'tess', 
-
+	qcrit.extract_features.main(
+		os.path.join(*corpus_path),
+		{'tess': qcrit.extract_features.parse_tess},
 		#Exclude the following directories and files
-		excluded_paths=composite_files_to_exclude,
-
-		#Only extract the following features
-		# features=['freq_men'], 
-
+		excluded_paths=composite_files,
 		#Output the results to a file in order to be processed by machine learning algorithms
 		output_file=feature_data_file
 	)
@@ -44,25 +37,36 @@ filename_to_classification, labels = _get_file_classifications(classification_da
 assert len(filename_to_features.keys() - filename_to_classification.keys()) == 0, 'file_to_feature len: ' + str(len(filename_to_features.keys())) + ', filename_to_classification len: ' + str(len(filename_to_classification.keys()))
 
 #Convert features and classifications into sorted lists
-file_names = sorted([elem for elem in filename_to_features.keys()])
+file_names = sorted(filename_to_features.keys())
 feature_names = sorted(list({feature for feature_to_val in filename_to_features.values() for feature in feature_to_val.keys()}))
 
 data, target = _get_classifier_data(filename_to_features, filename_to_classification, file_names, feature_names)
 
 assert len(data) == len(target) == len(file_names)
 
+code_repo = os.popen('git remote get-url origin').read().strip()
 code_hash = os.popen('git rev-parse HEAD').read().strip()
-tesserae_hash = os.popen('git -C "./tesserae" rev-parse HEAD').read().strip()
+corpus_repo = os.popen('git -C "./tesserae" remote get-url origin').read().strip()
+corpus_hash = os.popen('git -C "./tesserae" rev-parse HEAD').read().strip()
+
 prose_file = open('prose_data.csv', mode='w')
 prose_file.write('Ancient Greek Prose Data\n')
 verse_file = open('verse_data.csv', mode='w')
 verse_file.write('Ancient Greek Verse Data\n')
 for f in (prose_file, verse_file):
-	f.write('Data: https://github.com/timgianitsos/tesserae/tree/master/texts/grc,Project: https://www.qcrit.org,Author: Tim Gianitsos (tgianitsos@yahoo.com),Repo (Private): https://github.com/jdexter476/ProseVerseClassification.git,Code commit: ' + code_hash + ',Corpus commit: ' + tesserae_hash + ',Note: Frequencies are per-character\n')
+	f.write(
+		f'Code Repo: {code_repo}'
+		f',Corpus: {corpus_repo}'
+		f',Code commit: {code_hash}'
+		f',Corpus commit: {corpus_hash}'
+		f',Project: https://www.qcrit.org'
+		f',Author: Tim Gianitsos'
+		f',Note: Frequencies are per-character\n'
+	)
 	f.write('file name,' + ','.join(feature_names) + '\n')
 
 for i in range(len(data)):
 	f = prose_file if filename_to_classification[file_names[i]] == np.float64(1) else verse_file
 	f.write(file_names[i][file_names[i].rindex(os.sep) + 1:] + ',' + ','.join(str(e) for e in data[i]) + '\n')
 
-print('Success!')
+print('Successfully generated csv files!')
