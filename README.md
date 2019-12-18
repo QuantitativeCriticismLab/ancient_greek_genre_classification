@@ -1,8 +1,9 @@
-# Genre Classifier
+# Greek Genre Classifier
 We are data mining a corpus of ancient texts to train machine learning classifiers that distinguish between different genres.
 
 ## Setup
 
+1. Ensure you have `git` installed with version<sup id="a0">[0](#f0)</sup> at least `1.9`.
 1. This project requires a certain version of `Python`. You can find this version by running the following command from the project directory:
 	```bash
 	grep 'python_version' Pipfile | cut -f 2 -d '"'
@@ -66,6 +67,8 @@ pipenv shell
 ```
 
 ## Footnotes
+
+<b id="f0">0)</b> The project uses the `git` protocol to download the corpus. We make use of `git`'s sparse checkout and shallow clone features to download only what we need from the repository (this is done automatically in the code). We must have [at least `git` version 1.9 to perform a sparse checkout and shallow clone](https://stackoverflow.com/a/28039894/7102572).[↩](#a0)
 
 <b id="f1">1)</b> The `pipenv` tool works by making a project-specific directory called a virtual environment that hold the dependencies for that project. After a virtual environment is activated, newly installed dependencies will automatically go into the virtual environment instead of being placed among your system-level `Python` packages. This precludes the possiblity of different projects on the same machine from having dependencies that conflict with one another. [↩](#a1)
 

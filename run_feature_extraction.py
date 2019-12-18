@@ -3,27 +3,24 @@ import os
 import sys
 from corpus_categories import composite_files, genre_to_files
 from functools import reduce
+
 from qcrit.color import RED, RESET
 import qcrit.extract_features
 
-if __name__ == '__main__':
+from download_corpus import download_corpus
 
+def main():
 	#Validate command line options
 	categories_to_include = set() if len(sys.argv) <= 2 else set(sys.argv[2:])
 	if len(sys.argv) > 2 and not all(tok in genre_to_files for tok in categories_to_include):
 		raise ValueError('Invalid genres: ' + str(categories_to_include - genre_to_files.keys()))
 
-	#Download corpus if non-existent
-	corpus_dir = os.path.join('tesserae', 'texts', 'grc')
-	tesserae_clone_command = 'git clone https://github.com/timgianitsos/tesserae.git'
-	if not os.path.isdir(corpus_dir):
-		print(RED + 'Corpus at ' + corpus_dir + ' does not exist - attempting to clone repository...' + RESET)
-		if os.system(tesserae_clone_command) is not 0:
-			raise Exception('Unable to obtain corpus for feature extraction')
+	corpus_path = ('tesserae', 'texts', 'grc')
+	download_corpus(corpus_path)
 
 	#Feature extractions
 	qcrit.extract_features.main(
-		corpus_dir, 
+		os.path.join(*corpus_path), 
 
 		'tess', 
 
@@ -34,3 +31,7 @@ if __name__ == '__main__':
 
 		output_file=None if len(sys.argv) <= 1 else sys.argv[1] 
 	)
+
+
+if __name__ == '__main__':
+	main()
