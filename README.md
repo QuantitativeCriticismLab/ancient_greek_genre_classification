@@ -14,7 +14,7 @@ We are data mining a corpus of ancient texts to train machine learning classifie
 	```
 	Determine whether this version is already installed. If you are using `bash` or `zsh`, you can verify this with the following command:
 	```bash
-	command -v python`grep 'python_version' Pipfile | cut -f 2 -d '"'` &> /dev/null; if [[ $? -eq 0 ]]; then echo "$_ currently installed"; else echo "$_ NOT installed"; fi
+	command -v "python`grep 'python_version' Pipfile | cut -f 2 -d '"'`" &> /dev/null; if [[ $? -eq 0 ]]; then echo "$_ currently installed"; else echo "$_ NOT installed"; fi
 	```
 	If the version of `Python` is not installed, you can install it here: https://www.python.org/downloads/.
 1. Ensure `pipenv`<sup id="a1">[1](#f1)</sup> is already installed. If you are using `bash` or `zsh`, you can verify this with the following command:
