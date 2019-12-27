@@ -60,6 +60,6 @@ In the case of 'philostratus', the prose_list file has 'philostratus_the_athenia
 In the case of 'plutarch_amatorius', that is a mistake in the naming schema for one of the files in the tesserae repo, and I had to include it to make everything consistent. There should only be 'plutarch' because 'plutarch_amatorius' is not a person - 'amatorius' is the name of one of plutarch's works, so the tesserae people just made a mistake when naming the file. I filed an issue about it on Github.
 https://github.com/tesserae/tesserae/issues/57
 
-However in the case of 'tryphiodorus' it seems as though Joseph labeled it prose, but when I look online it says it is poetry. Curiously however, it was never misclassified by the RandomForest classifier. Perhaps it is a strange edge case of poetry that is more similar to prose.
+However in the case of 'tryphiodorus' it seems as though Joseph labeled it prose, but when I look online it says it is poetry. Curiously however, it was never misclassified by the RandomForest classifier. Perhaps it is a strange edge case of poetry that is more similar to prose. EDIT when I wrote this comment there was a bug with how misclassified texts were reported. This bug has long since been fixed, so this is no longer an issue.
 
 '''

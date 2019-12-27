@@ -1,5 +1,13 @@
-# Greek Genre Classifier
-We are data mining a corpus of ancient texts to train machine learning classifiers that distinguish between different genres.
+# Ancient Greek Genre Classification
+Extract features from a corpus of ancient Greek texts to train machine learning classifiers that distinguish between different genres.
+
+Code: Efthimios Tim Gianitsos
+
+Analysis: Joseph P. Dexter, Pramit Chaudhuri, Thomas J. Bolt
+
+Link to paper: https://www.aclweb.org/anthology/W19-2507/
+
+"Stylometric Classification of Ancient Greek Literary Texts by Genre" LaTeCH-CLfL 2019
 
 ## Setup
 
@@ -64,7 +72,7 @@ python run_ml_analyzers.py drama_epic_data.pickle labels/genre_labels.csv all
 
 ## Footnotes
 
-<b id="f0">0)</b> The project uses the `git` protocol to download the corpus. We make use of `git`'s sparse checkout and shallow clone features to download only what we need from the repository (this is done automatically in the code). We must have [at least `git` version 1.9 to perform a sparse checkout and shallow clone](https://stackoverflow.com/a/28039894/7102572).[↩](#a0)
+<b id="f0">0)</b> The project uses the `git` protocol to download the corpus. We make use of `git`'s sparse checkout and shallow clone features to download only what we need from the repository (this is done automatically in the code). We must have [at least `git` version 1.9](https://stackoverflow.com/a/28039894/7102572) to perform a sparse checkout and shallow clone.[↩](#a0)
 
 <b id="f1">1)</b> The `pipenv` tool manages project dependencies. It works by making a project-specific directory called a virtual environment that holds the dependencies for that project. After a virtual environment is "activated", `Python` commands will ignore the system-level `Python` version & dependencies. Only the version & dependencies in the virtual environment will be recognized. Also, newly installed dependencies will automatically go into the virtual environment instead of being placed among your system-level `Python` dependencies. This precludes the possiblity of different projects on the same system from having dependencies that conflict with one another. It also makes it easier to clean up after deleting a project: instead of remembering to uninstall several dependencies from your system, you can just delete the virtual environment.[↩](#a1)
 

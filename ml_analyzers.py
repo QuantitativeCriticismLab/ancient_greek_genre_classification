@@ -76,7 +76,7 @@ def _display_stats(expected, results, file_names, labels_key, tabs=0):
 def random_forest_cross_validation(data, target, file_names, feature_names, labels_key):
 	print(RED + 'Random Forest cross validation' + RESET)
 	clf = ensemble.RandomForestClassifier(random_state=0, n_estimators=10)
-	splitter = StratifiedKFold(n_splits=5, shuffle=False, random_state=0)
+	splitter = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
 	tabs = 1
 
 	print('\t' * tabs + YELLOW + 'RF parameters' + RESET + ' = ' + str(clf.get_params()))
@@ -262,6 +262,7 @@ def random_forest_feature_rankings(data, target, file_names, feature_names, labe
 
 @model_analyzer()
 def random_forest_hyper_parameters(data, target, file_names, feature_names, labels_key):
+	print(f'{RED}Miscellaneous machine learning models:{RESET}')
 	default_forest_params = {
 		'bootstrap': True, 'class_weight': None, 'max_depth': None, 
 		'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 
