@@ -16,8 +16,9 @@ def freq_interrogatives(text):
 	num_interrogative = 0
 	interrogative_chars = {';', ';'}
 	for line in text:
-		num_interrogative += reduce(lambda cur_count, word: cur_count + 1 if word in interrogative_chars else 0, line, 0)
-
+		num_interrogative += reduce(
+			lambda cur_count, word: cur_count + 1 if word in interrogative_chars else 0, line, 0
+		)
 	return num_interrogative / len(text)
 
 @textual_feature(tokenize_type='words')
@@ -41,8 +42,11 @@ def freq_conditional_markers(text):
 def freq_personal_pronouns(text):
 	num_pronouns = 0
 	num_characters = 0
-	personal_pronouns = {'ἐγώ', 'ἐγὼ', 'ἐμοῦ', 'μου', 'ἐμοί', 'ἐμοὶ', 'μοι', 'ἐμέ', 'ἐμὲ', 'με', 'ἡμεῖς', 'ἡμῶν', 
-	'ἡμῖν', 'ἡμᾶς', 'σύ', 'σὺ', 'σοῦ', 'σου', 'σοί', 'σοὶ', 'σοι', 'σέ', 'σὲ', 'σε', 'ὑμεῖς', 'ὑμῶν', 'ὑμῖν', 'ὑμᾶς', 'μ', 'σ'}
+	personal_pronouns = {
+		'ἐγώ', 'ἐγὼ', 'ἐμοῦ', 'μου', 'ἐμοί', 'ἐμοὶ', 'μοι', 'ἐμέ', 'ἐμὲ', 'με', 'ἡμεῖς', 'ἡμῶν',
+		'ἡμῖν', 'ἡμᾶς', 'σύ', 'σὺ', 'σοῦ', 'σου', 'σοί', 'σοὶ', 'σοι', 'σέ', 'σὲ', 'σε', 'ὑμεῖς',
+		'ὑμῶν', 'ὑμῖν', 'ὑμᾶς', 'μ', 'σ'
+	}
 	personal_pronouns = personal_pronouns | \
 	{normalize('NFD', val) for val in personal_pronouns} | \
 	{normalize('NFC', val) for val in personal_pronouns} | \
@@ -59,13 +63,16 @@ def freq_personal_pronouns(text):
 def freq_demonstrative(text):
 	num_demonstratives = 0
 	num_characters = 0
-	demonstrative_pronouns = {'ἐκεῖνος', 'ἐκείνου', 'ἐκείνῳ', 'ἐκεῖνον', 'ἐκεῖνοι', 'ἐκείνων', 'ἐκείνοις', 'ἐκείνους', 
-	'ἐκείνη', 'ἐκείνης', 'ἐκείνῃ', 'ἐκείνην', 'ἐκεῖναι', 'ἐκείναις', 'ἐκείνᾱς', 'ἐκείνας', 'ἐκεῖνο', 'ἐκεῖνα', 'ὅδε', 
-	'τοῦδε', 'τῷδε', 'τόνδε', 'οἵδε', 'τῶνδε', 'τοῖσδε', 'τούσδε', 'ἥδε', 'τῆσδε', 'τῇδε', 'τήνδε', 'αἵδε', 'ταῖσδε', 
-	'τᾱ́σδε', 'τάσδε', 'τόδε', 'τάδε', 'οὗτος', 'τούτου', 'τούτῳ', 'τοῦτον', 'οὗτοι', 'τούτων', 'τούτοις', 'τούτους', 
-	'αὕτη', 'ταύτης', 'ταύτῃ', 'ταύτην', 'αὕται', 'ταύταις', 'ταύτᾱς', 'ταύτας', 'τοῦτο', 'ταῦτα', 
-	'ἐκεῖν', 'ὅδ', 'τοῦδ', 'τῷδ', 'τόνδ', 'οἵδ', 'τῶνδ', 'τοῖσδ', 'τούσδ', 'ἥδ','τῆσδ','τῇδ','τήνδ','αἵδ', 'ταῖσδ', 
-	'τάσδ','τόδ', 'τάδ'}
+	demonstrative_pronouns = {
+		'ἐκεῖνος', 'ἐκείνου', 'ἐκείνῳ', 'ἐκεῖνον', 'ἐκεῖνοι', 'ἐκείνων', 'ἐκείνοις', 'ἐκείνους',
+		'ἐκείνη', 'ἐκείνης', 'ἐκείνῃ', 'ἐκείνην', 'ἐκεῖναι', 'ἐκείναις', 'ἐκείνᾱς', 'ἐκείνας',
+		'ἐκεῖνο', 'ἐκεῖνα', 'ὅδε', 'τοῦδε', 'τῷδε', 'τόνδε', 'οἵδε', 'τῶνδε', 'τοῖσδε', 'τούσδε',
+		'ἥδε', 'τῆσδε', 'τῇδε', 'τήνδε', 'αἵδε', 'ταῖσδε', 'τᾱ́σδε', 'τάσδε', 'τόδε', 'τάδε',
+		'οὗτος', 'τούτου', 'τούτῳ', 'τοῦτον', 'οὗτοι', 'τούτων', 'τούτοις', 'τούτους', 'αὕτη',
+		'ταύτης', 'ταύτῃ', 'ταύτην', 'αὕται', 'ταύταις', 'ταύτᾱς', 'ταύτας', 'τοῦτο', 'ταῦτα',
+		'ἐκεῖν', 'ὅδ', 'τοῦδ', 'τῷδ', 'τόνδ', 'οἵδ', 'τῶνδ', 'τοῖσδ', 'τούσδ', 'ἥδ', 'τῆσδ',
+		'τῇδ', 'τήνδ', 'αἵδ', 'ταῖσδ', 'τάσδ', 'τόδ', 'τάδ'
+	}
 	demonstrative_pronouns = demonstrative_pronouns | \
 	{normalize('NFD', val) for val in demonstrative_pronouns} | \
 	{normalize('NFC', val) for val in demonstrative_pronouns} | \
@@ -83,8 +90,10 @@ def freq_indefinite_pronoun_in_non_interrogative_sentence(text):
 	num_indefinite_pronouns = 0
 	num_characters = 0
 	interrogative_chars = {';', ';'}
-	pronoun_chars = {'τις', 'τινός', 'τινὸς', 'του', 'τινί', 'τινὶ', 'τῳ', 'τινά', 'τινὰ', 'τινές', 'τινὲς', 'τινῶν', 
-	'τισί', 'τισὶ', 'τισίν', 'τισὶν', 'τινάς', 'τινὰς', 'τι'}
+	pronoun_chars = {
+		'τις', 'τινός', 'τινὸς', 'του', 'τινί', 'τινὶ', 'τῳ', 'τινά', 'τινὰ', 'τινές',
+		'τινὲς', 'τινῶν', 'τισί', 'τισὶ', 'τισίν', 'τισὶν', 'τινάς', 'τινὰς', 'τι'
+	}
 	pronoun_chars = pronoun_chars | \
 	{normalize('NFD', val) for val in pronoun_chars} | \
 	{normalize('NFC', val) for val in pronoun_chars} | \
@@ -99,31 +108,14 @@ def freq_indefinite_pronoun_in_non_interrogative_sentence(text):
 
 	return num_indefinite_pronouns / num_characters
 
-# Not different enough from 'freq_indefinite_pronoun_in_non_interrogative_sentence'
-# @textual_feature(tokenize_type='words')
-# def freq_indefinite_pronoun_in_any_sentence(text):
-# 	num_indefinite_pronouns = 0
-# 	num_characters = 0
-# 	pronoun_chars = {'τις', 'τινός', 'τινὸς', 'του', 'τινί', 'τινὶ', 'τῳ', 'τινά', 'τινὰ', 'τινές', 'τινὲς', 'τινῶν', 
-# 	'τισί', 'τισὶ', 'τισίν', 'τισὶν', 'τινάς', 'τινὰς', 'τι'}
-# 	pronoun_chars = pronoun_chars | \
-# 	{normalize('NFD', val) for val in pronoun_chars} | \
-# 	{normalize('NFC', val) for val in pronoun_chars} | \
-# 	{normalize('NFKD', val) for val in pronoun_chars} | \
-# 	{normalize('NFKC', val) for val in pronoun_chars}
-
-# 	for word in text:
-# 		num_indefinite_pronouns += 1 if word in pronoun_chars else 0
-# 		num_characters += len(word)
-
-# 	return num_indefinite_pronouns / num_characters
-
 @textual_feature(tokenize_type='words')
 def freq_allos(text):
 	num_allos = 0
 	num_characters = 0
-	allos_characters = {'ἄλλος', 'ἄλλη', 'ἄλλο', 'ἄλλου', 'ἄλλῳ', 'ἄλλον', 'ἄλλοι', 'ἄλλων', 'ἄλλοις', 'ἄλλους', 
-	'ἄλλης', 'ἄλλῃ', 'ἄλλην', 'ἄλλαι', 'ἄλλᾱς', 'ἄλλας', 'ἄλλα'}
+	allos_characters = {
+		'ἄλλος', 'ἄλλη', 'ἄλλο', 'ἄλλου', 'ἄλλῳ', 'ἄλλον', 'ἄλλοι', 'ἄλλων', 'ἄλλοις', 'ἄλλους',
+		'ἄλλης', 'ἄλλῃ', 'ἄλλην', 'ἄλλαι', 'ἄλλᾱς', 'ἄλλας', 'ἄλλα'
+	}
 	allos_characters = allos_characters | \
 	{normalize('NFD', val) for val in allos_characters} | \
 	{normalize('NFC', val) for val in allos_characters} | \
@@ -140,9 +132,11 @@ def freq_allos(text):
 def freq_autos(text):
 	num_autos = 0
 	num_characters = 0
-	autos_characters = {'αὐτός', 'αὐτὸς', 'αὐτοῦ', 'αὐτῷ', 'αὐτόν', 'αὐτὸν', 'αὐτοί', 'αὐτοὶ', 'αὐτῶν', 'αὐτοῖς', 
-	'αὐτούς', 'αὐτοὺς', 'αὐτή', 'αὐτὴ', 'αὐτῆς', 'αὐτῇ', 'αὐτήν', 'αὐτὴν', 'αὐταί', 'αὐταὶ', 'αὐταῖς', 'αὐτᾱς', 
-	'αὐτᾱ́ς', 'αὐτάς', 'αὐτὰς', 'αὐτό', 'αὐτὸ', 'αὐτά', 'αὐτὰ'}
+	autos_characters = {
+		'αὐτός', 'αὐτὸς', 'αὐτοῦ', 'αὐτῷ', 'αὐτόν', 'αὐτὸν', 'αὐτοί', 'αὐτοὶ', 'αὐτῶν', 'αὐτοῖς',
+		'αὐτούς', 'αὐτοὺς', 'αὐτή', 'αὐτὴ', 'αὐτῆς', 'αὐτῇ', 'αὐτήν', 'αὐτὴν', 'αὐταί', 'αὐταὶ',
+		'αὐταῖς', 'αὐτᾱς', 'αὐτᾱ́ς', 'αὐτάς', 'αὐτὰς', 'αὐτό', 'αὐτὸ', 'αὐτά', 'αὐτὰ'
+	}
 	autos_characters = autos_characters | \
 	{normalize('NFD', val) for val in autos_characters} | \
 	{normalize('NFC', val) for val in autos_characters} | \
@@ -160,27 +154,47 @@ def freq_reflexive(text):
 	num_reflexive = 0
 	num_characters = 0
 
-	reflexive_characters = {'ἐμαυτοῦ', 'ἐμαυτῷ', 'ἐμαυτόν', 'ἐμαυτὸν', 'ἐμαυτῆς', 'ἐμαυτῇ', 'ἐμαυτήν', 'ἐμαυτὴν', 
-	'σεαυτοῦ', 'σεαυτῷ', 'σεαυτόν', 'σεαυτὸν', 'σεαυτῆς', 'σεαυτῇ', 'σεαυτήν', 'σεαυτὴν', 'ἑαυτοῦ', 'ἑαυτῷ', 'ἑαυτόν', 
-	'ἑαυτὸν', 'ἑαυτῶν', 'ἑαυτοῖς', 'ἑαυτούς', 'ἑαυτοὺς', 'ἑαυτῆς', 'ἑαυτῇ', 'ἑαυτήν', 'ἑαυτὴν', 'ἑαυταῖς', 'ἑαυτάς', 
-	'ἑαυτὰς', 'ἑαυτό', 'ἑαυτὸ', 'ἑαυτά', 'ἑαυτὰ'}
+	reflexive_characters = {
+		'ἐμαυτοῦ', 'ἐμαυτῷ', 'ἐμαυτόν', 'ἐμαυτὸν', 'ἐμαυτῆς', 'ἐμαυτῇ', 'ἐμαυτήν', 'ἐμαυτὴν',
+		'σεαυτοῦ', 'σεαυτῷ', 'σεαυτόν', 'σεαυτὸν', 'σεαυτῆς', 'σεαυτῇ', 'σεαυτήν', 'σεαυτὴν',
+		'ἑαυτοῦ', 'ἑαυτῷ', 'ἑαυτόν', 'ἑαυτὸν', 'ἑαυτῶν', 'ἑαυτοῖς', 'ἑαυτούς', 'ἑαυτοὺς',
+		'ἑαυτῆς', 'ἑαυτῇ', 'ἑαυτήν', 'ἑαυτὴν', 'ἑαυταῖς', 'ἑαυτάς', 'ἑαυτὰς', 'ἑαυτό', 'ἑαυτὸ',
+		'ἑαυτά', 'ἑαυτὰ'
+	}
 	reflexive_characters = reflexive_characters | \
 	{normalize('NFD', val) for val in reflexive_characters} | \
 	{normalize('NFC', val) for val in reflexive_characters} | \
 	{normalize('NFKD', val) for val in reflexive_characters} | \
 	{normalize('NFKC', val) for val in reflexive_characters}
 
-	bigram_reflexive_characters = {'ἡμῶν': {'αὐτῶν'}, 'ἡμῖν': {'αὐτοῖς', 'αὐταῖς'}, 
-	'ἡμᾶς': {'αὐτούς', 'αὐτοὺς', 'αὐτάς', 'αὐτὰς'}, 'ὑμῶν': {'αὐτῶν'}, 'ὑμῖν': {'αὐτοῖς', 'αὐταῖς'}, 
-	'ὑμᾶς': {'αὐτούς', 'αὐτοὺς', 'αὐτάς', 'αὐτὰς'}, 'σφῶν': {'αὐτῶν'}, 'σφίσιν': {'αὐτοῖς', 'αὐταῖς'}, 
-	'σφᾶς': {'αὐτούς', 'αὐτοὺς', 'αὐτάς', 'αὐτὰς'}}
-	#This is just verbose syntax for normalizing all the keys and values in the dictionary with NFD, NFC, NFKD, & NFKC
-	#The double star (**) unpacking is how dictionaries are merged https://stackoverflow.com/a/26853961/7102572
-	bigram_reflexive_characters = {**bigram_reflexive_characters, 
-	**{normalize('NFD', key): {normalize('NFD', v) for v in val} for key, val in bigram_reflexive_characters.items()}, 
-	**{normalize('NFC', key): {normalize('NFC', v) for v in val} for key, val in bigram_reflexive_characters.items()}, 
-	**{normalize('NFKD', key): {normalize('NFKD', v) for v in val} for key, val in bigram_reflexive_characters.items()}, 
-	**{normalize('NFKC', key): {normalize('NFKC', v) for v in val} for key, val in bigram_reflexive_characters.items()}}
+	bigram_reflexive_characters = {
+		'ἡμῶν': {'αὐτῶν'}, 'ἡμῖν': {'αὐτοῖς', 'αὐταῖς'},
+		'ἡμᾶς': {'αὐτούς', 'αὐτοὺς', 'αὐτάς', 'αὐτὰς'}, 'ὑμῶν': {'αὐτῶν'}, 'ὑμῖν': {'αὐτοῖς', 'αὐταῖς'},
+		'ὑμᾶς': {'αὐτούς', 'αὐτοὺς', 'αὐτάς', 'αὐτὰς'}, 'σφῶν': {'αὐτῶν'}, 'σφίσιν': {'αὐτοῖς', 'αὐταῖς'},
+		'σφᾶς': {'αὐτούς', 'αὐτοὺς', 'αὐτάς', 'αὐτὰς'}
+	}
+	#This is just verbose syntax for normalizing all the keys and values
+	#in the dictionary with NFD, NFC, NFKD, & NFKC. The double star (**) unpacking is
+	#how dictionaries are merged https://stackoverflow.com/a/26853961/7102572
+	bigram_reflexive_characters = {
+		**bigram_reflexive_characters,
+		**{
+			normalize('NFD', key): {normalize('NFD', v) for v in val}
+			for key, val in bigram_reflexive_characters.items()
+		},
+		**{
+			normalize('NFC', key): {normalize('NFC', v) for v in val}
+			for key, val in bigram_reflexive_characters.items()
+		},
+		**{
+			normalize('NFKD', key): {normalize('NFKD', v) for v in val}
+			for key, val in bigram_reflexive_characters.items()
+		},
+		**{
+			normalize('NFKC', key): {normalize('NFKC', v) for v in val}
+			for key, val in bigram_reflexive_characters.items()
+		},
+	}
 
 	bigram_first_half = None
 	for word in text:
@@ -195,7 +209,8 @@ def freq_reflexive(text):
 			bigram_first_half = word
 
 		#Found the second part of the reflexive bigram
-		elif bigram_first_half in bigram_reflexive_characters and word in bigram_reflexive_characters[bigram_first_half]:
+		elif bigram_first_half in bigram_reflexive_characters \
+				and word in bigram_reflexive_characters[bigram_first_half]:
 			num_reflexive += 2
 			bigram_first_half = None
 
@@ -229,9 +244,11 @@ def freq_sentences_with_vocative_omega(text):
 def freq_superlative(text):
 	num_superlative = 0
 	num_characters = 0
-	superlative_ending_characters = ['τατος', 'τάτου', 'τάτῳ', 'τατον', 'τατοι', 'τάτων', 
-	'τάτοις', 'τάτους', 'τάτη', 'τάτης', 'τάτῃ', 'τάτην', 
-	'τάταις', 'τάτας', 'τατα','τατά', 'τατε']
+	superlative_ending_characters = [
+		'τατος', 'τάτου', 'τάτῳ', 'τατον', 'τατοι', 'τάτων',
+		'τάτοις', 'τάτους', 'τάτη', 'τάτης', 'τάτῃ', 'τάτην',
+		'τάταις', 'τάτας', 'τατα', 'τατά', 'τατε'
+	]
 	#The endswith() method requires a tuple
 	superlative_ending_characters = tuple(superlative_ending_characters + \
 	[normalize('NFD', val) for val in superlative_ending_characters] + \
@@ -249,7 +266,10 @@ def freq_superlative(text):
 def freq_conjunction(text):
 	num_conjunction = 0
 	num_characters = 0
-	conjunction_chars = {'τε', 'καί', 'καὶ', 'ἀλλά', 'ἀλλὰ', 'καίτοι', 'οὐδέ', 'οὐδὲ', 'μηδέ', 'μηδὲ', 'οὔτε', 'οὔτ', 'μήτε', 'μήτ', 'οὐδ', 'μηδ', 'ἤ', 'ἢ', 'τ'}
+	conjunction_chars = {
+		'τε', 'καί', 'καὶ', 'ἀλλά', 'ἀλλὰ', 'καίτοι', 'οὐδέ', 'οὐδὲ', 'μηδέ', 'μηδὲ', 'οὔτε',
+		'οὔτ', 'μήτε', 'μήτ', 'οὐδ', 'μηδ', 'ἤ', 'ἢ', 'τ'
+	}
 	conjunction_chars = conjunction_chars | \
 	{normalize('NFD', val) for val in conjunction_chars} | \
 	{normalize('NFC', val) for val in conjunction_chars} | \
@@ -264,15 +284,18 @@ def freq_conjunction(text):
 
 @textual_feature(tokenize_type='sentence_words')
 def mean_sentence_length(text):
-	return reduce(lambda cur_len, line: cur_len + 
-		reduce(lambda word_len, word: word_len + len(word), line, 0), text, 0) / len(text)
+	return reduce(lambda cur_len, line: cur_len + reduce(
+		lambda word_len, word: word_len + len(word), line, 0
+	), text, 0) / len(text)
 
 @textual_feature(tokenize_type='sentence_words')
 def freq_sentence_with_relative_clause(text):
 	num_sentence_with_clause = 0
 	num_sentences = 0
-	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', 
-	'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
+	pronouns = {
+		'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ',
+		'ἣ', 'ἧς', 'ᾗ', 'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'
+	}
 	pronouns = pronouns | \
 	{normalize('NFD', val) for val in pronouns} | \
 	{normalize('NFC', val) for val in pronouns} | \
@@ -292,8 +315,10 @@ def freq_sentence_with_relative_clause(text):
 def mean_length_relative_clause(text):
 	num_relative_clause = 0
 	sum_length_relative_clause = 0
-	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', 
-	'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
+	pronouns = {
+		'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ',
+		'ἣ', 'ἧς', 'ᾗ', 'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'
+	}
 	pronouns = pronouns | \
 	{normalize('NFD', val) for val in pronouns} | \
 	{normalize('NFC', val) for val in pronouns} | \
@@ -318,28 +343,6 @@ def mean_length_relative_clause(text):
 			sum_length_relative_clause += len(word)
 
 	return 0 if num_relative_clause == 0 else sum_length_relative_clause / num_relative_clause
-
-# Too similar to freq_sentence_with_relative_clause
-# @textual_feature(tokenize_type='sentence_words')
-# def relative_clause_per_non_interrogative_sentence(text):
-# 	num_relative_pronoun = 0
-# 	num_non_interrogative_sentence = 0
-# 	interrogative_chars = {';', ';'} #Second character is Greek semi colon
-# 	pronouns = {'ὅς', 'ὃς', 'οὗ', 'ᾧ', 'ὅν', 'ὃν', 'οἵ', 'οἳ', 'ὧν', 'οἷς', 'οὕς', 'οὓς', 'ἥ', 'ἣ', 'ἧς', 'ᾗ', 
-# 	'ἥν', 'ἣν', 'αἵ', 'αἳ', 'αἷς', 'ἅς', 'ἃς', 'ὅ', 'ὃ', 'ἅ', 'ἃ'}
-# 	pronouns = pronouns | \
-# 	{normalize('NFD', val) for val in pronouns} | \
-# 	{normalize('NFC', val) for val in pronouns} | \
-# 	{normalize('NFKD', val) for val in pronouns} | \
-# 	{normalize('NFKC', val) for val in pronouns}
-
-# 	for line in text:
-# 		if line[-1] not in interrogative_chars and len(line) > 1 and line[-2] not in interrogative_chars:
-# 			for word in line:
-# 				num_relative_pronoun += 1 if word in pronouns else 0
-# 			num_non_interrogative_sentence += 1
-
-# 	return num_relative_pronoun / num_non_interrogative_sentence
 
 @textual_feature(tokenize_type='words')
 def freq_circumstantial_markers(text):
@@ -409,32 +412,6 @@ def freq_ws(text):
 
 	return num_ws / num_characters
 
-# Bad feature when result is NaN or infinity
-# @textual_feature(tokenize_type='words')
-# def ratio_ina_to_opos(text):
-# 	num_ina = 0
-# 	num_opos = 0
-# 	ina_chars = {'ἵνα'}
-# 	ina_chars = ina_chars | \
-# 	{normalize('NFD', val) for val in ina_chars} | \
-# 	{normalize('NFC', val) for val in ina_chars} | \
-# 	{normalize('NFKD', val) for val in ina_chars} | \
-# 	{normalize('NFKC', val) for val in ina_chars}
-# 	opos_chars = {'ὅπως'}
-# 	opos_chars = opos_chars | \
-# 	{normalize('NFD', val) for val in opos_chars} | \
-# 	{normalize('NFC', val) for val in opos_chars} | \
-# 	{normalize('NFKD', val) for val in opos_chars} | \
-# 	{normalize('NFKC', val) for val in opos_chars}
-
-# 	for word in text:
-# 		if word in ina_chars:
-# 			num_ina += 1
-# 		elif word in opos_chars:
-# 			num_opos += 1
-
-# 	return math.nan if num_ina == 0 and num_opos == 0 else math.inf if num_opos == 0 else num_ina / num_opos
-
 @textual_feature(tokenize_type='words')
 def freq_wste_not_preceded_by_eta(text):
 	num_wste = 0
@@ -460,37 +437,14 @@ def freq_wste_not_preceded_by_eta(text):
 
 	return num_wste / num_characters
 
-# Only 54 matches across 42 files for regex "(ἤ|ἢ) (\w+ )*?ὥστε" and 33 matches across 27 files for "(ἤ|ἢ) ὥστε"
-# @textual_feature(tokenize_type='words')
-# def freq_wste_preceded_by_eta(text):
-# 	num_wste_characters = 0
-# 	num_characters = 0
-# 	wste_characters = {'ὥστε'}
-# 	wste_characters = wste_characters | \
-# 	{normalize('NFD', val) for val in wste_characters} | \
-# 	{normalize('NFC', val) for val in wste_characters} | \
-# 	{normalize('NFKD', val) for val in wste_characters} | \
-# 	{normalize('NFKC', val) for val in wste_characters}
-# 	eta_chars = {'ἤ', 'ἢ'}
-# 	eta_chars = eta_chars | \
-# 	{normalize('NFD', val) for val in eta_chars} | \
-# 	{normalize('NFC', val) for val in eta_chars} | \
-# 	{normalize('NFKD', val) for val in eta_chars} | \
-# 	{normalize('NFKC', val) for val in eta_chars}
-# 	ok_to_add = False
-
-# 	for word in text:
-# 		num_wste_characters += len(word) if word in wste_characters and ok_to_add else 0
-# 		num_characters += len(word)
-# 		ok_to_add = word in eta_chars
-
-# 	return num_wste_characters / num_characters
-
 @textual_feature(tokenize_type='words')
 def freq_temporal_causal_markers(text):
 	num_clause_words = 0
 	num_characters = 0
-	clause_chars = {'μέϰρι', 'ἕως', 'πρίν', 'πρὶν', 'ἐπεί', 'ἐπεὶ', 'ἐπειδή', 'ἐπειδὴ', 'ἐπειδάν', 'ἐπειδὰν', 'ὅτε', 'ὅταν'}
+	clause_chars = {
+		'μέϰρι', 'ἕως', 'πρίν', 'πρὶν', 'ἐπεί', 'ἐπεὶ', 'ἐπειδή',
+		'ἐπειδὴ', 'ἐπειδάν', 'ἐπειδὰν', 'ὅτε', 'ὅταν'
+	}
 	clause_chars = clause_chars | \
 	{normalize('NFD', val) for val in clause_chars} | \
 	{normalize('NFC', val) for val in clause_chars} | \
@@ -514,7 +468,9 @@ def variance_of_sentence_length(text):
 	mean = total_len / num_sentences
 	squared_difference = 0
 	for line in text:
-		squared_difference += (reduce(lambda cur_len, word: cur_len + len(word), line, 0) - mean) ** 2
+		squared_difference += (
+			reduce(lambda cur_len, word: cur_len + len(word), line, 0) - mean
+		) ** 2
 
 	return squared_difference / num_sentences
 
@@ -523,9 +479,11 @@ def freq_particles(text):
 	num_particles = 0
 	num_characters = 0
 	#Word tokenizer doesn't work well with ellision - apostrophes are removed
-	particles = {'ἄν', 'ἂν', 'ἆρα', 'γε', "γ", "δ", 'δέ', 'δὲ', 'δή', 'δὴ', 'ἕως', "κ", 'κε', 'κέ', 'κὲ', 'κέν', 'κὲν', 
-	'κεν', 'μά', 'μὰ' 'μέν', 'μὲν', 'μέντοι', 'μήν', 'μὴν', 'μῶν', 'νύ', 'νὺ', 'νυ', 'οὖν', 
-	'περ', 'πω', 'τοι'}
+	particles = {
+		'ἄν', 'ἂν', 'ἆρα', 'γε', "γ", "δ", 'δέ', 'δὲ', 'δή', 'δὴ', 'ἕως', "κ", 'κε',
+		'κέ', 'κὲ', 'κέν', 'κὲν', 'κεν', 'μά', 'μὰ', 'μέν', 'μὲν', 'μέντοι', 'μήν',
+		'μὴν', 'μῶν', 'νύ', 'νὺ', 'νυ', 'οὖν', 'περ', 'πω', 'τοι'
+	}
 	particles = particles | \
 	{normalize('NFD', val) for val in particles} | \
 	{normalize('NFC', val) for val in particles} | \
@@ -537,18 +495,6 @@ def freq_particles(text):
 		num_characters += len(word)
 
 	return num_particles / num_characters
-
-# No interpunct symbols found in the entire tesserae corpus - searched with regex: (·|·|∙|⋅|•|᛫|‧|⦁|⸳|・|ꞏ|･|𐄁)
-# @textual_feature('default')
-# def freq_raised_dot(text):
-# 	#Unicode from https://en.wikipedia.org/wiki/Interpunct#Similar_symbols
-# 	#'\u00B7' is '·', '\u0387' is '·', '\u2219' is '∙', '\u22C5' is '⋅', '\u2022' is '•', '\u16EB' is '᛫', '\u2027' is '‧', 
-# 	#'\u2981' is '⦁', '\u2E33' is '⸳', '\u30FB' is '・', '\uA78F' is 'ꞏ', '\uFF65' is '･', '\U00010101' is '𐄁'
-# 	dot_chars = {'·', '·', '∙', '⋅', '•', '᛫', '‧', '⦁', '⸳', '・', 'ꞏ', '･', '𐄁'}
-# 	num_dot_chars = 0
-# 	for char in text:
-# 		num_dot_chars += 1 if char in dot_chars else 0
-# 	return num_dot_chars / len(text)
 
 @textual_feature(tokenize_type='words')
 def freq_men(text):

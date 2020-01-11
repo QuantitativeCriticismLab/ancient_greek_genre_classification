@@ -7,7 +7,7 @@ import os
 import sys
 import subprocess
 
-def download_corpus(corpus_path, repo_user='timgianitsos'):
+def download_corpus(corpus_path, repo_user='QuantitativeCriticismLab'):
 	'''
 	Download a corpus from Github with a sparse checkout and shallow clone.
 	https://stackoverflow.com/a/28039894/7102572
