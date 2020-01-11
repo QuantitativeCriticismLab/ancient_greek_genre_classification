@@ -3,7 +3,7 @@
 import sys
 
 #seemingly unused here, but this makes the environment recognize the model analyzers
-import ml_analyzers #pylint: disable = unused-import
+import qcrit.analysis.analyzers
 
 import qcrit.analyze_models
 from qcrit.model_analyzer import DECORATED_ANALYZERS
