@@ -5,11 +5,11 @@ import sys
 from functools import reduce
 
 import qcrit.extract_features
+from qcrit.textual_feature import setup_tokenizers
+import qcrit.features.ancient_greek_features #seemingly unused, but allows the recognition of features
 
 from download_corpus import download_corpus
 from corpus_categories import composite_files, genre_to_files
-#seemingly unused here, but this makes the environment recognize features that are decorated
-import greek_features #pylint: disable = unused-import
 
 def main():
 	'''Main'''
@@ -20,6 +20,9 @@ def main():
 
 	corpus_path = ('tesserae', 'texts', 'grc')
 	download_corpus(corpus_path)
+
+	#'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
+	setup_tokenizers(terminal_punctuation=('.', ';', ';'))
 
 	#Feature extractions
 	qcrit.extract_features.main(
