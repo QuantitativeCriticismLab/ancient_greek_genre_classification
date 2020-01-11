@@ -16,7 +16,6 @@ from sklearn import svm, neural_network, naive_bayes, ensemble, neighbors
 from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold, GridSearchCV
 from qcrit.model_analyzer import model_analyzer
 
-
 #Ignores warning for undefined F1-score when a category is never predicted.
 warnings.filterwarnings(action='ignore', category=UndefinedMetricWarning)
 
@@ -47,7 +46,7 @@ def _display_stats(expected, results, file_names, labels_key, tabs=0):
 		print('\t' * tabs + '# %s: ' % labels_key[label_num] + GREEN + str(num_label_correct) + RESET 
 			+ ' / ' + str(num_label_total))
 		print('\t' * tabs + '%% %s: ' % labels_key[label_num] + GREEN + '%.4f' % 
-			(num_label_correct / num_label_total * 100) + RESET + '%')
+			(num_label_correct / num_label_total * 100 if num_label_total != 0 else float('nan')) + RESET + '%')
 
 	#F1 scores
 	f1_scr_micro = sklearn.metrics.f1_score(expected, results, average='micro')
@@ -75,7 +74,7 @@ def _display_stats(expected, results, file_names, labels_key, tabs=0):
 @model_analyzer()
 def random_forest_cross_validation(data, target, file_names, feature_names, labels_key):
 	print(RED + 'Random Forest cross validation' + RESET)
-	clf = ensemble.RandomForestClassifier(random_state=0, n_estimators=10)
+	clf = ensemble.RandomForestClassifier(random_state=0, n_estimators=10, max_features='sqrt')
 	splitter = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
 	tabs = 1
 
@@ -98,12 +97,12 @@ def random_forest_cross_validation(data, target, file_names, feature_names, labe
 @model_analyzer()
 def random_forest_averaged_cross_validation(data, target, file_names, feature_names, labels_key):
 	numcorrect_numtotal_f1micro_f1macro_f1weighted = []
-	rf_trials = 20
-	kfold_trials = 20
+	rf_trials = 10
+	kfold_trials = 10
 	splits = 5
 	forest_params = {
 		'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 
-		'max_features': 'auto', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 
+		'max_features': 'sqrt', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 
 		'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 
 		'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': 1, 'oob_score': False, 
 		'verbose': 0, 'warm_start': False
@@ -163,12 +162,12 @@ def random_forest_averaged_cross_validation(data, target, file_names, feature_na
 @model_analyzer()
 def random_forest_misclassifications(data, target, file_names, feature_names, labels_key):
 	misclass_counter = Counter()
-	rf_trials = 20
-	kfold_trials = 20
+	rf_trials = 10
+	kfold_trials = 10
 	splits = 5
 	forest_params = {
 		'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 
-		'max_features': 'auto', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 
+		'max_features': 'sqrt', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 
 		'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 
 		'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': 1, 'oob_score': False, 
 		'verbose': 0, 'warm_start': False
@@ -215,13 +214,13 @@ def random_forest_misclassifications(data, target, file_names, feature_names, la
 
 @model_analyzer()
 def random_forest_feature_rankings(data, target, file_names, feature_names, labels_key):
-	rf_trials = 20
-	kfold_trials = 20
+	rf_trials = 10
+	kfold_trials = 10
 	splits = 5
 	feature_rankings = {name: np.zeros(rf_trials * kfold_trials * splits) for name in feature_names}
 	forest_params = {
 		'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 
-		'max_features': 'auto', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 
+		'max_features': 'sqrt', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 
 		'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 
 		'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': 1, 'oob_score': False, 
 		'verbose': 0, 'warm_start': False
@@ -262,7 +261,7 @@ def random_forest_feature_rankings(data, target, file_names, feature_names, labe
 
 @model_analyzer()
 def random_forest_hyper_parameters(data, target, file_names, feature_names, labels_key):
-	print(f'{RED}Miscellaneous machine learning models:{RESET}')
+	print(f'{RED}Random Forest hyper parameter search:{RESET}')
 	default_forest_params = {
 		'bootstrap': True, 'class_weight': None, 'max_depth': None, 
 		'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 
@@ -272,35 +271,34 @@ def random_forest_hyper_parameters(data, target, file_names, feature_names, labe
 	}
 
 	candidate_params = {
-		'max_features': range(int(data.shape[1] ** 0.5), data.shape[1]),
+		# 'max_features': range(int(data.shape[1] ** 0.5), data.shape[1]),
 		'n_estimators': (10, 50, 100),
 		# 'min_samples_leaf': range(1, int(len(target) ** 0.5)),
 		# 'criterion': ('gini', 'entropy'),
 	}
-	#Best parameters: {'criterion': 'gini', 'max_features': 11, 'min_samples_leaf': 1, 'n_estimators': 100}
 	print(f'Testing candidate parameters {candidate_params}')
-
+	folds = 5
 	best_params = GridSearchCV(
 		ensemble.RandomForestClassifier(**default_forest_params), candidate_params,
-		verbose=2, cv=3,
+		verbose=2, cv=folds,
 	).fit(data, target).best_params_
 	print(f'Best parameters: {best_params}')
 	clf = ensemble.RandomForestClassifier(**default_forest_params, **best_params)
-	print('accuracy from cross-validation = {}'.format(
-		statistics.mean(cross_val_score(clf, data, target, scoring='accuracy', cv=5))
+	print('Accuracy from {}-fold cross-validation = {}'.format(
+		folds, statistics.mean(cross_val_score(clf, data, target, scoring='accuracy', cv=folds))
 	))
 
 @model_analyzer()
 def sample_classifiers(data, target, file_names, feature_names, labels_key):
 	#Includes a sample of several the machine learning classifiers
 	classifiers = [
-		ensemble.RandomForestClassifier(random_state=0, n_estimators=10), 
+		ensemble.RandomForestClassifier(random_state=0, n_estimators=10, max_features='sqrt'), 
 		svm.SVC(gamma=0.00001, kernel='rbf', random_state=0), 
 		naive_bayes.GaussianNB(priors=None), 
 		neighbors.KNeighborsClassifier(n_neighbors=5), 
 		neural_network.MLPClassifier(activation='relu', solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(12,), random_state=0), 
 	]
-	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=5)
+	features_train, features_test, labels_train, labels_test = train_test_split(data, target, test_size=0.4, random_state=0)
 
 	print(RED + 'Miscellaneous machine learning models:' + RESET)
 
@@ -317,10 +315,14 @@ def sample_classifiers(data, target, file_names, feature_names, labels_key):
 		results = clf.predict(features_test)
 		expected = labels_test
 
+		print('\t' * (tabs + 1) + YELLOW + f'Train 60% ({labels_train.shape[0]} files) / Test 40% ({labels_test.shape[0]} files)' + RESET)
 		_display_stats(expected, results, file_names, labels_key, tabs + 1)
 
 		#Cross validation
-		scores = cross_val_score(clf, features_train, labels_train, cv=5)
+		#https://scikit-learn.org/stable/modules/cross_validation.html#obtaining-predictions-by-cross-validation
 		print('\t' * (tabs + 1) + YELLOW + 'Cross Validation:' + RESET)
+		num_splits = 5
+		scores = cross_val_score(clf, features_train, labels_train, cv=StratifiedKFold(n_splits=num_splits, shuffle=True, random_state=0))
+		print('\t' * (tabs + 1) + YELLOW + f'{num_splits}-fold Cross Validation (train {(1 - 1 / num_splits) * 100:.0f}% / test {1 / num_splits * 100:.0f}% per fold):' + RESET)
 		print('\t' * (tabs + 1) + 'Scores: ' + str(scores))
 		print('\t' * (tabs + 1) + 'Avg Accuracy: %0.2f (+/- %0.2f)' % (scores.mean(), scores.std() * 2))
