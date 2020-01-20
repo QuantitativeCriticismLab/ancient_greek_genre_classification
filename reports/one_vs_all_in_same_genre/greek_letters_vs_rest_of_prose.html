@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This file was created with the aha Ansi HTML Adapter. https://github.com/theZiz/aha -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xml+xhtml; charset=UTF-8" />
+<title>stdin</title>
+</head>
+<body style="color:white; background-color:black">
+<pre>
+<span style="filter: contrast(70%) brightness(190%);color:red;">Random Forest cross validation</span>
+	<span style="filter: contrast(70%) brightness(190%);color:yellow;">RF parameters</span> = {'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': None, 'oob_score': False, 'random_state': 0, 'verbose': 0, 'warm_start': False}
+
+	<span style="filter: contrast(70%) brightness(190%);color:yellow;">Validate fold 1:</span>
+		<span style="filter: contrast(70%) brightness(190%);color:yellow;">Stats:</span>
+		# correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">119</span> / 122
+		% correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">97.5410</span>%
+		# letters: <span style="filter: contrast(70%) brightness(190%);color:lime;">2</span> / 5
+		% letters: <span style="filter: contrast(70%) brightness(190%);color:lime;">40.0000</span>%
+		# prose_miscellaneous_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">117</span> / 117
+		% prose_miscellaneous_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">100.0000</span>%
+		F1 micro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">97.5410</span>%
+		F1 macro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">77.9385</span>%
+		F1 weighted score: <span style="filter: contrast(70%) brightness(190%);color:lime;">97.0296</span>%
+
+
+	<span style="filter: contrast(70%) brightness(190%);color:yellow;">Validate fold 2:</span>
+		<span style="filter: contrast(70%) brightness(190%);color:yellow;">Stats:</span>
+		# correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">115</span> / 122
+		% correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">94.2623</span>%
+		# letters: <span style="filter: contrast(70%) brightness(190%);color:lime;">0</span> / 6
+		% letters: <span style="filter: contrast(70%) brightness(190%);color:lime;">0.0000</span>%
+		# prose_miscellaneous_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">115</span> / 116
+		% prose_miscellaneous_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">99.1379</span>%
+		F1 micro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">94.2623</span>%
+		F1 macro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">48.5232</span>%
+		F1 weighted score: <span style="filter: contrast(70%) brightness(190%);color:lime;">92.2736</span>%
+
+
+	<span style="filter: contrast(70%) brightness(190%);color:yellow;">Validate fold 3:</span>
+		<span style="filter: contrast(70%) brightness(190%);color:yellow;">Stats:</span>
+		# correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">118</span> / 122
+		% correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">96.7213</span>%
+		# letters: <span style="filter: contrast(70%) brightness(190%);color:lime;">2</span> / 6
+		% letters: <span style="filter: contrast(70%) brightness(190%);color:lime;">33.3333</span>%
+		# prose_miscellaneous_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">116</span> / 116
+		% prose_miscellaneous_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">100.0000</span>%
+		F1 micro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">96.7213</span>%
+		F1 macro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">74.1525</span>%
+		F1 weighted score: <span style="filter: contrast(70%) brightness(190%);color:lime;">95.9294</span>%
+
+
+	<span style="filter: contrast(70%) brightness(190%);color:yellow;">Validate fold 4:</span>
+		<span style="filter: contrast(70%) brightness(190%);color:yellow;">Stats:</span>
+		# correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">115</span> / 122
+		% correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">94.2623</span>%
+		# letters: <span style="filter: contrast(70%) brightness(190%);color:lime;">2</span> / 6
+		% letters: <span style="filter: contrast(70%) brightness(190%);color:lime;">33.3333</span>%
+		# prose_miscellaneous_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">113</span> / 116
+		% prose_miscellaneous_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">97.4138</span>%
+		F1 micro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">94.2623</span>%
+		F1 macro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">66.6797</span>%
+		F1 weighted score: <span style="filter: contrast(70%) brightness(190%);color:lime;">94.0138</span>%
+
+
+	<span style="filter: contrast(70%) brightness(190%);color:yellow;">Validate fold 5:</span>
+		<span style="filter: contrast(70%) brightness(190%);color:yellow;">Stats:</span>
+		# correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">117</span> / 122
+		% correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">95.9016</span>%
+		# letters: <span style="filter: contrast(70%) brightness(190%);color:lime;">3</span> / 6
+		% letters: <span style="filter: contrast(70%) brightness(190%);color:lime;">50.0000</span>%
+		# prose_miscellaneous_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">114</span> / 116
+		% prose_miscellaneous_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">98.2759</span>%
+		F1 micro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">95.9016</span>%
+		F1 macro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">76.1998</span>%
+		F1 weighted score: <span style="filter: contrast(70%) brightness(190%);color:lime;">95.7241</span>%
+
+
+
+<span style="filter: contrast(70%) brightness(190%);color:lime;">Elapsed time: 0.1216 seconds</span>
+
+<span style="filter: contrast(70%) brightness(190%);color:red;">Random Forest averaged cross validation</span>
+Obtain misclassifications by testing different RF seeds and different data splits
+RF seeds tested: 0-9 (inclusive)
+Cross validation splitter seeds tested: 0-9 (inclusive)
+Number of splits: 5
+Labels tested: [letters (value of 0), prose_miscellaneous_or_technical_treatise_or_oratory_or_history_or_philosophy (value of 1)]
+Features tested: ['freq_allos', 'freq_autos', 'freq_circumstantial_markers', 'freq_conditional_markers', 'freq_conjunction', 'freq_demonstrative', 'freq_hina', 'freq_hopos', 'freq_indefinite_pronoun_in_non_interrogative_sentence', 'freq_interrogatives', 'freq_men', 'freq_particles', 'freq_personal_pronouns', 'freq_reflexive', 'freq_sentence_with_relative_clause', 'freq_sentences_with_vocative_omega', 'freq_superlative', 'freq_temporal_causal_markers', 'freq_ws', 'freq_wste_not_preceded_by_eta', 'mean_length_relative_clause', 'mean_sentence_length', 'variance_of_sentence_length']
+RF parameters: {'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': 1, 'oob_score': False, 'verbose': 0, 'warm_start': False}
+
+<span style="filter: contrast(70%) brightness(190%);color:yellow;">Averaged percentages from 500 (10 * 10 * 5) trials.</span>
+	Percentage correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">95.6918</span>% +/- standard deviation of 1.1317%
+	F1 micro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">95.6918</span>% +/- standard deviation of 1.1317%
+	F1 macro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">65.0860</span>% +/- standard deviation of 10.7831%
+	F1 weighted score: <span style="filter: contrast(70%) brightness(190%);color:lime;">94.6654</span>% +/- standard deviation of 1.5050%
+
+
+<span style="filter: contrast(70%) brightness(190%);color:lime;">Elapsed time: 13.6286 seconds</span>
+
+<span style="filter: contrast(70%) brightness(190%);color:red;">Random Forest misclassifications</span>
+Obtain misclassifications by testing different RF seeds and different data splits
+RF seeds tested: 0-9 (inclusive)
+Cross validation splitter seeds tested: 0-9 (inclusive)
+Number of splits: 5
+Labels tested: [letters (value of 0), prose_miscellaneous_or_technical_treatise_or_oratory_or_history_or_philosophy (value of 1)]
+Features tested: ['freq_allos', 'freq_autos', 'freq_circumstantial_markers', 'freq_conditional_markers', 'freq_conjunction', 'freq_demonstrative', 'freq_hina', 'freq_hopos', 'freq_indefinite_pronoun_in_non_interrogative_sentence', 'freq_interrogatives', 'freq_men', 'freq_particles', 'freq_personal_pronouns', 'freq_reflexive', 'freq_sentence_with_relative_clause', 'freq_sentences_with_vocative_omega', 'freq_superlative', 'freq_temporal_causal_markers', 'freq_ws', 'freq_wste_not_preceded_by_eta', 'mean_length_relative_clause', 'mean_sentence_length', 'variance_of_sentence_length']
+RF parameters: {'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': 1, 'oob_score': False, 'verbose': 0, 'warm_start': False}
+
+<span style="filter: contrast(70%) brightness(190%);color:yellow;">Misclassifications from 500 (10 * 10 * 5) trials. Each file was in the testing set 1 / 5 of the time (100 times).</span>
+100 / 100 (100.000%): tesserae/texts/grc/dionysius_halicarnassensis.epistula_ad_pompeium.tess
+100 / 100 (100.000%): tesserae/texts/grc/demosthenes.letters.tess
+100 / 100 (100.000%): tesserae/texts/grc/aelian.epistulae_rusticae.tess
+100 / 100 (100.000%): tesserae/texts/grc/isocrates.letters/isocrates.letters.part.6.tess
+100 / 100 (100.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.7.tess
+100 / 100 (100.000%): tesserae/texts/grc/basil_of_caesarea.epistulae.tess
+100 / 100 (100.000%): tesserae/texts/grc/isocrates.letters/isocrates.letters.part.9.tess
+100 / 100 (100.000%): tesserae/texts/grc/philostratus_the_athenian.epistulae_et_dialexeis.tess
+ 99 / 100 (99.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.6.tess
+ 97 / 100 (97.000%): tesserae/texts/grc/barnabas.barnabae_epistulae.tess
+ 93 / 100 (93.000%): tesserae/texts/grc/isocrates.letters/isocrates.letters.part.7.tess
+ 89 / 100 (89.000%): tesserae/texts/grc/dionysius_halicarnassensis.ad_ammaeum.tess
+ 84 / 100 (84.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.8.tess
+ 83 / 100 (83.000%): tesserae/texts/grc/isocrates.letters/isocrates.letters.part.1.tess
+ 83 / 100 (83.000%): tesserae/texts/grc/isocrates.letters/isocrates.letters.part.8.tess
+ 81 / 100 (81.000%): tesserae/texts/grc/isocrates.letters/isocrates.letters.part.2.tess
+ 71 / 100 (71.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.12.tess
+ 70 / 100 (70.000%): tesserae/texts/grc/isocrates.letters/isocrates.letters.part.3.tess
+ 69 / 100 (69.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.2.tess
+ 66 / 100 (66.000%): tesserae/texts/grc/isocrates.letters/isocrates.letters.part.4.tess
+ 66 / 100 (66.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.8.tess
+ 55 / 100 (55.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.1.tess
+ 54 / 100 (54.000%): tesserae/texts/grc/isocrates.letters/isocrates.letters.part.5.tess
+ 53 / 100 (53.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.3.tess
+ 53 / 100 (53.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.10.tess
+ 50 / 100 (50.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.5.tess
+ 48 / 100 (48.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.4.tess
+ 47 / 100 (47.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.13.tess
+ 41 / 100 (41.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.11.tess
+ 40 / 100 (40.000%): tesserae/texts/grc/lucian.hesiod.tess
+ 35 / 100 (35.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.11.tess
+ 30 / 100 (30.000%): tesserae/texts/grc/plutarch.comparison_aegisalius_pompey.tess
+ 28 / 100 (28.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.5.tess
+ 26 / 100 (26.000%): tesserae/texts/grc/dionysius_halicarnassensis.libri_secundi_de_antiquis_oratoribus_reliquiae.tess
+ 25 / 100 (25.000%): tesserae/texts/grc/plato.parmenides.tess
+ 21 / 100 (21.000%): tesserae/texts/grc/isocrates.speeches/isocrates.speeches.part.12.tess
+ 16 / 100 (16.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.9.tess
+ 15 / 100 (15.000%): tesserae/texts/grc/plutarch.instituta_laconica.tess
+ 13 / 100 (13.000%): tesserae/texts/grc/plutarch.comparison_of_sertorius_and_eumenes.tess
+ 12 / 100 (12.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.31.tess
+ 11 / 100 (11.000%): tesserae/texts/grc/plutarch.an_vitiositas_ad_infelicitatem_sufficia.tess
+  9 / 100 (9.000%): tesserae/texts/grc/antiphon.speeches/antiphon.speeches.part.6.on_the_choreutes.tess
+  9 / 100 (9.000%): tesserae/texts/grc/demosthenes.against_phaenippus.tess
+  8 / 100 (8.000%): tesserae/texts/grc/eusebius_caesarea.historia_ecclesiastica/eusebius_caesarea.historia_ecclesiastica.part.9.tess
+  8 / 100 (8.000%): tesserae/texts/grc/plutarch.parallela_minora.tess
+  7 / 100 (7.000%): tesserae/texts/grc/eusebius_caesarea.historia_ecclesiastica/eusebius_caesarea.historia_ecclesiastica.part.10.tess
+  6 / 100 (6.000%): tesserae/texts/grc/antiphon.speeches/antiphon.speeches.part.1.against_the_stepmother_for_poisoning.tess
+  4 / 100 (4.000%): tesserae/texts/grc/lucian.prometheus_es_in_verbis.tess
+  3 / 100 (3.000%): tesserae/texts/grc/plutarch.comparison_of_philopoemen_and_titus.tess
+  3 / 100 (3.000%): tesserae/texts/grc/dinarchus.against_philocles.tess
+  3 / 100 (3.000%): tesserae/texts/grc/isocrates.speeches/isocrates.speeches.part.13.tess
+  3 / 100 (3.000%): tesserae/texts/grc/andocides.on_his_return.tess
+  3 / 100 (3.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.17.tess
+  3 / 100 (3.000%): tesserae/texts/grc/demosthenes.philip.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plutarch.lacaenarum_apophthegmata.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plutarch.an_recte_dictum_sit_latenter_esse_vivendum.tess
+  2 / 100 (2.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.9.tess
+  2 / 100 (2.000%): tesserae/texts/grc/hippocrates.jusjurandum.tess
+  2 / 100 (2.000%): tesserae/texts/grc/demosthenes.against_boeotus_2.tess
+  2 / 100 (2.000%): tesserae/texts/grc/dionysius_halicarnassensis.de_thucydide.tess
+  2 / 100 (2.000%): tesserae/texts/grc/hippocrates.de_aere_aquis_et_locis.tess
+  2 / 100 (2.000%): tesserae/texts/grc/demosthenes.olynthiac_2.tess
+  2 / 100 (2.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.24.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.de_fato.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plato.theages.tess
+  1 / 100 (1.000%): tesserae/texts/grc/philostratus_the_athenian.vita_apollonii/philostratus_the_athenian.vita_apollonii.part.8.tess
+  1 / 100 (1.000%): tesserae/texts/grc/demosthenes.erotic_essay.tess
+  1 / 100 (1.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.23.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.de_esu_carnium.tess
+  1 / 100 (1.000%): tesserae/texts/grc/lucian.hercules.tess
+  1 / 100 (1.000%): tesserae/texts/grc/demosthenes.on_organization.tess
+  1 / 100 (1.000%): tesserae/texts/grc/antiphon.speeches/antiphon.speeches.part.5.on_the_murder_of_herodes.tess
+  1 / 100 (1.000%): tesserae/texts/grc/dinarchus.against_aristogiton.tess
+  1 / 100 (1.000%): tesserae/texts/grc/hippocrates.de_alimento.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.comparison_of_timoleon_and_aemilius.tess
+  1 / 100 (1.000%): tesserae/texts/grc/clement.exhortation.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.comparison_agis_cleomenes_gracchi.tess
+  1 / 100 (1.000%): tesserae/texts/grc/lucian.hippias.tess
+  1 / 100 (1.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.22.tess
+  1 / 100 (1.000%): tesserae/texts/grc/epictetus.fragments.tess
+
+
+<span style="filter: contrast(70%) brightness(190%);color:lime;">Elapsed time: 12.1889 seconds</span>
+
+<span style="filter: contrast(70%) brightness(190%);color:red;">Random Forest Gini feature rankings</span>
+Obtain rankings by testing different RF seeds and different data splits
+RF seeds tested: 0-9 (inclusive)
+Cross validation splitter seeds tested: 0-9 (inclusive)
+Number of splits: 5
+Labels tested: [letters (value of 0), prose_miscellaneous_or_technical_treatise_or_oratory_or_history_or_philosophy (value of 1)]
+Features tested: ['freq_allos', 'freq_autos', 'freq_circumstantial_markers', 'freq_conditional_markers', 'freq_conjunction', 'freq_demonstrative', 'freq_hina', 'freq_hopos', 'freq_indefinite_pronoun_in_non_interrogative_sentence', 'freq_interrogatives', 'freq_men', 'freq_particles', 'freq_personal_pronouns', 'freq_reflexive', 'freq_sentence_with_relative_clause', 'freq_sentences_with_vocative_omega', 'freq_superlative', 'freq_temporal_causal_markers', 'freq_ws', 'freq_wste_not_preceded_by_eta', 'mean_length_relative_clause', 'mean_sentence_length', 'variance_of_sentence_length']
+RF parameters: {'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': 1, 'oob_score': False, 'verbose': 0, 'warm_start': False}
+
+<span style="filter: contrast(70%) brightness(190%);color:yellow;">Gini importance averages from 500 (10 * 10 * 5) trials</span>
+	0.121437 +/- standard deviation of 0.042544: freq_personal_pronouns
+	0.085385 +/- standard deviation of 0.031024: freq_sentence_with_relative_clause
+	0.079105 +/- standard deviation of 0.030629: freq_allos
+	0.053369 +/- standard deviation of 0.023211: freq_indefinite_pronoun_in_non_interrogative_sentence
+	0.049611 +/- standard deviation of 0.023524: freq_particles
+	0.048000 +/- standard deviation of 0.019199: mean_length_relative_clause
+	0.047864 +/- standard deviation of 0.022129: freq_circumstantial_markers
+	0.042753 +/- standard deviation of 0.022321: freq_interrogatives
+	0.040909 +/- standard deviation of 0.018833: freq_superlative
+	0.040223 +/- standard deviation of 0.017852: freq_ws
+	0.040106 +/- standard deviation of 0.019547: freq_wste_not_preceded_by_eta
+	0.034714 +/- standard deviation of 0.017016: freq_men
+	0.033986 +/- standard deviation of 0.015994: freq_demonstrative
+	0.031708 +/- standard deviation of 0.015521: freq_conjunction
+	0.029778 +/- standard deviation of 0.016762: freq_hopos
+	0.029644 +/- standard deviation of 0.015875: freq_conditional_markers
+	0.029505 +/- standard deviation of 0.015055: freq_hina
+	0.028924 +/- standard deviation of 0.014228: freq_reflexive
+	0.028612 +/- standard deviation of 0.014538: freq_autos
+	0.027659 +/- standard deviation of 0.013181: mean_sentence_length
+	0.027285 +/- standard deviation of 0.017627: freq_sentences_with_vocative_omega
+	0.026436 +/- standard deviation of 0.013881: variance_of_sentence_length
+	0.022988 +/- standard deviation of 0.012947: freq_temporal_causal_markers
+
+
+<span style="filter: contrast(70%) brightness(190%);color:lime;">Elapsed time: 11.9685 seconds</span>
+
+<span style="filter: contrast(70%) brightness(190%);color:red;">Random Forest permutation importance feature rankings</span>
+Obtain rankings by testing different RF seeds and different data splits
+RF seeds tested: 0-4 (inclusive)
+Cross validation splitter seeds tested: 0-4 (inclusive)
+Number of splits: 5
+Number of permutations tested: 5
+Labels tested: [letters (value of 0), prose_miscellaneous_or_technical_treatise_or_oratory_or_history_or_philosophy (value of 1)]
+Features tested: ['freq_allos', 'freq_autos', 'freq_circumstantial_markers', 'freq_conditional_markers', 'freq_conjunction', 'freq_demonstrative', 'freq_hina', 'freq_hopos', 'freq_indefinite_pronoun_in_non_interrogative_sentence', 'freq_interrogatives', 'freq_men', 'freq_particles', 'freq_personal_pronouns', 'freq_reflexive', 'freq_sentence_with_relative_clause', 'freq_sentences_with_vocative_omega', 'freq_superlative', 'freq_temporal_causal_markers', 'freq_ws', 'freq_wste_not_preceded_by_eta', 'mean_length_relative_clause', 'mean_sentence_length', 'variance_of_sentence_length']
+RF parameters: {'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': 1, 'oob_score': False, 'verbose': 0, 'warm_start': False}
+
+<span style="filter: contrast(70%) brightness(190%);color:yellow;">Permutation importance averages from 625 (5 * 5 * 5 * 5) trials</span>
+	0.008498 +/- standard deviation of 0.000103: freq_personal_pronouns
+	0.003515 +/- standard deviation of 0.000048: freq_wste_not_preceded_by_eta
+	0.002675 +/- standard deviation of 0.000032: freq_allos
+	0.002466 +/- standard deviation of 0.000044: freq_interrogatives
+	0.001574 +/- standard deviation of 0.000045: freq_sentence_with_relative_clause
+	0.001403 +/- standard deviation of 0.000023: freq_sentences_with_vocative_omega
+	0.001193 +/- standard deviation of 0.000027: freq_conditional_markers
+	0.001154 +/- standard deviation of 0.000024: freq_indefinite_pronoun_in_non_interrogative_sentence
+	0.000957 +/- standard deviation of 0.000028: freq_circumstantial_markers
+	0.000590 +/- standard deviation of 0.000024: freq_demonstrative
+	0.000354 +/- standard deviation of 0.000012: freq_hina
+	0.000275 +/- standard deviation of 0.000016: mean_sentence_length
+	0.000262 +/- standard deviation of 0.000017: freq_ws
+	0.000249 +/- standard deviation of 0.000017: freq_conjunction
+	0.000236 +/- standard deviation of 0.000017: freq_autos
+	-0.000026 +/- standard deviation of 0.000029: freq_men
+	-0.000039 +/- standard deviation of 0.000015: freq_temporal_causal_markers
+	-0.000131 +/- standard deviation of 0.000026: mean_length_relative_clause
+	-0.000184 +/- standard deviation of 0.000018: freq_reflexive
+	-0.000249 +/- standard deviation of 0.000016: freq_hopos
+	-0.000262 +/- standard deviation of 0.000030: freq_superlative
+	-0.000393 +/- standard deviation of 0.000033: freq_particles
+	-0.000498 +/- standard deviation of 0.000020: variance_of_sentence_length
+
+
+<span style="filter: contrast(70%) brightness(190%);color:lime;">Elapsed time: 24.9111 seconds</span>
+
+</pre>
+</body>
+</html>

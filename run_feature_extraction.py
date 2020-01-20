@@ -6,23 +6,22 @@ from functools import reduce
 
 import qcrit.extract_features
 from qcrit.textual_feature import setup_tokenizers
-import qcrit.features.ancient_greek_features #seemingly unused, but allows the recognition of features
 
 from download_corpus import download_corpus
 from corpus_categories import composite_files, genre_to_files
 
 def main():
 	'''Main'''
-	#Validate command line options
-	categories_to_include = set() if len(sys.argv) <= 2 else set(sys.argv[2:])
-	if len(sys.argv) > 2 and not all(tok in genre_to_files for tok in categories_to_include):
-		raise ValueError('Invalid genres: ' + str(categories_to_include - genre_to_files.keys()))
-
 	corpus_path = ('tesserae', 'texts', 'grc')
 	download_corpus(corpus_path)
 
 	#'FULL STOP', 'SEMICOLON', 'GREEK QUESTION MARK'
 	setup_tokenizers(terminal_punctuation=('.', ';', ';'))
+
+	if len(sys.argv) > 2 and sys.argv[2] == '-u':
+		import qcrit.features.universal_features #seemingly unused, but allows the recognition of features
+	else:
+		import qcrit.features.ancient_greek_features #seemingly unused, but allows the recognition of features
 
 	#Feature extractions
 	qcrit.extract_features.main(
@@ -31,9 +30,7 @@ def main():
 		{'tess': qcrit.extract_features.parse_tess},
 
 		#Exclude all files of genres not specified. Exclude composite files no matter what
-		excluded_paths=composite_files | (set() if len(sys.argv) <= 2 else
-			reduce(lambda cur_set, next_set: cur_set | next_set,
-			(genre_to_files[tok] for tok in genre_to_files if tok not in categories_to_include), set())),
+		excluded_paths=composite_files,
 
 		output_file=None if len(sys.argv) <= 1 else sys.argv[1]
 	)

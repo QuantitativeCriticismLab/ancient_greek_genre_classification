@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This file was created with the aha Ansi HTML Adapter. https://github.com/theZiz/aha -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xml+xhtml; charset=UTF-8" />
+<title>stdin</title>
+</head>
+<body style="color:white; background-color:black">
+<pre>
+<span style="filter: contrast(70%) brightness(190%);color:red;">Random Forest cross validation</span>
+	<span style="filter: contrast(70%) brightness(190%);color:yellow;">RF parameters</span> = {'bootstrap': True, 'ccp_alpha': 0.0, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'max_samples': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': None, 'oob_score': False, 'random_state': 0, 'verbose': 0, 'warm_start': False}
+
+	<span style="filter: contrast(70%) brightness(190%);color:yellow;">Validate fold 1:</span>
+		<span style="filter: contrast(70%) brightness(190%);color:yellow;">Stats:</span>
+		# correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">108</span> / 122
+		% correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">88.5246</span>%
+		# prose_miscellaneous: <span style="filter: contrast(70%) brightness(190%);color:lime;">6</span> / 18
+		% prose_miscellaneous: <span style="filter: contrast(70%) brightness(190%);color:lime;">33.3333</span>%
+		# letters_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">102</span> / 104
+		% letters_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">98.0769</span>%
+		F1 micro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">88.5246</span>%
+		F1 macro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">69.8659</span>%
+		F1 weighted score: <span style="filter: contrast(70%) brightness(190%);color:lime;">86.5810</span>%
+
+
+	<span style="filter: contrast(70%) brightness(190%);color:yellow;">Validate fold 2:</span>
+		<span style="filter: contrast(70%) brightness(190%);color:yellow;">Stats:</span>
+		# correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">106</span> / 122
+		% correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">86.8852</span>%
+		# prose_miscellaneous: <span style="filter: contrast(70%) brightness(190%);color:lime;">6</span> / 18
+		% prose_miscellaneous: <span style="filter: contrast(70%) brightness(190%);color:lime;">33.3333</span>%
+		# letters_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">100</span> / 104
+		% letters_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">96.1538</span>%
+		F1 micro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">86.8852</span>%
+		F1 macro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">67.7249</span>%
+		F1 weighted score: <span style="filter: contrast(70%) brightness(190%);color:lime;">85.2546</span>%
+
+
+	<span style="filter: contrast(70%) brightness(190%);color:yellow;">Validate fold 3:</span>
+		<span style="filter: contrast(70%) brightness(190%);color:yellow;">Stats:</span>
+		# correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">104</span> / 122
+		% correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">85.2459</span>%
+		# prose_miscellaneous: <span style="filter: contrast(70%) brightness(190%);color:lime;">6</span> / 18
+		% prose_miscellaneous: <span style="filter: contrast(70%) brightness(190%);color:lime;">33.3333</span>%
+		# letters_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">98</span> / 104
+		% letters_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">94.2308</span>%
+		F1 micro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">85.2459</span>%
+		F1 macro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">65.7944</span>%
+		F1 weighted score: <span style="filter: contrast(70%) brightness(190%);color:lime;">83.9773</span>%
+
+
+	<span style="filter: contrast(70%) brightness(190%);color:yellow;">Validate fold 4:</span>
+		<span style="filter: contrast(70%) brightness(190%);color:yellow;">Stats:</span>
+		# correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">105</span> / 122
+		% correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">86.0656</span>%
+		# prose_miscellaneous: <span style="filter: contrast(70%) brightness(190%);color:lime;">7</span> / 18
+		% prose_miscellaneous: <span style="filter: contrast(70%) brightness(190%);color:lime;">38.8889</span>%
+		# letters_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">98</span> / 104
+		% letters_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">94.2308</span>%
+		F1 micro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">86.0656</span>%
+		F1 macro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">68.5900</span>%
+		F1 weighted score: <span style="filter: contrast(70%) brightness(190%);color:lime;">85.1054</span>%
+
+
+	<span style="filter: contrast(70%) brightness(190%);color:yellow;">Validate fold 5:</span>
+		<span style="filter: contrast(70%) brightness(190%);color:yellow;">Stats:</span>
+		# correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">109</span> / 122
+		% correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">89.3443</span>%
+		# prose_miscellaneous: <span style="filter: contrast(70%) brightness(190%);color:lime;">8</span> / 18
+		% prose_miscellaneous: <span style="filter: contrast(70%) brightness(190%);color:lime;">44.4444</span>%
+		# letters_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">101</span> / 104
+		% letters_or_technical_treatise_or_oratory_or_history_or_philosophy: <span style="filter: contrast(70%) brightness(190%);color:lime;">97.1154</span>%
+		F1 micro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">89.3443</span>%
+		F1 macro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">74.5630</span>%
+		F1 weighted score: <span style="filter: contrast(70%) brightness(190%);color:lime;">88.2317</span>%
+
+
+
+<span style="filter: contrast(70%) brightness(190%);color:lime;">Elapsed time: 0.1185 seconds</span>
+
+<span style="filter: contrast(70%) brightness(190%);color:red;">Random Forest averaged cross validation</span>
+Obtain misclassifications by testing different RF seeds and different data splits
+RF seeds tested: 0-9 (inclusive)
+Cross validation splitter seeds tested: 0-9 (inclusive)
+Number of splits: 5
+Labels tested: [prose_miscellaneous (value of 0), letters_or_technical_treatise_or_oratory_or_history_or_philosophy (value of 1)]
+Features tested: ['freq_allos', 'freq_autos', 'freq_circumstantial_markers', 'freq_conditional_markers', 'freq_conjunction', 'freq_demonstrative', 'freq_hina', 'freq_hopos', 'freq_indefinite_pronoun_in_non_interrogative_sentence', 'freq_interrogatives', 'freq_men', 'freq_particles', 'freq_personal_pronouns', 'freq_reflexive', 'freq_sentence_with_relative_clause', 'freq_sentences_with_vocative_omega', 'freq_superlative', 'freq_temporal_causal_markers', 'freq_ws', 'freq_wste_not_preceded_by_eta', 'mean_length_relative_clause', 'mean_sentence_length', 'variance_of_sentence_length']
+RF parameters: {'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': 1, 'oob_score': False, 'verbose': 0, 'warm_start': False}
+
+<span style="filter: contrast(70%) brightness(190%);color:yellow;">Averaged percentages from 500 (10 * 10 * 5) trials.</span>
+	Percentage correct: <span style="filter: contrast(70%) brightness(190%);color:lime;">88.2361</span>% +/- standard deviation of 2.3484%
+	F1 micro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">88.2361</span>% +/- standard deviation of 2.3484%
+	F1 macro score: <span style="filter: contrast(70%) brightness(190%);color:lime;">71.2615</span>% +/- standard deviation of 6.0368%
+	F1 weighted score: <span style="filter: contrast(70%) brightness(190%);color:lime;">86.8224</span>% +/- standard deviation of 2.6402%
+
+
+<span style="filter: contrast(70%) brightness(190%);color:lime;">Elapsed time: 13.3235 seconds</span>
+
+<span style="filter: contrast(70%) brightness(190%);color:red;">Random Forest misclassifications</span>
+Obtain misclassifications by testing different RF seeds and different data splits
+RF seeds tested: 0-9 (inclusive)
+Cross validation splitter seeds tested: 0-9 (inclusive)
+Number of splits: 5
+Labels tested: [prose_miscellaneous (value of 0), letters_or_technical_treatise_or_oratory_or_history_or_philosophy (value of 1)]
+Features tested: ['freq_allos', 'freq_autos', 'freq_circumstantial_markers', 'freq_conditional_markers', 'freq_conjunction', 'freq_demonstrative', 'freq_hina', 'freq_hopos', 'freq_indefinite_pronoun_in_non_interrogative_sentence', 'freq_interrogatives', 'freq_men', 'freq_particles', 'freq_personal_pronouns', 'freq_reflexive', 'freq_sentence_with_relative_clause', 'freq_sentences_with_vocative_omega', 'freq_superlative', 'freq_temporal_causal_markers', 'freq_ws', 'freq_wste_not_preceded_by_eta', 'mean_length_relative_clause', 'mean_sentence_length', 'variance_of_sentence_length']
+RF parameters: {'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': 1, 'oob_score': False, 'verbose': 0, 'warm_start': False}
+
+<span style="filter: contrast(70%) brightness(190%);color:yellow;">Misclassifications from 500 (10 * 10 * 5) trials. Each file was in the testing set 1 / 5 of the time (100 times).</span>
+100 / 100 (100.000%): tesserae/texts/grc/plutarch.praecepta_gerendae_reipublicae.tess
+100 / 100 (100.000%): tesserae/texts/grc/clement.quis_dis_salvetur.tess
+100 / 100 (100.000%): tesserae/texts/grc/basil_of_caesarea.de_legendis.tess
+100 / 100 (100.000%): tesserae/texts/grc/callistratus.statuarum_descriptiones.tess
+100 / 100 (100.000%): tesserae/texts/grc/lucian.apologia.tess
+100 / 100 (100.000%): tesserae/texts/grc/plutarch.platonicae_quaestiones.tess
+100 / 100 (100.000%): tesserae/texts/grc/plutarch.quaestiones_convivales.tess
+ 99 / 100 (99.000%): tesserae/texts/grc/dionysius_halicarnassensis.de_antiquis_oratoribus.tess
+ 98 / 100 (98.000%): tesserae/texts/grc/flavius_josephus.contra_apionem/flavius_josephus.contra_apionem.part.2.tess
+ 98 / 100 (98.000%): tesserae/texts/grc/lucian.icaromenippus.tess
+ 98 / 100 (98.000%): tesserae/texts/grc/plutarch.mulierum_virtutes.tess
+ 97 / 100 (97.000%): tesserae/texts/grc/clement.protrepticus.tess
+ 97 / 100 (97.000%): tesserae/texts/grc/lucian.hesiod.tess
+ 96 / 100 (96.000%): tesserae/texts/grc/plutarch.comparationis_aristophanes_et_menandri_compendium.tess
+ 94 / 100 (94.000%): tesserae/texts/grc/flavius_josephus.contra_apionem/flavius_josephus.contra_apionem.part.1.tess
+ 93 / 100 (93.000%): tesserae/texts/grc/plutarch.epitome_libri_de_animae_procreatione.tess
+ 93 / 100 (93.000%): tesserae/texts/grc/lucian.nigrinus.tess
+ 92 / 100 (92.000%): tesserae/texts/grc/lucian.calumniae_non_temere_credundum.tess
+ 92 / 100 (92.000%): tesserae/texts/grc/chariton.de_chaerea.tess
+ 91 / 100 (91.000%): tesserae/texts/grc/plutarch.quaestiones_romanae.tess
+ 91 / 100 (91.000%): tesserae/texts/grc/lucian.saturnalia.tess
+ 91 / 100 (91.000%): tesserae/texts/grc/lucian.de_astrologia.tess
+ 90 / 100 (90.000%): tesserae/texts/grc/lucian.de_sacrificiis.tess
+ 90 / 100 (90.000%): tesserae/texts/grc/lucian.de_syria_dea.tess
+ 90 / 100 (90.000%): tesserae/texts/grc/athenaeus.deipnosophists.tess
+ 89 / 100 (89.000%): tesserae/texts/grc/achilles_tatius.leucippe_et_clitophon.tess
+ 88 / 100 (88.000%): tesserae/texts/grc/aelian.de_natura_animalium.tess
+ 88 / 100 (88.000%): tesserae/texts/grc/apollodorus.library.tess
+ 87 / 100 (87.000%): tesserae/texts/grc/lucian.rhetorum_praeceptor.tess
+ 84 / 100 (84.000%): tesserae/texts/grc/plutarch.amatoriae_narrationes.tess
+ 82 / 100 (82.000%): tesserae/texts/grc/plutarch.quaestiones_naturales.tess
+ 81 / 100 (81.000%): tesserae/texts/grc/lucian.lexiphanes.tess
+ 81 / 100 (81.000%): tesserae/texts/grc/lucian.philopseudes.tess
+ 80 / 100 (80.000%): tesserae/texts/grc/plutarch.quaestiones_graecae.tess
+ 79 / 100 (79.000%): tesserae/texts/grc/apollodorus.epitome.tess
+ 79 / 100 (79.000%): tesserae/texts/grc/lucian.verae_historiae.tess
+ 78 / 100 (78.000%): tesserae/texts/grc/plutarch.instituta_laconica.tess
+ 78 / 100 (78.000%): tesserae/texts/grc/clement.exhortation.tess
+ 77 / 100 (77.000%): tesserae/texts/grc/plutarch.epitome_argumenti_stoicos.tess
+ 76 / 100 (76.000%): tesserae/texts/grc/philostratus_the_athenian.heroicus.tess
+ 74 / 100 (74.000%): tesserae/texts/grc/lucian.quomodo_historia_conscribenda_sit.tess
+ 73 / 100 (73.000%): tesserae/texts/grc/philostratus_the_athenian.vita_apollonii/philostratus_the_athenian.vita_apollonii.part.3.tess
+ 72 / 100 (72.000%): tesserae/texts/grc/lucian.adversus_indoctum_et_libros_multos_ementem.tess
+ 72 / 100 (72.000%): tesserae/texts/grc/lucian.de_luctu.tess
+ 71 / 100 (71.000%): tesserae/texts/grc/philostratus_the_athenian.vita_apollonii/philostratus_the_athenian.vita_apollonii.part.8.tess
+ 71 / 100 (71.000%): tesserae/texts/grc/lucian.de_mercede.tess
+ 70 / 100 (70.000%): tesserae/texts/grc/lucian.soleocista.tess
+ 70 / 100 (70.000%): tesserae/texts/grc/lucian.de_parasito_sive_artem_esse_parasiticam.tess
+ 69 / 100 (69.000%): tesserae/texts/grc/aelian.varia_historia.tess
+ 68 / 100 (68.000%): tesserae/texts/grc/philostratus_the_lemnian.imagines.tess
+ 64 / 100 (64.000%): tesserae/texts/grc/lucian.symposium.tess
+ 60 / 100 (60.000%): tesserae/texts/grc/plutarch.parallela_minora.tess
+ 58 / 100 (58.000%): tesserae/texts/grc/lucian.vitarum_auctio.tess
+ 58 / 100 (58.000%): tesserae/texts/grc/plato.parmenides.tess
+ 58 / 100 (58.000%): tesserae/texts/grc/dionysius_halicarnassensis.libri_secundi_de_antiquis_oratoribus_reliquiae.tess
+ 57 / 100 (57.000%): tesserae/texts/grc/philostratus_the_athenian.vita_apollonii/philostratus_the_athenian.vita_apollonii.part.5.tess
+ 55 / 100 (55.000%): tesserae/texts/grc/lucian.necyomantia.tess
+ 54 / 100 (54.000%): tesserae/texts/grc/lucian.pro_lapsu_inter_salutandum.tess
+ 53 / 100 (53.000%): tesserae/texts/grc/theophrastus.characters.tess
+ 53 / 100 (53.000%): tesserae/texts/grc/lucian.zeuxis.tess
+ 53 / 100 (53.000%): tesserae/texts/grc/lucian.hercules.tess
+ 52 / 100 (52.000%): tesserae/texts/grc/plutarch.regum_et_imperatorum_apophthegmata.tess
+ 52 / 100 (52.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.1.tess
+ 51 / 100 (51.000%): tesserae/texts/grc/aelian.epistulae_rusticae.tess
+ 51 / 100 (51.000%): tesserae/texts/grc/lucian.de_saltatione.tess
+ 50 / 100 (50.000%): tesserae/texts/grc/lucian.prometheus_es_in_verbis.tess
+ 48 / 100 (48.000%): tesserae/texts/grc/lucian.iuppiter_confuatus.tess
+ 48 / 100 (48.000%): tesserae/texts/grc/lucian.deorum_consilium.tess
+ 47 / 100 (47.000%): tesserae/texts/grc/plutarch.an_virtus_doceri_possit.tess
+ 47 / 100 (47.000%): tesserae/texts/grc/plutarch.lacaenarum_apophthegmata.tess
+ 45 / 100 (45.000%): tesserae/texts/grc/lucian.prometheus.tess
+ 42 / 100 (42.000%): tesserae/texts/grc/lucian.toxaris_vel_amicitia.tess
+ 41 / 100 (41.000%): tesserae/texts/grc/epictetus.fragments.tess
+ 41 / 100 (41.000%): tesserae/texts/grc/philostratus_the_athenian.vita_apollonii/philostratus_the_athenian.vita_apollonii.part.7.tess
+ 39 / 100 (39.000%): tesserae/texts/grc/lucian.dipsades.tess
+ 38 / 100 (38.000%): tesserae/texts/grc/barnabas.barnabae_epistulae.tess
+ 38 / 100 (38.000%): tesserae/texts/grc/lucian.de_morte_peregrini.tess
+ 37 / 100 (37.000%): tesserae/texts/grc/lucian.alexander.tess
+ 37 / 100 (37.000%): tesserae/texts/grc/flavius_josephus.josephi_vita.tess
+ 36 / 100 (36.000%): tesserae/texts/grc/philostratus_the_athenian.vita_apollonii/philostratus_the_athenian.vita_apollonii.part.6.tess
+ 35 / 100 (35.000%): tesserae/texts/grc/lucian.pseudologista.tess
+ 33 / 100 (33.000%): tesserae/texts/grc/lucian.navigium.tess
+ 32 / 100 (32.000%): tesserae/texts/grc/lucian.dialogi_mortuorum.tess
+ 32 / 100 (32.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.10.tess
+ 32 / 100 (32.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.11.tess
+ 32 / 100 (32.000%): tesserae/texts/grc/lucian.dearum_iudicium.tess
+ 32 / 100 (32.000%): tesserae/texts/grc/lucian.scytha.tess
+ 31 / 100 (31.000%): tesserae/texts/grc/philostratus_the_athenian.vita_apollonii/philostratus_the_athenian.vita_apollonii.part.4.tess
+ 30 / 100 (30.000%): tesserae/texts/grc/lucian.electrum.tess
+ 29 / 100 (29.000%): tesserae/texts/grc/dionysius_halicarnassensis.de_dinarcho.tess
+ 28 / 100 (28.000%): tesserae/texts/grc/plutarch.de_se_ipsum_citra_invidiam_laudando.tess
+ 27 / 100 (27.000%): tesserae/texts/grc/euclid.elements.tess
+ 24 / 100 (24.000%): tesserae/texts/grc/lucian.somnium.tess
+ 23 / 100 (23.000%): tesserae/texts/grc/lucian.de_domo.tess
+ 22 / 100 (22.000%): tesserae/texts/grc/lucian.tyrannicida.tess
+ 22 / 100 (22.000%): tesserae/texts/grc/philostratus_the_athenian.vita_apollonii/philostratus_the_athenian.vita_apollonii.part.2.tess
+ 22 / 100 (22.000%): tesserae/texts/grc/hippocrates.de_alimento.tess
+ 21 / 100 (21.000%): tesserae/texts/grc/lucian.hermotimus.tess
+ 21 / 100 (21.000%): tesserae/texts/grc/plutarch.an_vitiositas_ad_infelicitatem_sufficia.tess
+ 20 / 100 (20.000%): tesserae/texts/grc/hippocrates.jusjurandum.tess
+ 20 / 100 (20.000%): tesserae/texts/grc/plutarch.apophthegmata_laconica.tess
+ 20 / 100 (20.000%): tesserae/texts/grc/lucian.anacharsis.tess
+ 18 / 100 (18.000%): tesserae/texts/grc/plutarch.comparison_of_philopoemen_and_titus.tess
+ 18 / 100 (18.000%): tesserae/texts/grc/plutarch.bruta_animalia_ratione_uti.tess
+ 17 / 100 (17.000%): tesserae/texts/grc/philostratus_the_athenian.vita_apollonii/philostratus_the_athenian.vita_apollonii.part.1.tess
+ 17 / 100 (17.000%): tesserae/texts/grc/hippocrates.de_morbis_popularibus.tess
+ 17 / 100 (17.000%): tesserae/texts/grc/plutarch.conjugalia_praecepta.tess
+ 17 / 100 (17.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.10.tess
+ 16 / 100 (16.000%): tesserae/texts/grc/galen.natural_faculties/galen.natural_faculties.part.3.tess
+ 16 / 100 (16.000%): tesserae/texts/grc/isaeus.speeches/isaeus.speeches.part.3.tess
+ 16 / 100 (16.000%): tesserae/texts/grc/aristotle.virtues_and_vices.tess
+ 16 / 100 (16.000%): tesserae/texts/grc/lucian.pro_imaginibus.tess
+ 16 / 100 (16.000%): tesserae/texts/grc/plato.phaedo.tess
+ 16 / 100 (16.000%): tesserae/texts/grc/flavius_josephus.antiquitates_judaicae/flavius_josephus.antiquitates_judaicae.part.20.tess
+ 16 / 100 (16.000%): tesserae/texts/grc/lucian.bis_accusatus_sive_tribunalia.tess
+ 15 / 100 (15.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.9.tess
+ 15 / 100 (15.000%): tesserae/texts/grc/lucian.iuppiter_tragoedus.tess
+ 15 / 100 (15.000%): tesserae/texts/grc/plutarch.de_capienda_ex_inimicis_utilitate.tess
+ 14 / 100 (14.000%): tesserae/texts/grc/basil_of_caesarea.epistulae.tess
+ 14 / 100 (14.000%): tesserae/texts/grc/lucian.eunuchus.tess
+ 13 / 100 (13.000%): tesserae/texts/grc/plato.sophista.tess
+ 12 / 100 (12.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.16.tess
+ 11 / 100 (11.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.9.tess
+ 11 / 100 (11.000%): tesserae/texts/grc/philostratus_the_athenian.vitae_sophistarum.tess
+ 11 / 100 (11.000%): tesserae/texts/grc/lucian.gallus.tess
+ 11 / 100 (11.000%): tesserae/texts/grc/plato.alcibiades_2.tess
+ 11 / 100 (11.000%): tesserae/texts/grc/demades.on_the_twelve_years.tess
+ 10 / 100 (10.000%): tesserae/texts/grc/lucian.demonax.tess
+ 10 / 100 (10.000%): tesserae/texts/grc/plutarch.de_garrulitate.tess
+ 10 / 100 (10.000%): tesserae/texts/grc/lucian.contemplantes.tess
+ 10 / 100 (10.000%): tesserae/texts/grc/plutarch.an_recte_dictum_sit_latenter_esse_vivendum.tess
+  9 / 100 (9.000%): tesserae/texts/grc/hippocrates.de_aere_aquis_et_locis.tess
+  9 / 100 (9.000%): tesserae/texts/grc/demetrius.elocutione.tess
+  9 / 100 (9.000%): tesserae/texts/grc/plutarch.de_amicorum_multitudine.tess
+  9 / 100 (9.000%): tesserae/texts/grc/plato.alcibiades_1.tess
+  9 / 100 (9.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.4.tess
+  8 / 100 (8.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.6.tess
+  8 / 100 (8.000%): tesserae/texts/grc/plato.minos.tess
+  8 / 100 (8.000%): tesserae/texts/grc/thucydides.peleponnesian_war/thucydides.peleponnesian_war.part.5.tess
+  7 / 100 (7.000%): tesserae/texts/grc/flavius_josephus.de_bello_judaico_libri_vii/flavius_josephus.de_bello_judaico_libri_vii.part.7.tess
+  7 / 100 (7.000%): tesserae/texts/grc/plutarch.septem_sapientium_convivium.tess
+  7 / 100 (7.000%): tesserae/texts/grc/plato.crito.tess
+  7 / 100 (7.000%): tesserae/texts/grc/plutarch.amatorius.tess
+  7 / 100 (7.000%): tesserae/texts/grc/epictetus.enchiridion.tess
+  7 / 100 (7.000%): tesserae/texts/grc/plutarch.de_esu_carnium.tess
+  6 / 100 (6.000%): tesserae/texts/grc/lucian.imagines.tess
+  6 / 100 (6.000%): tesserae/texts/grc/epictetus.discourses.tess
+  6 / 100 (6.000%): tesserae/texts/grc/aretaeus.curatione_acutorum_morbum.tess
+  6 / 100 (6.000%): tesserae/texts/grc/lucian.abdicatus.tess
+  6 / 100 (6.000%): tesserae/texts/grc/lucian.muscae_encomium.tess
+  6 / 100 (6.000%): tesserae/texts/grc/lucian.timon.tess
+  6 / 100 (6.000%): tesserae/texts/grc/plutarch.de_esu_carnium_2.tess
+  5 / 100 (5.000%): tesserae/texts/grc/plutarch.de_superstitione.tess
+  5 / 100 (5.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.5.tess
+  5 / 100 (5.000%): tesserae/texts/grc/plutarch.consolatio_ad_apollonium.tess
+  5 / 100 (5.000%): tesserae/texts/grc/aretaeus.signorum_acutorum_morbum.tess
+  5 / 100 (5.000%): tesserae/texts/grc/plutarch.de_curiositate.tess
+  5 / 100 (5.000%): tesserae/texts/grc/lucian.dialogi_marini.tess
+  5 / 100 (5.000%): tesserae/texts/grc/antiphon.speeches/antiphon.speeches.part.6.on_the_choreutes.tess
+  5 / 100 (5.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.13.tess
+  5 / 100 (5.000%): tesserae/texts/grc/antiphon.speeches/antiphon.speeches.part.4.third_tetralogy.tess
+  5 / 100 (5.000%): tesserae/texts/grc/isocrates.letters/isocrates.letters.part.1.tess
+  5 / 100 (5.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.5.tess
+  5 / 100 (5.000%): tesserae/texts/grc/plutarch.de_amore_prolis.tess
+  5 / 100 (5.000%): tesserae/texts/grc/lucian.cataplus.tess
+  5 / 100 (5.000%): tesserae/texts/grc/aristotle.economics.tess
+  4 / 100 (4.000%): tesserae/texts/grc/lucian.bacchus.tess
+  4 / 100 (4.000%): tesserae/texts/grc/plato.hipparchus.tess
+  4 / 100 (4.000%): tesserae/texts/grc/plutarch.de_cohibenda_ira.tess
+  4 / 100 (4.000%): tesserae/texts/grc/plutarch.consolatio_ad_uxorem.tess
+  4 / 100 (4.000%): tesserae/texts/grc/marcus_aurelius.m._antonius_imperator_ad_se_ipsum.tess
+  4 / 100 (4.000%): tesserae/texts/grc/plutarch.de_fortuna.tess
+  4 / 100 (4.000%): tesserae/texts/grc/lucian.dialogi_meretricii.tess
+  4 / 100 (4.000%): tesserae/texts/grc/plutarch.comparison_of_demosthenes_with_cicero.tess
+  4 / 100 (4.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.11.tess
+  4 / 100 (4.000%): tesserae/texts/grc/plutarch.comparison_aegisalius_pompey.tess
+  3 / 100 (3.000%): tesserae/texts/grc/hyperides.speeches/hyperides.speeches.part.5.tess
+  3 / 100 (3.000%): tesserae/texts/grc/plutarch.de_recta_ratione_audiendi.tess
+  3 / 100 (3.000%): tesserae/texts/grc/plato.epistles/plato.epistles.part.12.tess
+  3 / 100 (3.000%): tesserae/texts/grc/lucian.iudicium_vocalium.tess
+  3 / 100 (3.000%): tesserae/texts/grc/plato.hippias_minor.tess
+  3 / 100 (3.000%): tesserae/texts/grc/plutarch.comparison_of_timoleon_and_aemilius.tess
+  3 / 100 (3.000%): tesserae/texts/grc/plato.leges/plato.leges.part.1.tess
+  3 / 100 (3.000%): tesserae/texts/grc/dinarchus.against_philocles.tess
+  3 / 100 (3.000%): tesserae/texts/grc/plutarch.comparison_of_sertorius_and_eumenes.tess
+  3 / 100 (3.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.33.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plutarch.philopoemen.tess
+  2 / 100 (2.000%): tesserae/texts/grc/lucian.marcrobii.tess
+  2 / 100 (2.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.1.tess
+  2 / 100 (2.000%): tesserae/texts/grc/demosthenes.against_lacritus.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plato.leges/plato.leges.part.4.tess
+  2 / 100 (2.000%): tesserae/texts/grc/thucydides.peleponnesian_war/thucydides.peleponnesian_war.part.8.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plutarch.an_seni_respublica_gerenda_sit.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plato.leges/plato.leges.part.10.tess
+  2 / 100 (2.000%): tesserae/texts/grc/demosthenes.against_phaenippus.tess
+  2 / 100 (2.000%): tesserae/texts/grc/hyperides.speeches/hyperides.speeches.part.4.tess
+  2 / 100 (2.000%): tesserae/texts/grc/demosthenes.on_the_trierarchic_crown.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plutarch.comparison_alcibiades_coriolanus.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plutarch.de_exilio.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plutarch.maxime_cum_princibus_philsopho_esse_diserendum.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plato.philebus.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plutarch.quomodo_adulator_ab_amico_internoscatur.tess
+  2 / 100 (2.000%): tesserae/texts/grc/hippocrates.de_prisca_medicina.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plutarch.de_e_delphos.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plutarch.comparison_of_solon_and_publicola.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plutarch.de_cupiditate_divitiarum.tess
+  2 / 100 (2.000%): tesserae/texts/grc/plutarch.de_pythiae_oraculis.tess
+  2 / 100 (2.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.8.tess
+  2 / 100 (2.000%): tesserae/texts/grc/pausanias.description_of_greece/pausanias.description_of_greece.part.5.tess
+  2 / 100 (2.000%): tesserae/texts/grc/isocrates.letters/isocrates.letters.part.5.tess
+  1 / 100 (1.000%): tesserae/texts/grc/andocides.on_his_return.tess
+  1 / 100 (1.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.14.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.vitae_decem_oratorum.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plato.statesman.tess
+  1 / 100 (1.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.28.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.de_liberis_educandis.tess
+  1 / 100 (1.000%): tesserae/texts/grc/aelius_aristides.ars_rhetorica.tess
+  1 / 100 (1.000%): tesserae/texts/grc/philostratus_the_athenian.epistulae_et_dialexeis.tess
+  1 / 100 (1.000%): tesserae/texts/grc/demosthenes.against_macartatus.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.de_tranquilitate_animi.tess
+  1 / 100 (1.000%): tesserae/texts/grc/isocrates.letters/isocrates.letters.part.4.tess
+  1 / 100 (1.000%): tesserae/texts/grc/lucian.fugitivi.tess
+  1 / 100 (1.000%): tesserae/texts/grc/galen.natural_faculties/galen.natural_faculties.part.2.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.de_gloria_atheniensium.tess
+  1 / 100 (1.000%): tesserae/texts/grc/lucian.dialogi_deorum.tess
+  1 / 100 (1.000%): tesserae/texts/grc/isocrates.letters/isocrates.letters.part.7.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.comparison_aristides_cato.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plato.respublica/plato.respublica.part.7.tess
+  1 / 100 (1.000%): tesserae/texts/grc/demosthenes.against_olympiodorus.tess
+  1 / 100 (1.000%): tesserae/texts/grc/hyperides.speeches/hyperides.speeches.part.2.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plato.euthyphro.tess
+  1 / 100 (1.000%): tesserae/texts/grc/dionysius_halicarnassensis.de_lysia.tess
+  1 / 100 (1.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.29.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.quomodo_adolescens_poetas_audire_debeat.tess
+  1 / 100 (1.000%): tesserae/texts/grc/isaeus.speeches/isaeus.speeches.part.12.tess
+  1 / 100 (1.000%): tesserae/texts/grc/demosthenes.against_zenothemis.tess
+  1 / 100 (1.000%): tesserae/texts/grc/appian.civil_wars/appian.civil_wars.part.3.tess
+  1 / 100 (1.000%): tesserae/texts/grc/lucian.hippias.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plato.respublica/plato.respublica.part.2.tess
+  1 / 100 (1.000%): tesserae/texts/grc/antiphon.speeches/antiphon.speeches.part.1.against_the_stepmother_for_poisoning.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.animine_an_corporis_affectiones_sint_piores.tess
+  1 / 100 (1.000%): tesserae/texts/grc/isocrates.letters/isocrates.letters.part.3.tess
+  1 / 100 (1.000%): tesserae/texts/grc/pseudo_plutarch.de_musica.tess
+  1 / 100 (1.000%): tesserae/texts/grc/pseudo_plutarch.placita_philosophorum.tess
+  1 / 100 (1.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.23.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.de_iside_et_osiride.tess
+  1 / 100 (1.000%): tesserae/texts/grc/lucian.phalaris.tess
+  1 / 100 (1.000%): tesserae/texts/grc/isocrates.speeches/isocrates.speeches.part.1.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.comparison_of_dion_and_brutus.tess
+  1 / 100 (1.000%): tesserae/texts/grc/lysias.speeches/lysias.speeches.part.34.tess
+  1 / 100 (1.000%): tesserae/texts/grc/eusebius_caesarea.historia_ecclesiastica/eusebius_caesarea.historia_ecclesiastica.part.7.tess
+  1 / 100 (1.000%): tesserae/texts/grc/isaeus.speeches/isaeus.speeches.part.5.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.quomodo_quis_suos_in_virtute_sentiat_profectus.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.otho.tess
+  1 / 100 (1.000%): tesserae/texts/grc/demosthenes.against_polycles.tess
+  1 / 100 (1.000%): tesserae/texts/grc/lucian.herodotus.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plutarch.de_invidia_et_odio.tess
+  1 / 100 (1.000%): tesserae/texts/grc/plato.ion.tess
+
+
+<span style="filter: contrast(70%) brightness(190%);color:lime;">Elapsed time: 11.8536 seconds</span>
+
+<span style="filter: contrast(70%) brightness(190%);color:red;">Random Forest Gini feature rankings</span>
+Obtain rankings by testing different RF seeds and different data splits
+RF seeds tested: 0-9 (inclusive)
+Cross validation splitter seeds tested: 0-9 (inclusive)
+Number of splits: 5
+Labels tested: [prose_miscellaneous (value of 0), letters_or_technical_treatise_or_oratory_or_history_or_philosophy (value of 1)]
+Features tested: ['freq_allos', 'freq_autos', 'freq_circumstantial_markers', 'freq_conditional_markers', 'freq_conjunction', 'freq_demonstrative', 'freq_hina', 'freq_hopos', 'freq_indefinite_pronoun_in_non_interrogative_sentence', 'freq_interrogatives', 'freq_men', 'freq_particles', 'freq_personal_pronouns', 'freq_reflexive', 'freq_sentence_with_relative_clause', 'freq_sentences_with_vocative_omega', 'freq_superlative', 'freq_temporal_causal_markers', 'freq_ws', 'freq_wste_not_preceded_by_eta', 'mean_length_relative_clause', 'mean_sentence_length', 'variance_of_sentence_length']
+RF parameters: {'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': 1, 'oob_score': False, 'verbose': 0, 'warm_start': False}
+
+<span style="filter: contrast(70%) brightness(190%);color:yellow;">Gini importance averages from 500 (10 * 10 * 5) trials</span>
+	0.114120 +/- standard deviation of 0.027981: freq_sentence_with_relative_clause
+	0.075174 +/- standard deviation of 0.018944: freq_autos
+	0.051785 +/- standard deviation of 0.014933: freq_conjunction
+	0.051075 +/- standard deviation of 0.015020: mean_sentence_length
+	0.048006 +/- standard deviation of 0.014797: freq_indefinite_pronoun_in_non_interrogative_sentence
+	0.046351 +/- standard deviation of 0.013441: freq_men
+	0.044709 +/- standard deviation of 0.014824: freq_demonstrative
+	0.044682 +/- standard deviation of 0.014794: freq_hina
+	0.043727 +/- standard deviation of 0.014095: freq_sentences_with_vocative_omega
+	0.040583 +/- standard deviation of 0.012227: freq_wste_not_preceded_by_eta
+	0.040391 +/- standard deviation of 0.012239: freq_particles
+	0.037960 +/- standard deviation of 0.012516: mean_length_relative_clause
+	0.037950 +/- standard deviation of 0.012304: freq_conditional_markers
+	0.037386 +/- standard deviation of 0.012092: freq_interrogatives
+	0.037115 +/- standard deviation of 0.011494: freq_allos
+	0.035410 +/- standard deviation of 0.010669: variance_of_sentence_length
+	0.034098 +/- standard deviation of 0.010960: freq_reflexive
+	0.033352 +/- standard deviation of 0.012318: freq_hopos
+	0.031776 +/- standard deviation of 0.011136: freq_personal_pronouns
+	0.031551 +/- standard deviation of 0.009658: freq_temporal_causal_markers
+	0.028965 +/- standard deviation of 0.009584: freq_circumstantial_markers
+	0.028778 +/- standard deviation of 0.009614: freq_ws
+	0.025058 +/- standard deviation of 0.008524: freq_superlative
+
+
+<span style="filter: contrast(70%) brightness(190%);color:lime;">Elapsed time: 11.6207 seconds</span>
+
+<span style="filter: contrast(70%) brightness(190%);color:red;">Random Forest permutation importance feature rankings</span>
+Obtain rankings by testing different RF seeds and different data splits
+RF seeds tested: 0-4 (inclusive)
+Cross validation splitter seeds tested: 0-4 (inclusive)
+Number of splits: 5
+Number of permutations tested: 5
+Labels tested: [prose_miscellaneous (value of 0), letters_or_technical_treatise_or_oratory_or_history_or_philosophy (value of 1)]
+Features tested: ['freq_allos', 'freq_autos', 'freq_circumstantial_markers', 'freq_conditional_markers', 'freq_conjunction', 'freq_demonstrative', 'freq_hina', 'freq_hopos', 'freq_indefinite_pronoun_in_non_interrogative_sentence', 'freq_interrogatives', 'freq_men', 'freq_particles', 'freq_personal_pronouns', 'freq_reflexive', 'freq_sentence_with_relative_clause', 'freq_sentences_with_vocative_omega', 'freq_superlative', 'freq_temporal_causal_markers', 'freq_ws', 'freq_wste_not_preceded_by_eta', 'mean_length_relative_clause', 'mean_sentence_length', 'variance_of_sentence_length']
+RF parameters: {'bootstrap': True, 'class_weight': None, 'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'max_leaf_nodes': None, 'min_impurity_decrease': 0.0, 'min_impurity_split': None, 'min_samples_leaf': 1, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'n_estimators': 10, 'n_jobs': 1, 'oob_score': False, 'verbose': 0, 'warm_start': False}
+
+<span style="filter: contrast(70%) brightness(190%);color:yellow;">Permutation importance averages from 625 (5 * 5 * 5 * 5) trials</span>
+	0.020039 +/- standard deviation of 0.000449: freq_sentence_with_relative_clause
+	0.017049 +/- standard deviation of 0.000411: freq_autos
+	0.008656 +/- standard deviation of 0.000227: freq_sentences_with_vocative_omega
+	0.006256 +/- standard deviation of 0.000228: mean_sentence_length
+	0.005377 +/- standard deviation of 0.000210: freq_hina
+	0.004970 +/- standard deviation of 0.000232: freq_indefinite_pronoun_in_non_interrogative_sentence
+	0.004682 +/- standard deviation of 0.000157: freq_wste_not_preceded_by_eta
+	0.004577 +/- standard deviation of 0.000257: freq_men
+	0.003672 +/- standard deviation of 0.000137: freq_particles
+	0.003436 +/- standard deviation of 0.000160: freq_demonstrative
+	0.002977 +/- standard deviation of 0.000115: mean_length_relative_clause
+	0.002964 +/- standard deviation of 0.000186: freq_conjunction
+	0.002885 +/- standard deviation of 0.000159: freq_interrogatives
+	0.002754 +/- standard deviation of 0.000120: freq_reflexive
+	0.002479 +/- standard deviation of 0.000119: freq_hopos
+	0.002098 +/- standard deviation of 0.000132: freq_conditional_markers
+	0.001954 +/- standard deviation of 0.000107: freq_temporal_causal_markers
+	0.001561 +/- standard deviation of 0.000107: freq_circumstantial_markers
+	0.000656 +/- standard deviation of 0.000137: variance_of_sentence_length
+	0.000380 +/- standard deviation of 0.000122: freq_personal_pronouns
+	0.000315 +/- standard deviation of 0.000080: freq_superlative
+	0.000039 +/- standard deviation of 0.000153: freq_allos
+	-0.001574 +/- standard deviation of 0.000097: freq_ws
+
+
+<span style="filter: contrast(70%) brightness(190%);color:lime;">Elapsed time: 27.0986 seconds</span>
+
+</pre>
+</body>
+</html>
